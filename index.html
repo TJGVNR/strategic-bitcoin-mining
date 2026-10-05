@@ -173,10 +173,15 @@ section, #case, #drivers, #path, #payback, #glossary { scroll-margin-top: 180px;
   <div class="wrap">
     <div class="num">01</div>
     <h2>Drivers</h2>
-    <p class="note">The tariff is the price we would pay the farm for surplus power. It is a negotiation, not a published Qatar rate. Uptime of 70% assumes the farm, or a night supply, can keep the machines hashing after dark. Daytime surplus alone would be lower. Qatar retail power has been flat since 2020, so the rise is off. A contract escalator compounds the offtake from March 2027.</p>
+    <p class="note">The tariff is the price we would pay the farm for surplus power. It is a negotiation, not a published Qatar rate. Uptime of 70% assumes the farm, or a night supply, can keep the machines hashing after dark. Daytime surplus alone would be lower. Qatar retail power has been flat since 2020, so the rise is off. A contract escalator compounds the offtake from March 2027. A 6-hour battery covers the gap between the solar window and 70% uptime, at $250 a kWh, a 2026 utility-scale planning rate. Ten percent of each cohort fails before resale. Working units sell at 12% of the ASIC price in years 6 to 10. Water is $6 a machine a month for the closed hydro loop.</p>
     <div class="assumptions">
       <label class="caps">Tariff, ¢/kWh<input id="d-tariff" type="number" min="0" max="20" step="0.1" value="2.0"></label>
       <label class="caps">Energy rise, %/yr<input id="d-esc" type="number" min="0" max="15" step="0.1" value="0"></label>
+      <label class="caps">Battery hours<input id="d-batt-h" type="number" min="0" max="16" step="0.5" value="6"></label>
+      <label class="caps">Battery, $/kWh<input id="d-batt" type="number" min="0" max="800" step="5" value="250"></label>
+      <label class="caps">Fail before resale, %<input id="d-fail" type="number" min="0" max="40" step="1" value="10"></label>
+      <label class="caps">Resale, % of ASIC<input id="d-resale" type="number" min="0" max="40" step="1" value="12"></label>
+      <label class="caps">Water, $/unit/mo<input id="d-water" type="number" min="0" max="40" step="1" value="6"></label>
       <label class="caps">Uptime, %<input id="d-uptime" type="number" min="10" max="98" step="1" value="70"></label>
       <label class="caps">ASIC price, $<input id="d-asic" type="number" min="1000" max="80000" step="100" value="29200"></label>
       <label class="caps">Hashrate, PH<input id="d-ph" type="number" min="0.2" max="3" step="0.01" value="1.16"></label>
@@ -408,6 +413,11 @@ function params() {
     reserve: num("d-reserve"),
     opex: num("d-opex"),
     esc: num("d-esc") / 100,
+    battH: num("d-batt-h"),
+    batt: num("d-batt"),
+    fail: num("d-fail") / 100,
+    resale: num("d-resale") / 100,
+    water: num("d-water"),
     clip: num("d-clip") / 100,
     ltv: num("d-ltv") / 100,
     apr: num("d-apr") / 100
@@ -415,11 +425,12 @@ function params() {
 }
 function fit(capital) {
   const a = params();
-  const unit = a.asic + a.bays * a.sqft * a.psf + a.bop + a.reserve;
+  const batt = a.kw * a.battH * a.batt;
+  const unit = a.asic + a.bays * a.sqft * a.psf + a.bop + a.reserve + batt;
   const n = Math.max(0, Math.floor(capital / unit));
   const shell = n * a.bays, sqft = shell * a.sqft;
-  const stack = { miners:n, shell, sqft, asic:n*a.asic, shell_cost:sqft*a.psf, bop:n*a.bop, reserve:n*a.reserve, unit };
-  stack.total = stack.asic + stack.shell_cost + stack.bop + stack.reserve;
+  const stack = { miners:n, shell, sqft, asic:n*a.asic, shell_cost:sqft*a.psf, bop:n*a.bop, reserve:n*a.reserve, batt:n*batt, unit };
+  stack.total = stack.asic + stack.shell_cost + stack.bop + stack.reserve + stack.batt;
   stack.unallocated = capital - stack.total;
   return stack;
 }
@@ -437,10 +448,10 @@ function simulate(kind, capital) {
     const eh = path.hash[m];
     const reward = subsidy(m) + FEE;
     const live = m > OPEN;
-    const btc_m = live ? (miners * a.ph * a.uptime) / (eh * 1000) * (30.44 * 144) * reward : 0;
+    const btc_m = live ? (miners * (1 - a.fail) * a.ph * a.uptime) / (eh * 1000) * (30.44 * 144) * reward : 0;
     coin += btc_m;
     const power = live ? miners * a.kw * 24 * 30.44 * a.uptime * a.tariff * Math.pow(1 + a.esc, m / 12) : 0;
-    const opex = live ? miners * a.opex : 0;
+    const opex = live ? miners * (a.opex + a.water) : 0;
     const need = power + opex;
     if (usd >= need) usd -= need;
     else { const sell = Math.min(Math.max(0, coin - pledged), (need - usd) / price); coin -= sell; usd = 0; }
@@ -457,13 +468,17 @@ function simulate(kind, capital) {
       if (draw > 20000) { debt += draw; pledged = Math.min(coin, pledged + draw / (a.ltv * price)); usd += draw; deployable += draw; action.push("CDP"); }
       else draw = 0;
     }
-    let bought = 0;
+    let bought = 0, resale = 0;
+    if (live && m >= 60 && m % 12 === 0) {
+      resale = stack.miners * (1 - a.fail) * a.asic * a.resale;
+      if (resale > 0) { usd += resale; action.push("RESALE"); }
+    }
     if (live && stack.shell - miners > 0 && deployable >= a.asic) {
       const lots = Math.min(stack.shell - miners, Math.floor(deployable / a.asic));
       if (lots > 0) { deployable -= lots * a.asic; usd -= lots * a.asic; miners += lots; bought = lots; action.push("ADD " + lots); }
     }
     const coll = pledged * price;
-    rows.push({ m, price, btc_m, btc: coin, usd, debt, pledged, miners, ltv: coll ? debt / coll : 0, action: action.join(" · "), power, opex, harvest, draw, bought, mark: coin * price, sf: path.sf[m], model: path.model[m], hash: eh, multiple: price / path.model[m] });
+    rows.push({ m, price, btc_m, btc: coin, usd, debt, pledged, miners, ltv: coll ? debt / coll : 0, action: action.join(" · "), power, opex, harvest, draw, bought, resale, mark: coin * price, sf: path.sf[m], model: path.model[m], hash: eh, multiple: price / path.model[m] });
   }
   const out = { stack, px: path.price, rows };
   cache[id] = out;
@@ -491,6 +506,7 @@ function render() {
     <tr><td>Hall</td><td>${stack.shell.toLocaleString()} bays · ${stack.sqft.toLocaleString()} sq ft</td></tr>
     <tr><td>Nameplate</td><td>${(stack.miners*a.kw/1000).toFixed(2)} MW</td></tr>
     <tr><td>ASIC</td><td>${money(stack.asic)}</td></tr>
+    <tr><td>Battery</td><td>${money(stack.batt)} · ${a.battH} h at $${a.batt}/kWh</td></tr>
     <tr><td>Hall</td><td>${money(stack.shell_cost)}</td></tr>
     <tr><td>Hydro and electrical</td><td>${money(stack.bop)}</td></tr>
     <tr><td>Reserve</td><td>${money(stack.reserve)}</td></tr>
@@ -524,7 +540,7 @@ function render() {
   const clocks = ["bear","neutral","bull"].map(name => {
     const sc = simulate(name, CAP);
     let harvest = 0, pay = null;
-    sc.rows.forEach(r => { harvest += r.harvest; const eq = r.mark + r.usd - r.debt; if (pay === null && eq >= sc.stack.total) pay = r.m; });
+    sc.rows.forEach(r => { harvest += r.harvest + (r.resale || 0); const eq = r.mark + r.usd - r.debt; if (pay === null && eq >= sc.stack.total) pay = r.m; });
     const last = sc.rows[sc.rows.length-1];
     const eq = last.mark + last.usd - last.debt;
     const resid = last.miners * a.asic * 0.12;
@@ -633,6 +649,16 @@ function drawOne(id, px, colour, rows) {
   g.beginPath();
   px.forEach((v, i) => i ? g.lineTo(X(i), Y(v)) : g.moveTo(X(i), Y(v)));
   g.stroke();
+  [13, 61].forEach(hm => {
+    const x = X(hm);
+    g.strokeStyle = "rgba(235,68,14,.45)";
+    g.setLineDash([3, 3]);
+    g.beginPath(); g.moveTo(x, T); g.lineTo(x, h - B); g.stroke();
+    g.setLineDash([]);
+    g.fillStyle = "#EB440E";
+    g.font = CHART_FONT;
+    g.fillText("Halving", x + 4, T + 14);
+  });
   c._hits = [];
   if (rows) rows.forEach(r => {
     if (!r.action) return;
