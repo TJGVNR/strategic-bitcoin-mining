@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta property="og:title" content="Strategic Bitcoin Mining · Qatar" />
 <meta property="og:description" content="Excess solar. Native bitcoin." />
-<meta property="og:image" content="https://tjgvnr.github.io/strategic-bitcoin-mining/og.jpg" />
+<meta property="og:image" content="/public/og.jpg" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta property="og:image:type" content="image/jpeg" />
@@ -105,7 +105,10 @@ canvas { height:auto; }
   .mark { height:48px; }
   .dot { font-size:22px; }
   .navlinks { display:none; }
-  .wrap { padding:0 16px; }
+  .wrap { padding:0 22px; }
+  .nav { padding-left:22px; padding-right:22px; }
+  table { font-size:13px; }
+  td, th { padding-right:10px; }
   .hero { padding:28px 0 24px; }
   h1 { font-size:42px; }
   section { padding:48px 0 40px; }
@@ -118,8 +121,9 @@ canvas { height:auto; }
   .chart-grid canvas, #occ { height:220px; }
   .stamp { display:none; }
 }
-html { scroll-padding-top: 130px; }
-section, #case, #drivers, #path, #payback, #glossary { scroll-margin-top: 130px; }
+html { scroll-padding-top: 180px; }
+section, #case, #drivers, #path, #payback, #glossary { scroll-margin-top: 180px; }
+#payTable { margin-top: 36px; }
 </style>
 </head>
 <body>
@@ -169,9 +173,10 @@ section, #case, #drivers, #path, #payback, #glossary { scroll-margin-top: 130px;
   <div class="wrap">
     <div class="num">01</div>
     <h2>Drivers</h2>
-    <p class="note">The tariff is the price we would pay the farm for surplus power. It is a negotiation, not a published Qatar rate. Uptime of 70% assumes the farm, or a night supply, can keep the machines hashing after dark. Daytime surplus alone would be lower.</p>
+    <p class="note">The tariff is the price we would pay the farm for surplus power. It is a negotiation, not a published Qatar rate. Uptime of 70% assumes the farm, or a night supply, can keep the machines hashing after dark. Daytime surplus alone would be lower. Qatar retail power has been flat since 2020, so the rise is off. A contract escalator compounds the offtake from March 2027.</p>
     <div class="assumptions">
       <label class="caps">Tariff, ¢/kWh<input id="d-tariff" type="number" min="0" max="20" step="0.1" value="2.0"></label>
+      <label class="caps">Energy rise, %/yr<input id="d-esc" type="number" min="0" max="15" step="0.1" value="0"></label>
       <label class="caps">Uptime, %<input id="d-uptime" type="number" min="10" max="98" step="1" value="70"></label>
       <label class="caps">ASIC price, $<input id="d-asic" type="number" min="1000" max="80000" step="100" value="29200"></label>
       <label class="caps">Hashrate, PH<input id="d-ph" type="number" min="0.2" max="3" step="0.01" value="1.16"></label>
@@ -272,7 +277,7 @@ section, #case, #drivers, #path, #payback, #glossary { scroll-margin-top: 130px;
       <div class="chart-box"><div class="caps">Bull</div><canvas id="chartBull" width="520" height="220"></canvas></div>
     </div>
     <div class="legend"><span><i class="sw" style="background:#EB440E"></i>Sell</span><span><i class="sw" style="background:#131313"></i>Loan, 20% LTV</span><span><i class="sw" style="background:#1f7a32"></i>Machines bought</span></div>
-    <p class="note">Each line is its own ten-year walk from the same starting price. Red is a sale into strength. Black is the loan against the coin. Green is machines bought with the proceeds. Move the month slider onto a dot and the note says which.</p>
+    <p class="note">Each line is its own ten-year walk from the same starting price. Every action is marked. Orange is a sale, black is the loan, green is machines bought. If a month has more than one, the dots stack off the price so each remains visible.</p>
     <p class="note" id="scrub"></p>
     <div class="kpis" id="s2fKpis"></div>
     <p class="after-cards">Stock-to-flow is stock divided by a year’s new supply. A higher number means less new coin against what already exists. The raw model is the published price that ratio implies, not a forecast. Path versus model is this walk’s price as a share of that print. 25% means the coin is trading at a quarter of the model. Hashrate is the network’s work rate, in exahash a second. A policy window is a month the rule allows a sale or a loan.</p>
@@ -402,6 +407,7 @@ function params() {
     bop: num("d-bop"),
     reserve: num("d-reserve"),
     opex: num("d-opex"),
+    esc: num("d-esc") / 100,
     clip: num("d-clip") / 100,
     ltv: num("d-ltv") / 100,
     apr: num("d-apr") / 100
@@ -433,7 +439,7 @@ function simulate(kind, capital) {
     const live = m > OPEN;
     const btc_m = live ? (miners * a.ph * a.uptime) / (eh * 1000) * (30.44 * 144) * reward : 0;
     coin += btc_m;
-    const power = live ? miners * a.kw * 24 * 30.44 * a.uptime * a.tariff : 0;
+    const power = live ? miners * a.kw * 24 * 30.44 * a.uptime * a.tariff * Math.pow(1 + a.esc, m / 12) : 0;
     const opex = live ? miners * a.opex : 0;
     const need = power + opex;
     if (usd >= need) usd -= need;
@@ -471,9 +477,7 @@ function render() {
   const end = p.rows[p.rows.length-1];
   const a = params();
   document.getElementById("capLabel").textContent = `Opening cheque · ${money(CAP)}`;
-  const unitBtc = (a.ph * a.uptime) / (row.hash * 1000) * (30.44 * 144) * (subsidy(M) + FEE);
-  const unitCash = a.kw * 24 * 30.44 * a.uptime * a.tariff + a.opex + a.asic / 60;
-  const cost = unitBtc ? unitCash / unitBtc : 0;
+  const cost = 44300 * (row.hash / 950) * (3.125 / subsidy(M)) * (a.tariff / 0.02) * Math.pow(1 + a.esc, M / 12);
   document.getElementById("kpis").innerHTML = [
     ["Opening fleet", stack.miners.toLocaleString() + " units", ""],
     ["Hall", stack.sqft.toLocaleString() + " sq ft", ""],
@@ -634,14 +638,16 @@ function drawOne(id, px, colour, rows) {
     if (!r.action) return;
     const x = X(r.m), y = Y(r.price);
     const marks = [];
-    if (r.action.includes("HARVEST")) marks.push(["#EB440E", -6]);
+    if (r.action.includes("HARVEST")) marks.push(["#EB440E", -11]);
     if (r.action.includes("CDP")) marks.push(["#131313", 0]);
-    if (r.action.includes("ADD")) marks.push(["#1f7a32", 6]);
-    marks.forEach(([colour, dx]) => {
+    if (r.action.includes("ADD")) marks.push(["#1f7a32", 11]);
+    marks.forEach(([colour, dy]) => {
+      g.fillStyle = "#fff";
+      g.beginPath(); g.arc(x, y + dy, 6.5, 0, Math.PI * 2); g.fill();
       g.fillStyle = colour;
-      g.beginPath(); g.arc(x + dx, y, 5, 0, Math.PI * 2); g.fill();
+      g.beginPath(); g.arc(x, y + dy, 4.5, 0, Math.PI * 2); g.fill();
+      c._hits.push({ x, y: y + dy, label: dotLabel(r) });
     });
-    c._hits.push({ x, y, label: dotLabel(r) });
   });
   g.fillStyle = "#131313";
   g.fillText(MONTHS[0], L, h - 6);
@@ -691,6 +697,20 @@ document.getElementById("startBtns").onclick = e => {
   START = Number(e.target.dataset.start);
   document.querySelectorAll("#startBtns .opt").forEach(b => b.classList.toggle("on", Number(b.dataset.start) === START));
   render();
+
+document.querySelectorAll(".navlinks a").forEach(a => {
+  a.addEventListener("click", e => {
+    const id = a.getAttribute("href");
+    const el = document.querySelector(id);
+    if (!el) return;
+    e.preventDefault();
+    const bar = document.querySelector("header").offsetHeight + 24;
+    const y = el.getBoundingClientRect().top + window.scrollY - bar;
+    window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
+    document.querySelectorAll(".navlinks a").forEach(x => x.classList.toggle("on", x === a));
+    history.replaceState(null, "", id);
+  });
+});
 
 if (location.hash) history.replaceState(null, "", location.pathname + location.search);
 window.scrollTo(0, 0);
