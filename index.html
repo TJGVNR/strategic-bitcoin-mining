@@ -101,12 +101,13 @@ canvas { height:auto; }
 .kpis { margin-bottom:8px; }
 
 @media (max-width: 800px) {
-  .nav { padding:14px 16px; }
+  body { padding-left: env(safe-area-inset-left); padding-right: env(safe-area-inset-right); }
+  .nav { padding:14px 28px; }
   .mark { height:48px; }
   .dot { font-size:22px; }
   .navlinks { display:none; }
-  .wrap { padding:0 22px; }
-  .nav { padding-left:22px; padding-right:22px; }
+  .wrap { padding:0 28px; }
+  .hero { padding-left:0; padding-right:0; }
   table { font-size:13px; }
   td, th { padding-right:10px; }
   .hero { padding:28px 0 24px; }
