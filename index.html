@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="Strategic Bitcoin Mining · Qatar" />
+<meta property="og:description" content="Excess solar. Native bitcoin." />
+<meta property="og:image" content="https://tjgvnr.github.io/strategic-bitcoin-mining/og.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:type" content="image/jpeg" />
+<title>GVNR · Strategic Bitcoin Mining · Qatar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+:root { --ink:#131313; --muted:rgba(19,19,19,.62); --faint:rgba(19,19,19,.42); --line:rgba(19,19,19,.12); --orange:#EB440E; }
+* { box-sizing: border-box; }
+html, body { margin:0; background:#fff; color:var(--ink); }
+body { font-family: Poppins, system-ui, sans-serif; font-weight:300; font-size:15px; line-height:1.55; }
+a { color: var(--orange); text-decoration:none; }
+.nav { display:flex; align-items:center; justify-content:space-between; padding:18px 32px; border-bottom:1px solid var(--line); position:sticky; top:0; background:#fff; z-index:5; }
+.brand { display:flex; align-items:baseline; gap:10px; }
+.brand { align-items:center; }
+.mark { height:92px; display:block; }
+.dot { font-family:"Bebas Neue", sans-serif; letter-spacing:1px; font-size:28px; line-height:1; color:#131313; }
+.navlinks { display:flex; gap:22px; }
+.navlinks a { font-family:"Bebas Neue", sans-serif; letter-spacing:1px; font-size:15px; color:var(--muted); }
+.navlinks a.on, .navlinks a:hover { color:var(--orange); }
+.stamp { font-family:"Bebas Neue", sans-serif; letter-spacing:1px; font-size:14px; color:var(--faint); }
+.wrap { max-width:1120px; margin:0 auto; padding:0 32px; }
+.hero { padding:56px 0 28px; border-bottom:1px solid var(--line); }
+.kicker { font-family:"Bebas Neue", sans-serif; letter-spacing:1.4px; color:var(--orange); font-size:15px; }
+h1 { font-family:"Bebas Neue", sans-serif; font-weight:400; letter-spacing:.4px; font-size:64px; line-height:.92; margin:10px 0 18px; }
+h1 em { font-style:normal; color:var(--orange); }
+h2 { font-family:"Bebas Neue", sans-serif; font-weight:400; letter-spacing:.6px; font-size:32px; margin:10px 0 28px; }
+.num { font-family:"Bebas Neue", sans-serif; color:var(--orange); letter-spacing:1px; font-size:14px; display:block; margin-bottom:4px; }
+.lede { max-width:680px; color:var(--muted); font-size:16px; }
+section { padding:96px 0 88px; border-bottom:1px solid var(--line); }
+p { margin:0 0 22px; }
+.chart-box { margin:28px 0 18px; }
+.note { margin:18px 0 28px; }
+.kpis { margin:32px 0 12px; }
+.controls { display:grid; grid-template-columns:1.3fr 1fr 1.2fr 1.4fr; gap:22px; align-items:end; padding-top:28px; }
+label.caps, .caps { font-family:"Bebas Neue", sans-serif; letter-spacing:1px; font-size:13px; color:var(--orange); display:block; margin-bottom:6px; }
+.btns { display:flex; gap:8px; }
+button.opt { font-family:"Bebas Neue", sans-serif; letter-spacing:1px; font-size:15px; background:#fff; color:var(--ink); border:1px solid var(--line); padding:8px 14px; cursor:pointer; }
+button.opt.on { background:var(--orange); color:#fff; border-color:var(--orange); }
+input[type=range] { width:100%; accent-color:var(--orange); }
+.kpis { display:grid; grid-template-columns:repeat(5,1fr); gap:12px; margin:28px 0 8px; }
+.kpi { border:1px solid var(--line); padding:14px 14px 12px; }
+.kpi span { font-family:"Bebas Neue", sans-serif; letter-spacing:1px; font-size:13px; color:var(--orange); }
+.kpi b { display:block; margin-top:6px; font-family:"Bebas Neue", sans-serif; font-weight:400; font-size:32px; letter-spacing:.4px; }
+.kpi b.hot { color:var(--orange); }
+.pill { display:inline-block; margin-top:10px; border:1px solid var(--line); border-radius:99px; padding:4px 10px; font-family:Poppins, sans-serif; font-size:12px; letter-spacing:0; color:var(--ink); }
+
+.grid-2 { display:grid; grid-template-columns:1.2fr .8fr; gap:36px; margin-top:8px; }
+p { margin:0 0 18px; }
+table { width:100%; border-collapse:collapse; font-size:14px; margin:12px 0 28px; }
+th { text-align:left; font-family:"Bebas Neue", sans-serif; letter-spacing:.8px; font-weight:400; font-size:13px; color:var(--orange); border-bottom:1px solid var(--ink); padding:8px 8px 6px 0; }
+td { padding:8px 8px 8px 0; border-bottom:1px solid var(--line); vertical-align:top; }
+.note { color:var(--muted); font-size:13px; }
+#driverNote { display:block; margin-top:28px; }
+.chart-box { border:1px solid var(--line); padding:16px 8px 8px; margin-top:22px; }
+.chart-grid { display:grid; grid-template-columns:1fr; gap:18px; }
+.tip { position:absolute; z-index:6; background:#131313; color:#fff; font-size:12px; padding:8px 10px; max-width:220px; pointer-events:none; display:none; }
+.chart-box { position:relative; }
+.chart-grid canvas { width:100%; height:280px; display:block; }
+canvas { width:100%; height:340px; display:block; }
+.legend { display:flex; gap:16px; flex-wrap:wrap; color:var(--muted); padding:8px 4px 4px; font-family:"Bebas Neue", sans-serif; letter-spacing:.8px; font-size:13px; }
+.sw { width:10px; height:10px; display:inline-block; margin-right:6px; vertical-align:middle; }
+.assumptions { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:20px; }
+.assumptions input { width:100%; background:#fff; border:1px solid var(--line); color:var(--ink); padding:8px; font-family:Poppins, sans-serif; font-size:14px; }
+footer { padding:22px 0 36px; color:var(--faint); font-size:12px; }
+@media (max-width:860px) { h1{font-size:42px;} .controls,.kpis,.grid-2,.assumptions{grid-template-columns:1fr;} .navlinks{display:none;} }
+
+.hero { padding:48px 0 40px; }
+h1 { margin:14px 0 20px; }
+.lede { max-width:720px; margin-top:8px; line-height:1.6; }
+section { padding:72px 0 64px; }
+.num { margin-bottom:8px; }
+h2 { margin:0 0 20px; }
+p { margin:0 0 16px; max-width:68ch; }
+.grid-2 p { max-width:none; }
+.controls { padding-top:36px; gap:28px; align-items:end; }
+button.opt { height:40px; white-space:nowrap; padding:8px 12px; }
+.kpis { grid-template-columns:repeat(5,1fr); gap:14px; margin:36px 0 8px; align-items:stretch; }
+.kpi { min-height:108px; padding:16px 16px 14px; }
+.kpi b { font-size:30px; line-height:1; }
+.grid-2 { gap:48px; margin-top:4px; align-items:start; }
+table { margin:8px 0 0; }
+td { padding:10px 12px 10px 0; }
+.note { margin:20px 0 8px; max-width:78ch; line-height:1.55; }
+#driverNote { margin-top:36px; }
+.chart-box { margin:24px 0 8px; padding:18px 16px 12px; }
+.chart-grid { gap:22px; }
+.chart-grid canvas, #occ { height:260px; }
+canvas { height:auto; }
+.legend { padding:12px 2px 0; }
+#scrub { margin:16px 0 8px; }
+.after-cards { margin-top:28px; }
+.kpis { margin-bottom:8px; }
+
+@media (max-width: 800px) {
+  .nav { padding:14px 16px; }
+  .mark { height:48px; }
+  .dot { font-size:22px; }
+  .navlinks { display:none; }
+  .wrap { padding:0 16px; }
+  .hero { padding:28px 0 24px; }
+  h1 { font-size:42px; }
+  section { padding:48px 0 40px; }
+  .controls { grid-template-columns:1fr; gap:18px; }
+  .btns { flex-wrap:wrap; }
+  .kpis { grid-template-columns:1fr 1fr; gap:10px; }
+  .kpi b { font-size:26px; }
+  .grid-2 { grid-template-columns:1fr; gap:22px; }
+  table { display:block; overflow-x:auto; }
+  .chart-grid canvas, #occ { height:220px; }
+  .stamp { display:none; }
+}
+html { scroll-padding-top: 130px; }
+section, #case, #drivers, #path, #payback, #glossary { scroll-margin-top: 130px; }
+</style>
+</head>
+<body>
+<header class="nav">
+  <div class="brand"><img class="mark" src="data:image/png;base64,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" alt="GVNR" /><span class="dot">.MINING</span></div>
+  <nav class="navlinks">
+    <a href="#case" class="on">Case</a>
+    <a href="#drivers">Drivers</a>
+    <a href="#path">Path</a>
+    <a href="#payback">Payback</a>
+    <a href="#glossary">Glossary</a>
+  </nav>
+  <div class="stamp">Confidential · Doha · 5 Oct 2026</div>
+</header>
+<div class="wrap hero" id="case">
+  <div class="kicker">Strategic Bitcoin mining · Qatar</div>
+  <h1>Solar excess.<br><em>Bitcoin at a discount.</em></h1>
+  <p class="lede">The hall is built to open on 1 March 2027, with the first fifth of the machines online. It is wired straight to the solar farm and takes power the farm cannot sell. That power runs the miners at the offtake price, which is the point of the case. Bitcoin earned is held. At cycle peaks GVNR sells a clip into dollars. At bear-market lows the stack is borrowed against, at 20% of its value, and the proceeds buy the next row of machines. The hall fills over five years. After that the oldest machines are replaced, not added to.</p>
+  <div class="controls">
+    <div>
+      <label class="caps">Opening price</label>
+      <div class="btns" id="startBtns">
+        <button class="opt" data-start="85300">Current $85.3k</button>
+        <button class="opt on" data-start="96000">Estimate $96k</button>
+      </div>
+    </div>
+    <div>
+      <label class="caps">Price path</label>
+      <div class="btns" id="caseBtns">
+        <button class="opt" data-case="bear">Bear</button>
+        <button class="opt on" data-case="neutral">Neutral</button>
+        <button class="opt" data-case="bull">Bull</button>
+      </div>
+    </div>
+    <div>
+      <label class="caps" id="capLabel">Opening cheque · $10 million</label>
+      <input id="capSlider" type="range" min="5" max="50" value="10" step="1" />
+    </div>
+    <div>
+      <label class="caps" id="sliderLabel">Cycle walk</label>
+      <input id="slider" type="range" min="0" max="119" value="0" />
+    </div>
+  </div>
+  <div class="kpis" id="kpis"></div>
+</div>
+<section id="drivers">
+  <div class="wrap">
+    <div class="num">01</div>
+    <h2>Drivers</h2>
+    <p class="note">The tariff is the price we would pay the farm for surplus power. It is a negotiation, not a published Qatar rate. Uptime of 70% assumes the farm, or a night supply, can keep the machines hashing after dark. Daytime surplus alone would be lower.</p>
+    <div class="assumptions">
+      <label class="caps">Tariff, ¢/kWh<input id="d-tariff" type="number" min="0" max="20" step="0.1" value="2.0"></label>
+      <label class="caps">Uptime, %<input id="d-uptime" type="number" min="10" max="98" step="1" value="70"></label>
+      <label class="caps">ASIC price, $<input id="d-asic" type="number" min="1000" max="80000" step="100" value="29200"></label>
+      <label class="caps">Hashrate, PH<input id="d-ph" type="number" min="0.2" max="3" step="0.01" value="1.16"></label>
+      <label class="caps">Power, kW<input id="d-kw" type="number" min="1" max="25" step="0.01" value="11.02"></label>
+      <label class="caps">Hall bays / machine<input id="d-bays" type="number" min="1" max="10" step="1" value="5"></label>
+      <label class="caps">Sq ft / bay<input id="d-sqft" type="number" min="4" max="40" step="1" value="12"></label>
+      <label class="caps">Hall, $/sq ft<input id="d-psf" type="number" min="20" max="400" step="5" value="110"></label>
+      <label class="caps">Hydro and electrical, $<input id="d-bop" type="number" min="0" max="30000" step="100" value="7000"></label>
+      <label class="caps">Reserve / machine, $<input id="d-reserve" type="number" min="0" max="10000" step="100" value="1500"></label>
+      <label class="caps">Other opex, $/miner/month<input id="d-opex" type="number" min="0" max="400" step="1" value="42"></label>
+      <label class="caps">Harvest clip, %<input id="d-clip" type="number" min="0" max="100" step="1" value="25"></label>
+      <label class="caps">CDP LTV, %<input id="d-ltv" type="number" min="5" max="66" step="1" value="20"></label>
+      <label class="caps">Borrow rate, %<input id="d-apr" type="number" min="0" max="15" step="0.1" value="3"></label>
+    </div>
+    <p class="note" id="driverNote"></p>
+  </div>
+</section>
+<section>
+  <div class="wrap">
+    <div class="num">02</div>
+    <h2>The split</h2>
+    <div class="grid-2">
+      <div>
+        <p>The partner has generation, land and curtailment. GVNR has the plant, the cycle rule and a credit line that does not require a sale.</p>
+        <table>
+          <tr><th>GVNR</th><th></th></tr>
+          <tr><td>Plant</td><td>Procurement, hydro operations, the hall</td></tr>
+          <tr><td>Cycle</td><td>Sell into strength. Core stack unsold.</td></tr>
+          <tr><td>Credit</td><td>Diamond Hands vault. 20% loan-to-value. Collateral is not rehypothecated.</td></tr>
+        </table>
+      </div>
+      <div>
+        <table>
+          <tr><th>Partner</th><th></th></tr>
+          <tr><td>Asset</td><td>Solar plant, plot, interconnection</td></tr>
+          <tr><td>Product</td><td>Shaped surplus block</td></tr>
+          <tr><td>Price</td><td>Set on the tariff. Above zero. Below the grid.</td></tr>
+        </table>
+        <table>
+          <tr><th>Machine</th><th>S23 Hyd 3U</th></tr>
+          <tr><td>Hash / power</td><td>1.16 PH/s · 11.02 kW · 9.5 J/TH</td></tr>
+          <tr><td>Cooling</td><td>Closed loop. Inlet 20–50°C.</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+<section>
+  <div class="wrap">
+    <div class="num">03</div>
+    <h2>Cheque sizes the hall</h2>
+    <p class="note">Move the cheque and the hall follows. Five to fifty million buys the first fleet and a building large enough for four more fleets of the same size. Twelve square feet a machine and $110 a square foot are planning allowances, not a builder’s quote.</p>
+    <div class="grid-2">
+      <div>
+        <table id="stackTable"></table>
+        <p class="note" id="stackNote"></p>
+      </div>
+      <div>
+        <table>
+          <tr><th>Rule</th><th>Default</th></tr>
+          <tr><td>Machine</td><td>S23 Hyd 3U</td></tr>
+          <tr><td>Hall</td><td>5 bays per year-1 machine</td></tr>
+          <tr><td>Density</td><td>12 sq ft / bay</td></tr>
+          <tr><td>Hall cost</td><td>$110 / sq ft</td></tr>
+          <tr><td>Hydro and electrical</td><td>$7,000 / machine</td></tr>
+          <tr><td>Reserve</td><td>$1,500 / machine</td></tr>
+        </table>
+        <p class="note">The empty bays are room for the next four years. They are not a promise the hall fills on day one.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="num">04</div>
+    <h2>Ten-year activity</h2>
+    <p>Each of the first five years installs another fifth of the hall. By year five it is full. In year six the machines from year one are five years old and are replaced. The year after that, the year-two machines are replaced, and so on. The building stays full. The fleet turns over.</p>
+    <div class="chart-box">
+      <canvas id="occ" width="1080" height="280"></canvas>
+      <div class="legend">
+        <span><i class="sw" style="background:#EB440E"></i>New install</span>
+        <span><i class="sw" style="background:#131313"></i>Renewed</span>
+        <span><i class="sw" style="background:rgba(19,19,19,.15)"></i>Empty bay</span>
+      </div>
+    </div>
+    <p class="note" id="occNote"></p>
+  </div>
+</section>
+<section id="path">
+  <div class="wrap">
+    <div class="num">05</div>
+    <h2>Three paths</h2>
+    <p>The walk opens on 1 March 2027 and runs to February 2037. Choose the opening price: the 5 October 2026 print of $85,300, or the $96,000 estimate for that March date. The shape of each walk stays the same. Only the level changes. Bear has the weakest drift and a deep fall. Neutral sits between and finishes higher than bear. Bull has the strongest drift. The path button drives the tables.</p>
+    <div id="tip" class="tip"></div><div class="chart-grid">
+      <div class="chart-box"><div class="caps">Bear</div><canvas id="chartBear" width="520" height="220"></canvas></div>
+      <div class="chart-box"><div class="caps">Neutral</div><canvas id="chartNeutral" width="520" height="220"></canvas></div>
+      <div class="chart-box"><div class="caps">Bull</div><canvas id="chartBull" width="520" height="220"></canvas></div>
+    </div>
+    <div class="legend"><span><i class="sw" style="background:#EB440E"></i>Sell</span><span><i class="sw" style="background:#131313"></i>Loan, 20% LTV</span><span><i class="sw" style="background:#1f7a32"></i>Machines bought</span></div>
+    <p class="note">Each line is its own ten-year walk from the same starting price. Red is a sale into strength. Black is the loan against the coin. Green is machines bought with the proceeds. Move the month slider onto a dot and the note says which.</p>
+    <p class="note" id="scrub"></p>
+    <div class="kpis" id="s2fKpis"></div>
+    <p class="after-cards">Stock-to-flow is stock divided by a year’s new supply. A higher number means less new coin against what already exists. The raw model is the published price that ratio implies, not a forecast. Path versus model is this walk’s price as a share of that print. 25% means the coin is trading at a quarter of the model. Hashrate is the network’s work rate, in exahash a second. A policy window is a month the rule allows a sale or a loan.</p>
+  </div>
+</section>
+<section>
+  <div class="wrap">
+    <div class="num">06</div>
+    <h2>Hashrate and adoption</h2>
+    <div class="grid-2">
+      <div>
+        <p>New bitcoin is issued on a fixed schedule. Hashrate is how hard the network is competing for that issuance. The network finished the third quarter of 2026 near 941 exahash a second. This case starts at 950. In the bear walk the network fades toward 810. In the neutral walk it grinds to about 1,240. In the bull walk it reaches about 1,570.</p>
+        <p>If the rest of the network is hashing less, this hall takes a larger share of the new coin. That is why the bear walk can mine more bitcoin than the bull walk from the same opening fleet. The extra coin is worth less, because the price path is the weak one.</p>
+        <p class="note" id="shareNote"></p>
+      </div>
+      <div>
+        <p>Stock-to-flow only means anything if buyers take the new supply. The model prices scarcity. It does not create the bid. At the end of September 2026, US spot bitcoin ETFs held about $108 billion. In May 2026 there were about 59 million addresses, and 20,204 holders of more than 100 bitcoin. Those are the adoption facts behind the bull path. They are not a forecast.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<section>
+  <div class="wrap">
+    <div class="num">07</div>
+    <h2>Production</h2>
+    <p class="note">These figures are gross. No tax is taken off. The first row is a full year from the March 2027 opening. Day one itself has no coin yet.</p>
+    <div class="caps" style="margin-top:8px">By year</div>
+    <table id="yearTable"></table>
+    <div class="caps" style="margin-top:36px">Selected month</div>
+    <table id="monthTable"></table>
+  </div>
+</section>
+<section id="payback">
+  <div class="wrap">
+    <div class="num">08</div>
+    <h2>Payback</h2>
+    <div class="grid-2">
+      <p>The cash clock asks a narrow question: have the dollars actually sold, the harvest, added up to the cheque? At a 25% clip they do not, inside ten years. That is the hold rule doing its job. Most of the bitcoin is kept.</p>
+      <p>The economic clock marks the bitcoin still held, adds the cash, and subtracts the vault loan. The machines are left out, so a hall full of rigs is not treated as repaid capital. A 12% residual sits beside that number: a salvage allowance of 12 cents on the dollar for the machines still in the hall. It is not inside the payback date. The annualised rate is the ten-year compound return on the mark, the cash and the loan. It is a mark, not a distribution.</p>
+    </div>
+    <table id="payTable"></table>
+    <p class="note" id="payNote"></p>
+  </div>
+</section>
+<section>
+  <div class="wrap">
+    <div class="num">09</div>
+    <h2>Treasury</h2>
+    <div class="grid-2">
+      <div>
+        <div class="caps">Founder class</div>
+        <p>The fund’s standard fee is 2% and 20% of gains. A founder class, for the first $20 million only, is 1.5% and 15%. The lock is 12 months. Subscription can be in dollars or stablecoins. Redemption is quarterly, with 60 days’ notice, and no quarter pays out more than 20% of the fund.</p>
+      </div>
+      <div>
+        <div class="caps">The sleeve</div>
+        <p>Once the hall has earned a treasury, the fund runs it. Spot only: bitcoin, ether, and dollars earning a yield. No futures, no shorts. At least 20% stays in cash. Ether is capped at 32%. The hall keeps hashing through that. The fund decides how much of the treasury is in the coin and how much is in cash. This page is the mining case, not a subscription document.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<section>
+  <div class="wrap">
+    <div class="num">10</div>
+    <h2>Sources</h2>
+    <table>
+      <tr><th>Item</th><th>Figure</th><th>Source</th></tr>
+      <tr><td>Spot</td><td>$86,000 · 5 Oct 2026</td><td>Market print, 5 October 2026.</td></tr>
+      <tr><td>Bear / neutral</td><td>Stress path. 30% compound path.</td><td>GVNR cycle cases. Illustrative.</td></tr>
+      <tr><td>Stock-to-flow</td><td>$387,000 today. About $3.9m after April 2028.</td><td>PlanB model, as published. Live print early October 2026 about $384,000–$391,000.</td></tr>
+      <tr><td>Network</td><td>950 EH/s</td><td>Network estimates, early October 2026, about 941–950 EH/s.</td></tr>
+      <tr><td>Machine</td><td>S23 Hyd 3U · $29,200</td><td>Manufacturer rating 1.16 PH/s, 11.02 kW. Planning price $29,200.</td></tr>
+      <tr><td>Fund terms</td><td>1.5 and 15 on the first $20m</td><td>gvnr.fund/mandate. Standard fee 2 and 20.</td></tr>
+      <tr><td>Scope</td><td>Gross</td><td>Before tax. No rate assumed.</td></tr>
+    </table>
+  </div>
+</section>
+<section id="glossary">
+  <div class="wrap">
+    <div class="num">11</div>
+    <h2>Glossary</h2>
+    <table>
+      <tr><th>Term</th><th>Meaning in this case</th></tr>
+      <tr><td>Hall</td><td>The building. Sized at the cheque for five cohorts of machines.</td></tr>
+      <tr><td>Bay</td><td>One machine position, planned at 12 sq ft.</td></tr>
+      <tr><td>Cheque</td><td>Opening capital, $5–50 million.</td></tr>
+      <tr><td>ASIC</td><td>The mining computer. Reference unit is the Antminer S23 Hyd 3U.</td></tr>
+      <tr><td>Nameplate</td><td>Rated electrical load of the installed machines, before uptime.</td></tr>
+      <tr><td>Uptime</td><td>Share of hours the machines are hashing.</td></tr>
+      <tr><td>Tariff</td><td>Price per kWh for the surplus block. An offtake assumption.</td></tr>
+      <tr><td>Harvest</td><td>A sale of unpledged bitcoin into strength. Default clip 25%.</td></tr>
+      <tr><td>CDP</td><td>A loan against bitcoin left in a Diamond Hands vault. The coin is not sold.</td></tr>
+      <tr><td>LTV</td><td>Loan divided by collateral value. Cap in this case is 20%.</td></tr>
+      <tr><td>Stock-to-flow</td><td>Existing supply divided by annual new supply. The published model prices the coin from that ratio.</td></tr>
+      <tr><td>Hashrate</td><td>Computing power on the network, or of this hall.</td></tr>
+      <tr><td>Gross</td><td>Before tax. No rate is assumed.</td></tr>
+      <tr><td>Founder class</td><td>First $20 million of The GVNR Fund, at 1.5 and 15, 12-month lock.</td></tr>
+    </table>
+  </div>
+</section>
+<footer><div class="wrap">Confidential · GVNR · Illustrative case. Not a term sheet. Not a subscription. Not a forecast of price, tariff or hashrate.</div></footer>
+
+<script id="paths" type="application/json">{"bear":{"price":[96000,109308,126484,127453,118190,106068,106507,96255,83456,85221,86452,91399,83499,83624,83167,71612,75646,78190,99390,101529,100171,113426,115819,126968,122533,125361,139021,149194,151274,135892,142221,143462,154334,157865,176189,175458,179217,191766,172188,165574,157656,192381,190793,203855,217097,211295,181122,199668,191893,206383,181310,173714,197175,227737,200126,175329,174729,188116,191351,197446,179035,190045,212713,203848,176801,164045,177205,149148,147932,134109,132494,129423,129758,150926,157569,180230,177877,169717,176446,133012,132615,134891,119336,125133,118445,92716,90850,82461,78356,77249,87631,88628,88464,92065,76883,87121,78303,81900,73246,66498,63978,77410,83087,78294,76176,67959,67795,64083,68949,60260,58335,53678,50005,53744,54482,57823,65189,73204,63884,67476],"sf":[122.7,122.8,122.9,123.0,123.1,123.1,123.2,123.3,123.4,123.5,123.6,123.6,123.7,247.6,247.7,247.8,247.9,248.0,248.0,248.1,248.2,248.3,248.4,248.5,248.5,248.6,248.7,248.8,248.9,249.0,249.0,249.1,249.2,249.3,249.4,249.5,249.5,249.6,249.7,249.8,249.9,250.0,250.0,250.1,250.2,250.3,250.4,250.5,250.5,250.6,250.7,250.8,250.9,251.0,251.0,251.1,251.2,251.3,251.4,251.5,251.5,503.3,503.3,503.4,503.5,503.6,503.7,503.8,503.8,503.9,504.0,504.1,504.2,504.3,504.3,504.4,504.5,504.6,504.7,504.8,504.8,504.9,505.0,505.1,505.2,505.3,505.3,505.4,505.5,505.6,505.7,505.8,505.8,505.9,506.0,506.1,506.2,506.3,506.3,506.4,506.5,506.6,506.7,506.8,506.8,506.9,507.0,507.1,507.2,507.3,507.3,507.4,507.5,507.6,507.7,507.7,507.7,507.7,507.7,507.7],"model":[390039,390648,391258,391869,392480,393091,393703,394316,394929,395543,396157,396772,397387,3919993,3923027,3926063,3929101,3932140,3935180,3938221,3941264,3944308,3947353,3950400,3953448,3956498,3959548,3962600,3965654,3968709,3971765,3974822,3977881,3980941,3984002,3987065,3990129,3993194,3996261,3999329,4002398,4005469,4008541,4011614,4014689,4017765,4020842,4023921,4027001,4030082,4033165,4036249,4039334,4042421,4045509,4048598,4051689,4054781,4057874,4060969,4064065,40058113,40073370,40088632,40103896,40119164,40134435,40149710,40164987,40180268,40195552,40210840,40226131,40241425,40256722,40272023,40287327,40302634,40317945,40333258,40348575,40363896,40379220,40394547,40409877,40425210,40440547,40455887,40471231,40486577,40501927,40517281,40532637,40547997,40563360,40578727,40594096,40609469,40624846,40640225,40655608,40670994,40686384,40701776,40717172,40732572,40747974,40763380,40778790,40794202,40809618,40825037,40840459,40855885,40871314,40871314,40871314,40871314,40871314,40871314],"hash":[938.1,935.8,933.4,931.0,928.6,926.3,923.9,921.5,919.2,916.8,914.4,912.0,909.7,907.3,904.9,902.5,900.2,897.8,895.4,893.1,890.7,888.3,885.9,883.6,881.2,878.8,876.4,874.1,871.7,869.3,866.9,864.6,862.2,859.8,857.5,855.1,852.7,850.3,848.0,845.6,843.2,840.8,838.5,836.1,833.7,831.4,829.0,826.6,824.2,821.9,819.5,817.1,814.7,812.4,810.0,811.0,812.1,813.1,814.2,815.2,816.3,817.3,818.4,819.4,820.5,821.5,822.6,823.6,824.7,825.7,826.8,827.9,828.9,830.0,831.0,832.1,833.2,834.3,835.3,836.4,837.5,838.5,839.6,840.7,841.8,842.9,843.9,845.0,846.1,847.2,848.3,849.4,850.5,851.6,852.6,853.7,854.8,855.9,857.0,858.1,859.2,860.3,861.4,862.5,863.7,864.8,865.9,867.0,868.1,869.2,870.3,871.4,872.6,873.7,874.8,875.7,876.6,877.5,878.4,879.3]},"neutral":{"price":[96000,93101,91904,108357,105695,96447,99457,101518,107568,105838,118607,125087,151372,159295,164011,183324,197231,188872,202236,195028,215130,208808,216617,207204,214560,239405,262775,253882,233395,248177,239002,228775,242932,225070,240978,263059,266435,252595,251450,282896,289919,320294,325103,331719,340049,347063,358695,385345,424134,424349,401123,386863,365997,320275,323798,309993,356788,346637,316983,329545,333072,358201,366324,423222,407465,419099,410656,401067,360507,380773,342463,355546,371340,386430,349313,374248,360268,374611,369041,428652,416334,414615,428041,390212,381499,379727,390902,385526,442585,513327,566386,571818,605293,710097,814587,864477,842123,924748,988978,1006803,1009280,928922,846573,782822,808924,830922,799019,794697,888287,826187,811092,753496,876801,863315,965671,1030833,996208,1053688,1081537,1132221],"sf":[122.7,122.8,122.9,123.0,123.1,123.1,123.2,123.3,123.4,123.5,123.6,123.6,123.7,247.6,247.7,247.8,247.9,248.0,248.0,248.1,248.2,248.3,248.4,248.5,248.5,248.6,248.7,248.8,248.9,249.0,249.0,249.1,249.2,249.3,249.4,249.5,249.5,249.6,249.7,249.8,249.9,250.0,250.0,250.1,250.2,250.3,250.4,250.5,250.5,250.6,250.7,250.8,250.9,251.0,251.0,251.1,251.2,251.3,251.4,251.5,251.5,503.3,503.3,503.4,503.5,503.6,503.7,503.8,503.8,503.9,504.0,504.1,504.2,504.3,504.3,504.4,504.5,504.6,504.7,504.8,504.8,504.9,505.0,505.1,505.2,505.3,505.3,505.4,505.5,505.6,505.7,505.8,505.8,505.9,506.0,506.1,506.2,506.3,506.3,506.4,506.5,506.6,506.7,506.8,506.8,506.9,507.0,507.1,507.2,507.3,507.3,507.4,507.5,507.6,507.7,507.7,507.7,507.7,507.7,507.7],"model":[390039,390648,391258,391869,392480,393091,393703,394316,394929,395543,396157,396772,397387,3919993,3923027,3926063,3929101,3932140,3935180,3938221,3941264,3944308,3947353,3950400,3953448,3956498,3959548,3962600,3965654,3968709,3971765,3974822,3977881,3980941,3984002,3987065,3990129,3993194,3996261,3999329,4002398,4005469,4008541,4011614,4014689,4017765,4020842,4023921,4027001,4030082,4033165,4036249,4039334,4042421,4045509,4048598,4051689,4054781,4057874,4060969,4064065,40058113,40073370,40088632,40103896,40119164,40134435,40149710,40164987,40180268,40195552,40210840,40226131,40241425,40256722,40272023,40287327,40302634,40317945,40333258,40348575,40363896,40379220,40394547,40409877,40425210,40440547,40455887,40471231,40486577,40501927,40517281,40532637,40547997,40563360,40578727,40594096,40609469,40624846,40640225,40655608,40670994,40686384,40701776,40717172,40732572,40747974,40763380,40778790,40794202,40809618,40825037,40840459,40855885,40871314,40871314,40871314,40871314,40871314,40871314],"hash":[974.6,979.5,984.4,989.3,994.2,999.2,1004.1,1009.0,1013.9,1018.8,1023.7,1028.6,1033.6,1038.5,1043.4,1048.3,1053.2,1058.1,1063.1,1068.0,1072.9,1077.8,1082.7,1087.6,1092.5,1097.5,1102.4,1107.3,1112.2,1117.1,1122.0,1126.9,1131.9,1136.8,1141.7,1146.6,1151.5,1156.4,1161.4,1166.3,1171.2,1176.1,1181.0,1185.9,1190.8,1195.8,1200.7,1205.6,1210.5,1215.4,1220.3,1225.3,1230.2,1235.1,1240.0,1241.6,1243.2,1244.8,1246.4,1248.0,1249.6,1251.2,1252.8,1254.4,1256.0,1257.6,1259.2,1260.9,1262.5,1264.1,1265.7,1267.3,1269.0,1270.6,1272.2,1273.9,1275.5,1277.1,1278.8,1280.4,1282.1,1283.7,1285.3,1287.0,1288.6,1290.3,1292.0,1293.6,1295.3,1296.9,1298.6,1300.3,1301.9,1303.6,1305.3,1307.0,1308.6,1310.3,1312.0,1313.7,1315.4,1317.1,1318.7,1320.4,1322.1,1323.8,1325.5,1327.2,1328.9,1330.6,1332.3,1334.1,1335.8,1337.5,1339.2,1340.5,1341.8,1343.1,1344.4,1345.7]},"bull":{"price":[96000,111112,122771,119398,117521,121919,111555,119479,110262,109569,97233,96920,101546,106627,105867,85463,79738,78162,83584,81687,86133,87587,83273,93258,99479,100871,107857,127691,131962,124144,136115,117932,122296,137919,146939,154175,148083,140935,147588,137669,166359,172172,199341,231830,244957,281865,306921,328457,341587,345423,374795,387270,358690,382980,395124,359960,389240,373520,353906,385404,327050,420566,395953,494084,448479,444495,400865,380478,371800,393858,374569,409199,396547,470258,488629,493125,501848,541333,483637,524196,500703,523472,558878,506032,500503,481475,479514,554780,670486,824465,836302,823669,834272,864343,971224,1075280,999874,1167755,1328203,1280565,1219163,1252618,1174203,1173211,1187764,1422891,1575226,1413917,1537069,1479195,1593659,1846499,2094891,2126269,2478287,2596520,2807083,3170118,3440735,3858214],"sf":[122.7,122.8,122.9,123.0,123.1,123.1,123.2,123.3,123.4,123.5,123.6,123.6,123.7,247.6,247.7,247.8,247.9,248.0,248.0,248.1,248.2,248.3,248.4,248.5,248.5,248.6,248.7,248.8,248.9,249.0,249.0,249.1,249.2,249.3,249.4,249.5,249.5,249.6,249.7,249.8,249.9,250.0,250.0,250.1,250.2,250.3,250.4,250.5,250.5,250.6,250.7,250.8,250.9,251.0,251.0,251.1,251.2,251.3,251.4,251.5,251.5,503.3,503.3,503.4,503.5,503.6,503.7,503.8,503.8,503.9,504.0,504.1,504.2,504.3,504.3,504.4,504.5,504.6,504.7,504.8,504.8,504.9,505.0,505.1,505.2,505.3,505.3,505.4,505.5,505.6,505.7,505.8,505.8,505.9,506.0,506.1,506.2,506.3,506.3,506.4,506.5,506.6,506.7,506.8,506.8,506.9,507.0,507.1,507.2,507.3,507.3,507.4,507.5,507.6,507.7,507.7,507.7,507.7,507.7,507.7],"model":[390039,390648,391258,391869,392480,393091,393703,394316,394929,395543,396157,396772,397387,3919993,3923027,3926063,3929101,3932140,3935180,3938221,3941264,3944308,3947353,3950400,3953448,3956498,3959548,3962600,3965654,3968709,3971765,3974822,3977881,3980941,3984002,3987065,3990129,3993194,3996261,3999329,4002398,4005469,4008541,4011614,4014689,4017765,4020842,4023921,4027001,4030082,4033165,4036249,4039334,4042421,4045509,4048598,4051689,4054781,4057874,4060969,4064065,40058113,40073370,40088632,40103896,40119164,40134435,40149710,40164987,40180268,40195552,40210840,40226131,40241425,40256722,40272023,40287327,40302634,40317945,40333258,40348575,40363896,40379220,40394547,40409877,40425210,40440547,40455887,40471231,40486577,40501927,40517281,40532637,40547997,40563360,40578727,40594096,40609469,40624846,40640225,40655608,40670994,40686384,40701776,40717172,40732572,40747974,40763380,40778790,40794202,40809618,40825037,40840459,40855885,40871314,40871314,40871314,40871314,40871314,40871314],"hash":[1002.5,1013.1,1023.6,1034.1,1044.6,1055.1,1065.6,1076.1,1086.6,1097.1,1107.6,1118.1,1128.6,1139.2,1149.7,1160.2,1170.7,1181.2,1191.7,1202.2,1212.7,1223.2,1233.7,1244.2,1254.7,1265.3,1275.8,1286.3,1296.8,1307.3,1317.8,1328.3,1338.8,1349.3,1359.8,1370.3,1380.8,1391.4,1401.9,1412.4,1422.9,1433.4,1443.9,1454.4,1464.9,1475.4,1485.9,1496.4,1506.9,1517.5,1528.0,1538.5,1549.0,1559.5,1570.0,1572.0,1574.0,1576.1,1578.1,1580.1,1582.1,1584.2,1586.2,1588.2,1590.3,1592.3,1594.4,1596.4,1598.4,1600.5,1602.6,1604.6,1606.7,1608.7,1610.8,1612.9,1614.9,1617.0,1619.1,1621.2,1623.2,1625.3,1627.4,1629.5,1631.6,1633.7,1635.8,1637.9,1640.0,1642.1,1644.2,1646.3,1648.4,1650.5,1652.7,1654.8,1656.9,1659.0,1661.2,1663.3,1665.4,1667.6,1669.7,1671.8,1674.0,1676.1,1678.3,1680.4,1682.6,1684.8,1686.9,1689.1,1691.3,1693.4,1695.6,1697.3,1699.0,1700.7,1702.4,1704.1]}}</script>
+<script>
+const MONTHS = ["Mar 2027", "Apr 2027", "May 2027", "Jun 2027", "Jul 2027", "Aug 2027", "Sep 2027", "Oct 2027", "Nov 2027", "Dec 2027", "Jan 2028", "Feb 2028", "Mar 2028", "Apr 2028", "May 2028", "Jun 2028", "Jul 2028", "Aug 2028", "Sep 2028", "Oct 2028", "Nov 2028", "Dec 2028", "Jan 2029", "Feb 2029", "Mar 2029", "Apr 2029", "May 2029", "Jun 2029", "Jul 2029", "Aug 2029", "Sep 2029", "Oct 2029", "Nov 2029", "Dec 2029", "Jan 2030", "Feb 2030", "Mar 2030", "Apr 2030", "May 2030", "Jun 2030", "Jul 2030", "Aug 2030", "Sep 2030", "Oct 2030", "Nov 2030", "Dec 2030", "Jan 2031", "Feb 2031", "Mar 2031", "Apr 2031", "May 2031", "Jun 2031", "Jul 2031", "Aug 2031", "Sep 2031", "Oct 2031", "Nov 2031", "Dec 2031", "Jan 2032", "Feb 2032", "Mar 2032", "Apr 2032", "May 2032", "Jun 2032", "Jul 2032", "Aug 2032", "Sep 2032", "Oct 2032", "Nov 2032", "Dec 2032", "Jan 2033", "Feb 2033", "Mar 2033", "Apr 2033", "May 2033", "Jun 2033", "Jul 2033", "Aug 2033", "Sep 2033", "Oct 2033", "Nov 2033", "Dec 2033", "Jan 2034", "Feb 2034", "Mar 2034", "Apr 2034", "May 2034", "Jun 2034", "Jul 2034", "Aug 2034", "Sep 2034", "Oct 2034", "Nov 2034", "Dec 2034", "Jan 2035", "Feb 2035", "Mar 2035", "Apr 2035", "May 2035", "Jun 2035", "Jul 2035", "Aug 2035", "Sep 2035", "Oct 2035", "Nov 2035", "Dec 2035", "Jan 2036", "Feb 2036", "Mar 2036", "Apr 2036", "May 2036", "Jun 2036", "Jul 2036", "Aug 2036", "Sep 2036", "Oct 2036", "Nov 2036", "Dec 2036", "Jan 2037", "Feb 2037"];
+const PATHS = JSON.parse(document.getElementById("paths").textContent);
+const POL = { bear:{h:[12,48,72,108],c:[18,27,78,87]}, neutral:{h:[6,18,30,42,54,66,78,90,102],c:[]}, bull:{h:[13,37,61,85],c:[]} };
+const ASIC = 29200, PH = 1.16, KW = 11.02, UPTIME = 0.70, OPEX = 42, FEE = 0.015;
+let CASE = "neutral";
+let CAP = 10000000;
+let M = 0;
+let START = 96000;
+const OPEN = 0;
+const cache = {};
+const money = n => "$" + Math.round(n).toLocaleString("en-US");
+const btc = n => Number(n).toFixed(2) + " BTC";
+const num = id => Number(document.getElementById(id).value);
+function params() {
+  return {
+    tariff: num("d-tariff") / 100,
+    uptime: num("d-uptime") / 100,
+    asic: num("d-asic"),
+    ph: num("d-ph"),
+    kw: num("d-kw"),
+    bays: num("d-bays"),
+    sqft: num("d-sqft"),
+    psf: num("d-psf"),
+    bop: num("d-bop"),
+    reserve: num("d-reserve"),
+    opex: num("d-opex"),
+    clip: num("d-clip") / 100,
+    ltv: num("d-ltv") / 100,
+    apr: num("d-apr") / 100
+  };
+}
+function fit(capital) {
+  const a = params();
+  const unit = a.asic + a.bays * a.sqft * a.psf + a.bop + a.reserve;
+  const n = Math.max(0, Math.floor(capital / unit));
+  const shell = n * a.bays, sqft = shell * a.sqft;
+  const stack = { miners:n, shell, sqft, asic:n*a.asic, shell_cost:sqft*a.psf, bop:n*a.bop, reserve:n*a.reserve, unit };
+  stack.total = stack.asic + stack.shell_cost + stack.bop + stack.reserve;
+  stack.unallocated = capital - stack.total;
+  return stack;
+}
+function subsidy(m){ return m < 13 ? 3.125 : m < 61 ? 1.5625 : 0.78125; }
+function simulate(kind, capital) {
+  const a = params();
+  const id = JSON.stringify([kind, capital, a, START]);
+  if (cache[id]) return cache[id];
+  const stack = fit(capital);
+  const path = PATHS[kind];
+  let miners = stack.miners, coin = 0, debt = 0, pledged = 0, usd = stack.reserve, deployable = 0;
+  const rows = [];
+  for (let m = 0; m < 120; m++) {
+    const price = path.price[m] * START / 96000;
+    const eh = path.hash[m];
+    const reward = subsidy(m) + FEE;
+    const live = m > OPEN;
+    const btc_m = live ? (miners * a.ph * a.uptime) / (eh * 1000) * (30.44 * 144) * reward : 0;
+    coin += btc_m;
+    const power = live ? miners * a.kw * 24 * 30.44 * a.uptime * a.tariff : 0;
+    const opex = live ? miners * a.opex : 0;
+    const need = power + opex;
+    if (usd >= need) usd -= need;
+    else { const sell = Math.min(Math.max(0, coin - pledged), (need - usd) / price); coin -= sell; usd = 0; }
+    debt *= 1 + a.apr / 12;
+    const action = [];
+    let harvest = 0, draw = 0;
+    if (live && POL[kind].h.includes(m)) {
+      const free = Math.max(0, coin - pledged), sell = free * a.clip;
+      if (sell > 0.05) { coin -= sell; usd += sell * price; deployable += sell * price; harvest = sell * price; action.push("HARVEST"); }
+    }
+    if (live && POL[kind].c.includes(m)) {
+      const free = Math.max(0, coin - pledged);
+      draw = a.ltv * free * price;
+      if (draw > 20000) { debt += draw; pledged = Math.min(coin, pledged + draw / (a.ltv * price)); usd += draw; deployable += draw; action.push("CDP"); }
+      else draw = 0;
+    }
+    let bought = 0;
+    if (live && stack.shell - miners > 0 && deployable >= a.asic) {
+      const lots = Math.min(stack.shell - miners, Math.floor(deployable / a.asic));
+      if (lots > 0) { deployable -= lots * a.asic; usd -= lots * a.asic; miners += lots; bought = lots; action.push("ADD " + lots); }
+    }
+    const coll = pledged * price;
+    rows.push({ m, price, btc_m, btc: coin, usd, debt, pledged, miners, ltv: coll ? debt / coll : 0, action: action.join(" · "), power, opex, harvest, draw, bought, mark: coin * price, sf: path.sf[m], model: path.model[m], hash: eh, multiple: price / path.model[m] });
+  }
+  const out = { stack, px: path.price, rows };
+  cache[id] = out;
+  return out;
+}
+function pack(){ return simulate(CASE, CAP); }
+function render() {
+  const p = pack();
+  const row = p.rows[M];
+  const stack = p.stack;
+  const end = p.rows[p.rows.length-1];
+  const a = params();
+  document.getElementById("capLabel").textContent = `Opening cheque · ${money(CAP)}`;
+  const unitBtc = (a.ph * a.uptime) / (row.hash * 1000) * (30.44 * 144) * (subsidy(M) + FEE);
+  const unitCash = a.kw * 24 * 30.44 * a.uptime * a.tariff + a.opex + a.asic / 60;
+  const cost = unitBtc ? unitCash / unitBtc : 0;
+  document.getElementById("kpis").innerHTML = [
+    ["Opening fleet", stack.miners.toLocaleString() + " units", ""],
+    ["Hall", stack.sqft.toLocaleString() + " sq ft", ""],
+    ["Mined to date", btc(row.btc), "hot"],
+    ["USD denominated", money(row.mark), "hot"]
+  ].map(([l,v,c]) => `<div class="kpi"><span class="caps">${l}</span><b class="${c}">${v}</b></div>`).join("")
+  + `<div class="kpi"><span class="caps">Cost to mine</span><b>${money(cost)}</b><span class="pill">Estimated price ${money(row.price)}</span></div>`;
+  document.getElementById("sliderLabel").textContent = `Cycle walk · month ${M+1} · ${MONTHS[M]} · ${money(row.price)}`;
+  document.getElementById("stackTable").innerHTML = `<tr><th>Item</th><th>This cheque</th></tr>
+    <tr><td>Year-1 miners</td><td>${stack.miners.toLocaleString()} · ${(stack.miners*a.ph).toFixed(0)} PH/s</td></tr>
+    <tr><td>Hall</td><td>${stack.shell.toLocaleString()} bays · ${stack.sqft.toLocaleString()} sq ft</td></tr>
+    <tr><td>Nameplate</td><td>${(stack.miners*a.kw/1000).toFixed(2)} MW</td></tr>
+    <tr><td>ASIC</td><td>${money(stack.asic)}</td></tr>
+    <tr><td>Hall</td><td>${money(stack.shell_cost)}</td></tr>
+    <tr><td>Hydro and electrical</td><td>${money(stack.bop)}</td></tr>
+    <tr><td>Reserve</td><td>${money(stack.reserve)}</td></tr>
+    <tr><td>Deployed</td><td>${money(stack.total)}</td></tr>`;
+  document.getElementById("stackNote").textContent = `Unallocated on this cheque: ${money(stack.unallocated)}. End fleet on this path: ${end.miners.toLocaleString()} of ${stack.shell.toLocaleString()} bays. End inventory ${btc(end.btc)}, mark ${money(end.mark)}, debt ${money(end.debt)}.`;
+  const years = [0,1,2,3,4,5,6,7,8,9].map(y => {
+    const sl = p.rows.slice(y*12, y*12+12);
+    const mined = sl.reduce((a,r)=>a+r.btc_m,0);
+    const harvest = sl.reduce((a,r)=>a+r.harvest,0);
+    const draw = sl.reduce((a,r)=>a+r.draw,0);
+    const added = sl.reduce((a,r)=>a+r.bought,0);
+    const last = sl[sl.length-1];
+    const acts = sl.filter(r=>r.action).map(r=>MONTHS[r.m].split(" ")[0] + " " + r.action.toLowerCase());
+    return `<tr><td>Year ${y+1}</td><td>${mined.toFixed(2)}</td><td>${last.btc.toFixed(2)}</td><td>${money(last.mark)}</td><td>${money(harvest)}</td><td>${money(draw)}</td><td>${added}</td><td>${last.miners}</td><td>${acts.join("; ") || "—"}</td></tr>`;
+  }).join("");
+  document.getElementById("yearTable").innerHTML = `<tr><th>Year</th><th>BTC mined</th><th>Inventory</th><th>Mark</th><th>Harvest USD</th><th>CDP draw</th><th>Miners added</th><th>Fleet</th><th>Windows</th></tr>${years}`;
+  document.getElementById("monthTable").innerHTML = `<tr><th>Month</th><th>Price</th><th>Mined</th><th>Inventory</th><th>Mark</th><th>Fleet</th><th>Debt</th><th>LTV</th><th>Action</th></tr>
+    <tr><td>${MONTHS[M]}</td><td>${money(row.price)}</td><td>${row.btc_m.toFixed(3)}</td><td>${row.btc.toFixed(2)}</td><td>${money(row.mark)}</td><td>${row.miners}</td><td>${money(row.debt)}</td><td>${(row.ltv*100).toFixed(1)}%</td><td>${row.action || "—"}</td></tr>`;
+  document.getElementById("scrub").textContent = `${MONTHS[M]} · ${money(row.price)} · S/F ${row.sf} · raw model ${money(row.model)} · this path ${(row.multiple*100).toFixed(1)}% of model · network ${row.hash} EH/s · fleet ${row.miners} · ${row.action || "no policy window"}`;
+  const share = (row.miners * a.ph * a.uptime) / (row.hash * 1000) * 100;
+  document.getElementById("s2fKpis").innerHTML = [
+    ["Stock / flow", Number(row.sf).toFixed(0), ""],
+    ["Raw S2F model", money(row.model), ""],
+    ["Path vs model", (row.multiple*100).toFixed(1) + "%", "hot"],
+    ["Network hashrate", Number(row.hash).toFixed(0) + " EH/s", ""]
+  ].map(([l,v,c]) => `<div class="kpi"><span class="caps">${l}</span><b class="${c}">${v}</b></div>`).join("");
+  document.getElementById("shareNote").textContent = `This cheque’s energised fleet is ${share.toFixed(4)}% of network hashrate at the selected month, at ${(a.uptime*100).toFixed(0)}% uptime. Share of network hashrate at the selected month.`;
+  const jth = a.kw * 1000 / (a.ph * 1000);
+  const kwh = (950e6 * jth * 600) / ((3.125 + FEE) * 3.6e6);
+  document.getElementById("driverNote").textContent = `${money(stack.unit)} is what the opening cheque pays for one machine, including its share of the building, the cooling and a small reserve. It is the cost of the kit, not the cost of a coin. Electricity alone, before the first halving, is about ${money(kwh * a.tariff)} per bitcoin at ${num("d-tariff").toFixed(1)}¢ and a network of 950 exahash. Running fewer hours cuts the power bill and the coin by the same share, so that cost per coin stays put. Each halving cuts the new coin in half, and the power cost per coin about doubles. The machines do ${(jth).toFixed(1)} joules of work per terahash.`;
+  const clocks = ["bear","neutral","bull"].map(name => {
+    const sc = simulate(name, CAP);
+    let harvest = 0, pay = null;
+    sc.rows.forEach(r => { harvest += r.harvest; const eq = r.mark + r.usd - r.debt; if (pay === null && eq >= sc.stack.total) pay = r.m; });
+    const last = sc.rows[sc.rows.length-1];
+    const eq = last.mark + last.usd - last.debt;
+    const resid = last.miners * a.asic * 0.12;
+    const cagr = Math.pow(eq / sc.stack.total, 1/10) - 1;
+    return { name, harvest, pay, eq, resid, cagr, deployed: sc.stack.total };
+  });
+  document.getElementById("payTable").innerHTML = `<tr><th>Path</th><th>Deployed</th><th>Cash recovered</th><th>Economic payback</th><th>Year-5 net equity</th><th>Annualised</th><th>With 12% residual</th></tr>` + clocks.map(c => `<tr><td>${c.name}</td><td>${money(c.deployed)}</td><td>${money(c.harvest)}</td><td>${c.pay===null ? "Not inside 120 months" : MONTHS[c.pay]}</td><td>${money(c.eq)}</td><td>${(c.cagr*100).toFixed(1)}%</td><td>${money(c.eq+c.resid)}</td></tr>`).join("");
+  const here = clocks.find(c => c.name === CASE);
+  document.getElementById("payNote").textContent = here.pay === null
+    ? `On this path the economic clock does not recover deployed capital inside ten years. Year-5 net equity is ${money(here.eq)} against ${money(here.deployed)}. Annualised ${(here.cagr*100).toFixed(1)}%. Cash recovered ${money(here.harvest)}.`
+    : `Economic payback on this path is ${MONTHS[here.pay]}, month ${here.pay+1}. Annualised on year-5 net equity is ${(here.cagr*100).toFixed(1)}%. Cash recovered is ${money(here.harvest)}, which does not repay the cheque.`;
+  draw();
+  drawOcc();
+}
+
+const CHART_FONT = "600 13px Poppins, sans-serif";
+function fitCanvas(c, cssH) {
+  const dpr = 2;
+  const cssW = Math.max(640, c.parentElement.clientWidth - 24);
+  c.style.width = "100%";
+  c.style.height = cssH + "px";
+  c.width = Math.round(cssW * dpr);
+  c.height = Math.round(cssH * dpr);
+  const g = c.getContext("2d");
+  g.setTransform(dpr, 0, 0, dpr, 0, 0);
+  g.font = CHART_FONT;
+  return { g, w: cssW, h: cssH };
+}
+function drawOcc() {
+  const c = document.getElementById("occ");
+  if (!c) return;
+  const { g, w, h } = fitCanvas(c, 300);
+  const cap = pack().stack.shell;
+  const cohort = pack().stack.miners;
+  g.clearRect(0, 0, w, h);
+  g.fillStyle = "#fff";
+  g.fillRect(0, 0, w, h);
+  const L = 56, R = 16, T = 18, B = 36;
+  const slot = (w - L - R) / 10;
+  g.font = CHART_FONT;
+  g.fillStyle = "#131313";
+  g.textAlign = "right";
+  g.fillText("100%", L - 8, T + 12);
+  g.fillText("0", L - 8, h - B);
+  g.textAlign = "center";
+  for (let y = 0; y < 10; y++) {
+    const x = L + y * slot + 6;
+    const bw = slot - 12;
+    const base = h - B;
+    const full = h - T - B;
+    g.fillStyle = "rgba(19,19,19,.08)";
+    g.fillRect(x, T, bw, full);
+    if (y < 5) {
+      g.fillStyle = "#EB440E";
+      g.fillRect(x, base - full * ((y + 1) / 5), bw, full * ((y + 1) / 5));
+    } else {
+      g.fillStyle = "rgba(19,19,19,.16)";
+      g.fillRect(x, base - full, bw, full * 0.8);
+      g.fillStyle = "#131313";
+      g.fillRect(x, base - full, bw, full * 0.2);
+    }
+    g.fillStyle = "#131313";
+    g.font = CHART_FONT;
+    g.fillText("Y" + (y + 1), x + bw / 2, h - 12);
+  }
+  g.textAlign = "left";
+  document.getElementById("occNote").textContent = `Hall ${cap.toLocaleString()} bays. Each cohort ${cohort.toLocaleString()} machines, 20% of the hall. Years 1–5 install that cohort. Years 6–10 replace the cohort installed five years earlier.`;
+}
+
+function moneyAxis(v) {
+  if (v >= 1e6) return "$" + (v / 1e6).toFixed(1).replace(".0", "") + "m";
+  return "$" + Math.round(v / 1000) + "k";
+}
+function drawOne(id, px, colour, rows) {
+  const c = document.getElementById(id);
+  if (!c) return;
+  const dpr = 2;
+  const cssW = Math.max(640, c.parentElement.clientWidth - 16);
+  const cssH = 280;
+  c.style.width = "100%";
+  c.style.height = cssH + "px";
+  c.width = Math.round(cssW * dpr);
+  c.height = Math.round(cssH * dpr);
+  const g = c.getContext("2d");
+  g.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const w = cssW, h = cssH;
+  const lo = Math.min(...px), hi = Math.max(...px);
+  const min = lo * 0.82;
+  const max = hi * 1.18;
+  const L = 64, R = 20, T = 22, B = 32;
+  const X = i => L + (w - L - R) * (i / 119);
+  const Y = v => T + (h - T - B) * (1 - (v - min) / (max - min || 1));
+  g.clearRect(0, 0, w, h);
+  g.fillStyle = "#fff";
+  g.fillRect(0, 0, w, h);
+  g.strokeStyle = "rgba(19,19,19,.08)";
+  g.font = CHART_FONT;
+  g.fillStyle = "rgba(19,19,19,.5)";
+  [min, (min + max) / 2, max].forEach(v => {
+    const y = Y(v);
+    g.beginPath(); g.moveTo(L, y); g.lineTo(w - R, y); g.stroke();
+    g.fillText(moneyAxis(v), 6, y + 4);
+  });
+  g.strokeStyle = colour;
+  g.lineWidth = 2;
+  g.beginPath();
+  px.forEach((v, i) => i ? g.lineTo(X(i), Y(v)) : g.moveTo(X(i), Y(v)));
+  g.stroke();
+  c._hits = [];
+  if (rows) rows.forEach(r => {
+    if (!r.action) return;
+    const x = X(r.m), y = Y(r.price);
+    const marks = [];
+    if (r.action.includes("HARVEST")) marks.push(["#EB440E", -6]);
+    if (r.action.includes("CDP")) marks.push(["#131313", 0]);
+    if (r.action.includes("ADD")) marks.push(["#1f7a32", 6]);
+    marks.forEach(([colour, dx]) => {
+      g.fillStyle = colour;
+      g.beginPath(); g.arc(x + dx, y, 5, 0, Math.PI * 2); g.fill();
+    });
+    c._hits.push({ x, y, label: dotLabel(r) });
+  });
+  g.fillStyle = "#131313";
+  g.fillText(MONTHS[0], L, h - 6);
+  g.fillText(MONTHS[119], w - R - 64, h - 6);
+}
+function dotLabel(r) {
+  const bits = [];
+  if (r.action.includes("HARVEST")) bits.push("Harvest. Sold into strength.");
+  if (r.action.includes("CDP")) bits.push("Collateralised at 20% LTV.");
+  if (r.action.includes("ADD")) bits.push("Bought the next cohort.");
+  return MONTHS[r.m] + " · " + bits.join(" ");
+}
+function draw() {
+  const colour = { bear:"#131313", neutral:"#EB440E", bull:"#1f7a32" };
+  ["bear","neutral","bull"].forEach(name => {
+    const sc = simulate(name, CAP);
+    drawOne("chart" + name[0].toUpperCase() + name.slice(1), sc.px, colour[name], sc.rows);
+  });
+  const tip = document.getElementById("tip");
+  if (!tip) return;
+  const live = simulate(CASE, CAP).rows.find(r => r.m === M && r.action);
+  if (live) {
+    tip.style.display = "block";
+    tip.textContent = CASE.toUpperCase() + " · " + dotLabel(live);
+  } else tip.style.display = "none";
+}
+document.querySelectorAll(".chart-grid canvas").forEach(c => {
+  c.onmousemove = e => {
+    const hits = c._hits || [];
+    const rect = c.getBoundingClientRect();
+    const x = (e.clientX - rect.left) * (c.clientWidth / rect.width);
+    const y = (e.clientY - rect.top) * (280 / rect.height);
+    const hit = hits.find(h => Math.hypot(h.x - x, h.y - y) < 10);
+    const tip = document.getElementById("tip");
+    if (!hit) { if (!simulate(CASE, CAP).rows.find(r => r.m === M && r.action)) tip.style.display = "none"; return; }
+    tip.style.display = "block";
+    tip.style.left = (rect.left + hit.x + 12) + "px";
+    tip.style.top = (rect.top + window.scrollY + hit.y - 28) + "px";
+    tip.textContent = hit.label;
+  };
+});
+
+
+
+document.getElementById("startBtns").onclick = e => {
+  if (!e.target.dataset.start) return;
+  START = Number(e.target.dataset.start);
+  document.querySelectorAll("#startBtns .opt").forEach(b => b.classList.toggle("on", Number(b.dataset.start) === START));
+  render();
+
+if (location.hash) history.replaceState(null, "", location.pathname + location.search);
+window.scrollTo(0, 0);
+addEventListener("pageshow", () => window.scrollTo(0, 0));
+};
+document.getElementById("caseBtns").onclick = e => {
+  if (!e.target.dataset.case) return;
+  CASE = e.target.dataset.case;
+  document.querySelectorAll("#caseBtns .opt").forEach(b => b.classList.toggle("on", b.dataset.case === CASE));
+  render();
+document.fonts.ready.then(() => render());
+};
+document.getElementById("capSlider").oninput = e => { CAP = Number(e.target.value) * 1000000; render(); };
+document.getElementById("drivers").oninput = () => { render(); };
+document.getElementById("slider").oninput = e => { M = Number(e.target.value); render(); };
+render();
+</script>
+</body>
+</html>
