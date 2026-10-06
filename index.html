@@ -797,7 +797,6 @@ document.addEventListener("click", e => {
   document.getElementById("tipBody").textContent = TIPS[tip][1];
   document.getElementById("tipModal").classList.add("on");
 });
-function useEstimate(){ return document.getElementById("estBtn").classList.contains("on"); }
 function fmt(d){ return d.toLocaleDateString("en-GB", { day:"numeric", month:"short", year:"numeric", timeZone:"UTC" }); }
 document.getElementById("openMonth").oninput = () => {
   START = estPrice();
