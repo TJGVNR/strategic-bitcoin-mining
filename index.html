@@ -373,6 +373,7 @@ function setCase(name){
     <h2>Sources</h2>
     <table>
       <tr><th>Item</th><th>Figure</th><th>Source</th></tr>
+      <tr><td>Network cost</td><td>$77,896 on 2 Oct 2026</td><td>MacroMicro, from Cambridge electricity use and daily issuance. CoinShares puts listed-miner cash cost at $75,500 in Q2 2026.</td></tr>
       <tr><td>Spot</td><td>$86,000 · 5 Oct 2026</td><td>Market print, 5 October 2026.</td></tr>
       <tr><td>Bear / neutral</td><td>Stress path. 30% compound path.</td><td>GVNR cycle cases. Illustrative.</td></tr>
       <tr><td>Stock-to-flow</td><td>$387,000 today. About $3.9m after April 2028.</td><td>PlanB model, as published. Live print early October 2026 about $384,000–$391,000.</td></tr>
@@ -579,7 +580,7 @@ function render() {
     ["Mined to date", btc(row.btc), "hot"],
     ["USD denominated", money(row.mark), "hot"],
     ["Cost to mine today", money(todayCost), ""],
-    ["Average cost basis", row.btc ? money(p.rows.slice(0, M+1).reduce((s,r)=>s+(r.power||0)+(r.opex||0),0) / row.btc) : "—", ""],
+    ["Network average cost", "$77,896", ""],
     ["Discount to spot", (discount*100).toFixed(0) + "%", "hot"],
     ["Profit per coin", money(profit), "hot"],
     ["Total projected BTC mined", btc(row.btc), ""],
