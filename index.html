@@ -150,7 +150,7 @@ section[id], #case { scroll-margin-top: 108px; }
   </nav>
   <div class="stamp">Confidential · Doha · 5 Oct 2026</div>
 </header>
-<div id="costModal" class="modal"><div class="sheet"><button class="x" type="button" onclick="document.getElementById('costModal').classList.remove('on')">Close</button><h3>Cost to mine</h3><div id="costBody"></div></div></div>
+<div id="opexModal" class="modal"><div class="sheet"><button class="x" type="button" onclick="document.getElementById('opexModal').classList.remove('on')">Close</button><h3>Other opex</h3><p>$42 a miner a month is a planning allowance. It covers a share of labour, spares, filters, monitoring and insurance.</p><p>It is not the power, which is the tariff. It is not the water, which is its own line. It is not the machine, the battery or the building. Those sit in the cheque.</p><p>At the opening fleet it is a few thousand dollars a month. It scales with the number of miners, and it is in the cost to mine.</p></div></div><div id="costModal" class="modal"><div class="sheet"><button class="x" type="button" onclick="document.getElementById('costModal').classList.remove('on')">Close</button><h3>Cost to mine</h3><div id="costBody"></div></div></div>
 <div class="wrap hero" id="case">
   <div class="kicker">Strategic Bitcoin mining · Qatar</div>
   <h1>Solar excess.<br><em>Bitcoin at a discount.</em></h1>
@@ -202,7 +202,7 @@ section[id], #case { scroll-margin-top: 108px; }
       <label class="caps">Hall, $/sq ft<input id="d-psf" type="number" min="20" max="400" step="5" value="110"></label>
       <label class="caps">Hydro and electrical, $<input id="d-bop" type="number" min="0" max="30000" step="100" value="7000"></label>
       <label class="caps">Reserve / machine, $<input id="d-reserve" type="number" min="0" max="10000" step="100" value="1500"></label>
-      <label class="caps">Other opex, $/miner/month<input id="d-opex" type="number" min="0" max="400" step="1" value="42"></label>
+      <label class="caps">Other opex, $/miner/month <button class="info" id="opexInfo" type="button">i</button><input id="d-opex" type="number" min="0" max="400" step="1" value="42"></label>
       <label class="caps">Harvest clip, %<input id="d-clip" type="number" min="0" max="100" step="1" value="25"></label>
       <label class="caps">CDP LTV, %<input id="d-ltv" type="number" min="5" max="66" step="1" value="20"></label>
       <label class="caps">Borrow rate, %<input id="d-apr" type="number" min="0" max="15" step="0.1" value="3"></label>
@@ -793,7 +793,7 @@ document.getElementById("openMonth").oninput = () => {
   render();
 };
 document.getElementById("openMonth").oninput();
-document.addEventListener("click", e => { if (e.target.id === "costInfo") document.getElementById("costModal").classList.add("on"); });
+document.addEventListener("click", e => { if (e.target.id === "opexInfo") document.getElementById("opexModal").classList.add("on"); if (e.target.id === "costInfo") document.getElementById("costModal").classList.add("on"); });
 
 document.querySelectorAll(".navlinks a").forEach(a => {
   a.addEventListener("click", e => {
