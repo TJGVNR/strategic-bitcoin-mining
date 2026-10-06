@@ -532,19 +532,21 @@ function render() {
   const tariffNow = a.tariff * Math.pow(1 + a.esc, M / 12);
   const powerUnit = a.kw * hours * tariffNow;
   const otherUnit = a.opex + a.water;
-  const coinUnit = (a.ph * a.uptime * (1 - a.fail)) / (row.hash * 1000) * (30.44 * 144) * (subsidy(M) + FEE);
-  let cost = coinUnit ? (powerUnit + otherUnit) / coinUnit : 0;
-  if (!Number.isFinite(cost) || cost <= 0) cost = lastCost;
-  else lastCost = cost;
-  const monthOpex = stack.miners * (powerUnit + otherUnit);
+  const todayCoin = (a.ph * a.uptime * (1 - a.fail)) / (950 * 1000) * (30.44 * 144) * (3.125 + FEE);
+  const todayCost = todayCoin ? (a.kw * 24 * 30.44 * a.uptime * a.tariff + a.opex + a.water) / todayCoin : 0;
+  const spot = 85300;
+  const profit = spot - todayCost;
+  const discount = spot ? (spot - todayCost) / spot : 0;
+  let cost = todayCost;
   document.getElementById("kpis").innerHTML = [
-    ["Full capacity", stack.shell.toLocaleString() + " miners", ""],
-    ["Warehouse", stack.sqft.toLocaleString() + " sq ft", ""],
-    ["Mined to date", btc(row.btc), "hot"],
-    ["USD denominated", money(row.mark), "hot"]
-  ].map(([l,v,c]) => `<div class="kpi"><span class="caps">${l}</span><b class="${c}">${v}</b></div>`).join("")
-  + `<div class="kpi"><span class="caps">Cost to mine <button class="info" id="costInfo" type="button">i</button></span><b>${money(cost)}</b><span class="pill">Estimated price ${money(row.price)}</span></div>`;
-  document.getElementById("costBody").innerHTML = `<p>Operating cost of one bitcoin this month. Capital is not in this number.</p>
+    ["Cost to mine today", money(todayCost), ""],
+    ["Discount to spot", (discount*100).toFixed(0) + "%", "hot"],
+    ["Profit per coin", money(profit), "hot"],
+    ["BTC mined", btc(row.btc), ""],
+    ["At today's price", money(row.btc * spot), ""],
+    ["At the end date", money(row.mark), "hot"]
+  ].map(([l,v,c]) => `<div class="kpi"><span class="caps">${l}</span><b class="${c}">${v}</b></div>`).join("");
+  document.getElementById("costBody").innerHTML = `<p>Cost to mine one bitcoin at today's network, 950 exahash, before the next halving. Spot is the $85,300 print of 5 October 2026. Capital is not in this number.</p>
     <p>Power = ${a.kw} kW × ${hours.toFixed(0)} hours × ${(tariffNow*100).toFixed(2)}¢ = ${money(powerUnit)}</p>
     <p>Other = operating ${money(a.opex)} + water ${money(a.water)} = ${money(otherUnit)}</p>
     <p>Coin from one miner = ${a.ph} PH × ${(a.uptime*100).toFixed(0)}% uptime × ${(100-a.fail*100).toFixed(0)}% running ÷ ${row.hash} EH/s × ${((subsidy(M)+FEE)).toFixed(4)} BTC a block = ${coinUnit.toFixed(5)} BTC</p>
