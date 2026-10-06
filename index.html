@@ -586,7 +586,7 @@ function render() {
     ["Full capacity", stack.shell.toLocaleString() + " miners", ""],
     ["Warehouse", stack.sqft.toLocaleString() + " sq ft", ""],
     ["Total BTC mined", btc(row.btc), "hot"],
-    ["USD denominated", money(row.mark), "hot"],
+    ["Portfolio projected value", money(row.mark), "hot"],
     ["Cost to mine today", `<span id="ourCost">${money(todayCost)}</span>`, ""],
     ["Avg Network Cost Basis", `<span id="netCost">$77,896</span>`, ""],
     ["Discount to spot", (discount*100).toFixed(0) + "%", "hot"],
