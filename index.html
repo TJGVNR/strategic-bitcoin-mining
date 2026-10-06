@@ -234,6 +234,7 @@ liveNetworkCost();
       <label class="caps">Battery hours <button class="info" type="button" data-tip="d-batt-h">i</button><input id="d-batt-h" type="number" min="0" max="16" step="0.5" value="6"></label>
       <label class="caps">Battery, $/kWh* <button class="info" type="button" data-tip="d-batt">i</button><input id="d-batt" type="number" min="0" max="800" step="5" value="250"></label>
       <label class="caps">Fail before resale, % <button class="info" type="button" data-tip="d-fail">i</button><input id="d-fail" type="number" min="0" max="40" step="1" value="10"></label>
+      <label class="caps">Scrap, % of ASIC <input id="d-scrap" type="number" min="0" max="20" step="0.5" value="2"></label>
       <label class="caps">Resale, % of ASIC* <button class="info" type="button" data-tip="d-resale">i</button><input id="d-resale" type="number" min="0" max="40" step="1" value="12"></label>
       <label class="caps">Water, $/unit/mo <button class="info" type="button" data-tip="d-water">i</button><input id="d-water" type="number" min="0" max="40" step="1" value="6"></label>
       <label class="caps">Uptime, % <button class="info" type="button" data-tip="d-uptime">i</button><input id="d-uptime" type="number" min="10" max="98" step="1" value="70"></label>
@@ -523,7 +524,7 @@ function params() {
     esc: num("d-esc") / 100,
     battH: num("d-batt-h"),
     batt: num("d-batt"),
-    fail: num("d-fail") / 100,
+    fail: num("d-fail") / 100, scrap: num("d-scrap") / 100,
     resale: num("d-resale") / 100,
     water: num("d-water"), spares: num("d-spares"), payroll: num("d-payroll"), security: num("d-security"), link: num("d-link"), ins: num("d-ins") / 100, chem: num("d-chem"), backup: num("d-backup"), land: num("d-land"), audit: num("d-audit"), fee: num("d-fee") / 100, tax: num("d-tax") / 100, freight: num("d-freight") / 100, install: num("d-install") / 100, vat: num("d-vat") / 100, civil: num("d-civil"), fire: num("d-fire"), secbuild: num("d-secbuild"), hydro: num("d-hydro"), sparespool: num("d-sparespool") / 100, fibre: num("d-fibre"), decom: num("d-decom"), cont: num("d-cont") / 100,
     clip: num("d-clip") / 100,
@@ -581,8 +582,11 @@ function simulate(kind, capital) {
     const price = walk(kind)[m];
     const eh = path.hash[m];
     const reward = subsidy(m) + FEE;
+    const season = [1.08,1.08,1.04,1.0,0.96,0.86,0.82,0.82,0.9,1.0,1.06,1.08];
+    const up = a.uptime * season[monthDate(m).getUTCMonth()] / 0.975;
     const live = m > OPEN;
-    const btc_m = live ? (miners * (1 - a.fail) * a.ph * a.uptime) / (eh * 1000) * (30.44 * 144) * reward : 0;
+    const btc_m = live ? (miners * (1 - a.fail) * a.ph * up) / (eh * 1000) * (30.44 * 144) * reward : 0;
+    const scrapCash = live ? miners * (a.fail / 60) * a.asic * a.scrap : 0;
     coin += btc_m;
     const power = live ? miners * a.kw * 24 * 30.44 * a.uptime * a.tariff * Math.pow(1 + a.esc, m / 12) : 0;
     const opex = live ? miners * (a.opex + a.water + a.spares + a.chem + a.backup) + a.payroll + a.security + a.link + a.land + a.audit : 0;
@@ -605,7 +609,7 @@ function simulate(kind, capital) {
     let bought = 0, resale = 0;
     if (live && m >= 60 && m % 12 === 0) {
       resale = stack.miners * (1 - a.fail) * a.asic * a.resale;
-      if (resale > 0) { usd += resale; action.push("RESALE"); }
+      if (resale > 0) { usd += resale + scrapCash; action.push("RESALE"); }
     }
     if (live && stack.shell - miners > 0 && deployable >= a.asic) {
       const lots = Math.min(stack.shell - miners, Math.floor(deployable / a.asic));
