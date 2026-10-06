@@ -485,17 +485,38 @@ function openDate(){ const d = new Date(Date.UTC(2027,0,1)); d.setUTCMonth(Numbe
 function monthDate(m){ const d = new Date(openDate()+"T00:00:00Z"); d.setUTCMonth(d.getUTCMonth()+m); return d; }
 function subsidy(m){ const t = monthDate(m).getTime(); return t < Date.UTC(2028,3,1) ? 3.125 : t < Date.UTC(2032,3,1) ? 1.5625 : 0.78125; }
 function pathOffset(){ return Math.max(0, Number(document.getElementById("openMonth").value || 2) - 2); }
-function estPrice(){ const px = PATHS[CASE].price; return Math.round(px[Math.min(px.length-1, pathOffset())]); }
+const SPOT = 85300, TODAY = Date.UTC(2026, 9, 6);
+const CAGR = { bear: 0.10, neutral: 0.30, bull: 0.50 };
+function estPrice(kind){
+  const r = CAGR[kind || CASE];
+  const years = (monthDate(0).getTime() - TODAY) / (365.25 * 86400000);
+  return Math.round(SPOT * Math.pow(1 + r, years));
+}
+function walk(kind){
+  const start = estPrice(kind);
+  const r = CAGR[kind];
+  const mu = Math.log(1 + r) / 12;
+  const sig = kind === "bear" ? 0.09 : kind === "bull" ? 0.07 : 0.06;
+  let s = kind === "bear" ? 11 : kind === "bull" ? 29 : 17;
+  const rnd = () => { s = (s * 16807) % 2147483647; return (s - 1) / 2147483646; };
+  const px = [start];
+  for (let i = 1; i < 120; i++){
+    const u = Math.max(1e-9, rnd()), v = rnd();
+    const z = Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+    px.push(Math.round(px[i - 1] * Math.exp(mu + sig * z)));
+  }
+  return px;
+}
 function simulate(kind, capital) {
   const a = params();
-  const id = JSON.stringify([kind, capital, a, START]);
+  const id = JSON.stringify([kind, capital, a, openDate()]);
   if (cache[id]) return cache[id];
   const stack = fit(capital);
   const path = PATHS[kind];
   let miners = stack.miners, coin = 0, debt = 0, pledged = 0, usd = stack.reserve, deployable = 0;
   const rows = [];
   for (let m = 0; m < 120; m++) {
-    const price = path.price[Math.min(path.price.length-1, pathOffset() + m)] * START / estPrice();
+    const price = walk(kind)[m];
     const eh = path.hash[m];
     const reward = subsidy(m) + FEE;
     const live = m > OPEN;
@@ -531,7 +552,7 @@ function simulate(kind, capital) {
     const coll = pledged * price;
     rows.push({ m, price, btc_m, btc: coin, usd, debt, pledged, miners, ltv: coll ? debt / coll : 0, action: action.join(" · "), power, opex, harvest, draw, bought, resale, mark: coin * price, sf: path.sf[m], model: path.model[m], hash: eh, multiple: price / path.model[m] });
   }
-  const out = { stack, px: path.price, rows };
+  const out = { stack, px: rows.map(r => r.price), rows };
   cache[id] = out;
   return out;
 }
