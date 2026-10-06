@@ -673,6 +673,7 @@ function render() {
     const month = a.kw * 24 * 30.44 * up * tariff + a.opex + a.water + a.spares + a.chem + a.backup + site + ins;
     return coin ? month / coin : 0;
   }
+  const todayCoin = (a.ph * a.uptime * (1 - a.fail)) / (950 * 1000) * (30.44 * 144) * (3.125 + FEE);
   const todayCost = coinCost(0);
   const walkedCost = coinCost(COST_M);
   document.getElementById("costWalkLabel").textContent = `Cost to mine · ${monthDate(COST_M).toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric",timeZone:"UTC"})} · ${money(walkedCost)}`;
