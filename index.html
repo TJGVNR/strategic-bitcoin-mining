@@ -180,7 +180,7 @@ section[id], #case { scroll-margin-top: 108px; }
     </div>
     <div>
       <label class="caps" id="sliderLabel">Cycle walk</label>
-      <input id="slider" type="range" min="0" max="119" value="0" />
+      <input id="slider" type="range" min="0" max="119" value="119" />
     </div>
   </div>
   <div class="kpis" id="kpis"></div>
@@ -425,7 +425,7 @@ const POL = { bear:{h:[12,48,72,108],c:[18,27,78,87]}, neutral:{h:[6,18,30,42,54
 const ASIC = 29200, PH = 1.16, KW = 11.02, UPTIME = 0.70, OPEX = 42, FEE = 0.015;
 let CASE = "neutral";
 let CAP = 10000000;
-let M = 0;
+let M = 119;
 let START = 96000;
 let HORIZON = 120;
 const OPEN = 0;
@@ -810,6 +810,8 @@ document.getElementById("openMonth").oninput = () => {
 document.getElementById("horizon").addEventListener("input", e => { HORIZON = Number(e.target.value); M = Math.min(M, HORIZON-1); document.getElementById("horizonLabel").textContent = "Walk forward until " + fmt(monthDate(HORIZON)); render(); });
 };
 document.getElementById("openMonth").oninput();
+M = HORIZON - 1;
+document.getElementById("slider").value = M;
 document.addEventListener("click", e => { if (e.target.id === "opexInfo") document.getElementById("opexModal").classList.add("on"); if (e.target.id === "costInfo") document.getElementById("costModal").classList.add("on"); });
 
 document.querySelectorAll(".navlinks a").forEach(a => {
