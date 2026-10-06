@@ -436,7 +436,7 @@ liveNetworkCost();
 <section>
   <div class="wrap">
     <div class="num">10</div>
-    <p class="note">The working sheet sits behind the page. <button class="x" type="button" id="dlSheet">Download this screen</button> <a href="https://docs.google.com/spreadsheets/d/1eWnYo9pNp2Pvbp8cdBhoMCiJv7wFvT7f92Jk1DLcb5M/edit">Qatar mining workings</a>. Cost to mine today, the network comparison, and what is not in the model.</p>
+    <p class="note">The working sheet sits behind the page. <button class="x" type="button" id="dlSheet">Download this screen</button> <a href="https://docs.google.com/spreadsheets/d/15OmUw_Gh4VElQQJrCsSf3nriefyNtJz2c3KfgvYNdms/edit">Qatar mining workings</a>. Cost to mine today, the network comparison, and what is not in the model.</p>
     <h2>Sources</h2>
     <table>
       <tr><th>Item</th><th>Figure</th><th>Source</th></tr>
@@ -663,10 +663,14 @@ function render() {
     const eh = m === 0 ? 950 : at.hash;
     const online = Math.max(1, m === 0 ? stack.miners : at.miners);
     const tariff = a.tariff * Math.pow(1 + a.esc, m / 12);
-    const coin = (a.ph * a.uptime * (1 - a.fail)) / (eh * 1000) * (30.44 * 144) * (subsidy(m) + FEE);
+    const season = [1.08,1.08,1.04,1.0,0.96,0.86,0.82,0.82,0.9,1.0,1.06,1.08];
+    const base = Math.max(a.mintake, a.uptime * (1 - a.curtail));
+    const up = base * season[monthDate(m).getUTCMonth()] / 0.975;
+    const coin = (a.ph * up * (1 - a.fail)) / (eh * 1000) * (30.44 * 144) * (subsidy(m) + FEE);
     const site = (a.payroll + a.security + a.link + a.land + a.audit) / online;
-    const ins = a.asic * a.ins / 12;
-    const month = a.kw * 24 * 30.44 * a.uptime * tariff + a.opex + a.water + a.spares + a.chem + a.backup + site + ins;
+    const asicNow = a.asic * Math.pow(1 + a.asicRise, m / 12);
+    const ins = asicNow * a.ins / 12;
+    const month = a.kw * 24 * 30.44 * up * tariff + a.opex + a.water + a.spares + a.chem + a.backup + site + ins;
     return coin ? month / coin : 0;
   }
   const todayCost = coinCost(0);
