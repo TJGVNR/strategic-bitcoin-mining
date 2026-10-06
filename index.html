@@ -588,7 +588,7 @@ function render() {
     ["Total BTC mined", btc(row.btc), "hot"],
     ["USD denominated", money(row.mark), "hot"],
     ["Cost to mine today", `<span id="ourCost">${money(todayCost)}</span>`, ""],
-    ["Network average cost", `<span id="netCost">$77,896</span>`, ""],
+    ["Avg Network Cost Basis", `<span id="netCost">$77,896</span>`, ""],
     ["Advantage vs network", `<span id="netAdv">${Math.round((1-todayCost/77896)*100)}% below</span>`, "hot"],
     ["Discount to spot", (discount*100).toFixed(0) + "%", "hot"],
     ["Profit per coin", money(profit), "hot"],
