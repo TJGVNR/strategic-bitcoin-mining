@@ -166,6 +166,7 @@ liveNetworkCost();
     <a href="#drivers">Costs</a>
     <a href="#path">Path</a>
     <a href="#payback">Payback</a>
+    <a href="#fees">Gross and net</a>
     <a href="#references">References</a>
     <a href="#glossary">Glossary</a>
   </nav>
@@ -426,6 +427,14 @@ liveNetworkCost();
   </div>
 </section>
 
+<section id="fees">
+  <div class="wrap">
+    <div class="num">08</div>
+    <h2>Gross and net</h2>
+    <p class="note">The cards above are gross. GVNR is paid 1.5% a year on the marked portfolio and 15% of the quarterly gain above the high water mark. The table is the ten-year walk, one row a quarter. Investor position is the marked bitcoin plus cash, minus the vault loan, minus the fees taken.</p>
+    <table id="feeTable"></table>
+  </div>
+</section>
 <section id="references">
   <div class="wrap">
     <div class="num">12</div>
@@ -684,6 +693,22 @@ function render() {
     ["Debt at walk end", money(end.debt), "The vault loan still open at the end of the walk. It is drawn at 20% of the bitcoin held, and only at a low."],
     ["Cash in hand", money(end.usd), "Dollars already taken and not spent on the next machines. It sits inside the equity figure."]
   ];
+  const feeRows = [];
+  let hwm = stack.total, taken = 0;
+  for (let q = 0; q < Math.ceil(p.rows.length / 3); q++){
+    const slice = p.rows.slice(q*3, q*3+3);
+    if (!slice.length) break;
+    const end = slice[slice.length-1];
+    const gross = end.mark + end.usd - end.debt;
+    const mgmt = gross * 0.015 / 4;
+    const gain = Math.max(0, gross - hwm);
+    const perf = gain * 0.15;
+    taken += mgmt + perf;
+    if (gross - mgmt - perf > hwm) hwm = gross - mgmt - perf;
+    feeRows.push(`<tr><td>Q${q+1}</td><td>${btc(end.btc)}</td><td>${money(gross)}</td><td>${money(mgmt)}</td><td>${money(perf)}</td><td>${money(mgmt+perf)}</td><td>${money(gross-taken)}</td></tr>`);
+  }
+  const feeTable = document.getElementById("feeTable");
+  if (feeTable) feeTable.innerHTML = `<tr><th>Quarter</th><th>BTC held</th><th>Gross</th><th>1.5%</th><th>15%</th><th>GVNR</th><th>Investor</th></tr>` + feeRows.join("");
   document.getElementById("roi").innerHTML = cells.map(([l,v,tip]) => `<div><span>${l} <button class="info" type="button" data-tip-title="${l}" data-tip-body="${tip}">i</button></span><b>${v}</b></div>`).join("");
   document.getElementById("stackTable").innerHTML = `<tr><th>Item</th><th>This cheque</th></tr>
     <tr><td>Year-1 miners</td><td>${stack.miners.toLocaleString()} · ${(stack.miners*a.ph).toFixed(0)} PH/s</td></tr>
