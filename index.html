@@ -40,7 +40,9 @@ p { margin:0 0 22px; }
 .chart-box { margin:28px 0 18px; }
 .note { margin:18px 0 36px; }
 #drivers .note { margin-bottom:48px; }
-.kpis { margin:32px 0 12px; }
+.kpis { margin:36px 0 16px; display:grid; grid-template-columns:repeat(2, 1fr); gap:12px; }
+.kpi { min-height:92px; }
+.kpi b { font-size:28px; }
 .controls { display:grid; grid-template-columns:1fr 1fr .8fr 1fr 1fr; gap:18px; align-items:end; padding-top:36px; }
 .controls input[type=range] { width:100%; }
 label.caps, .caps { font-family:"Bebas Neue", sans-serif; letter-spacing:1px; font-size:13px; color:var(--orange); display:block; margin-bottom:6px; }
@@ -53,7 +55,7 @@ input[type=range] { width:100%; accent-color:var(--orange); }
 .kpi span { font-family:"Bebas Neue", sans-serif; letter-spacing:1px; font-size:13px; color:var(--orange); }
 .kpi b { display:block; margin-top:6px; font-family:"Bebas Neue", sans-serif; font-weight:400; font-size:32px; letter-spacing:.4px; }
 .kpi b.hot { color:var(--orange); }
-.pill { display:inline-block; margin-top:10px; border:1px solid var(--line); border-radius:99px; padding:4px 10px; font-family:Poppins, sans-serif; font-size:12px; letter-spacing:0; color:var(--ink); }
+.pill { display:inline-block; margin-top:10px; border:1px solid var(--line); border-radius:0; padding:6px 10px; font-family:"Bebas Neue", sans-serif; letter-spacing:.6px; font-size:14px; color:var(--ink); 12px; letter-spacing:0; color:var(--ink); }
 
 .grid-2 { display:grid; grid-template-columns:1.2fr .8fr; gap:36px; margin-top:8px; }
 p { margin:0 0 18px; }
@@ -588,8 +590,10 @@ function render() {
     ["Discount to spot", (discount*100).toFixed(0) + "%", "hot"],
     ["Profit per coin", money(profit), "hot"],
     ["Total projected BTC mined", btc(row.btc), ""],
-    ["At today's price", money(row.btc * spot), ""],
-    ["Portfolio value, 10 years on", money(p.rows[Math.min(119, p.rows.length-1)].mark), "hot"]
+    ["Total cost", money(stack.total + p.rows.slice(0, M+1).reduce((s,r)=>s+(r.power||0)+(r.opex||0),0)), ""],
+    ["Portfolio value, 10 years on", money(p.rows[Math.min(119, p.rows.length-1)].mark), "hot"],
+    ["Value vs cost", ((p.rows[Math.min(119, p.rows.length-1)].mark) / (stack.total + p.rows.slice(0, M+1).reduce((s,r)=>s+(r.power||0)+(r.opex||0),0) || 1)).toFixed(2) + "x", "hot"],
+    ["At today's price", money(row.btc * spot), ""]
   ].map(([l,v,c]) => `<div class="kpi"><span class="caps">${l}${l==="Cost to mine today"?' <button class="info" id="costInfo" type="button">i</button>':""}</span><b class="${c}">${v}</b></div>`).join("");
   document.getElementById("costBody").innerHTML = `<p>Cost to mine today is the operating cost of one bitcoin at the current network. It does not move with the walk. The machine is not in the number.</p>
     <p>One S23 Hyd does ${a.ph} PH/s. The network is 950 EH/s, so the machine's share is ${(a.ph/950000*100).toFixed(6)}% of each block.</p>
