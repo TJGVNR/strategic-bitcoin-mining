@@ -150,7 +150,7 @@ section[id], #case { scroll-margin-top: 108px; }
   </nav>
   <div class="stamp">Confidential · Doha · 5 Oct 2026</div>
 </header>
-<div id="opexModal" class="modal"><div class="sheet"><button class="x" type="button" onclick="document.getElementById('opexModal').classList.remove('on')">Close</button><h3>Other opex</h3><p>$42 a miner a month is a planning allowance. It covers a share of labour, spares, filters, monitoring and insurance.</p><p>It is not the power, which is the tariff. It is not the water, which is its own line. It is not the machine, the battery or the building. Those sit in the cheque.</p><p>At the opening fleet it is a few thousand dollars a month. It scales with the number of miners, and it is in the cost to mine.</p></div></div><div id="costModal" class="modal"><div class="sheet"><button class="x" type="button" onclick="document.getElementById('costModal').classList.remove('on')">Close</button><h3>Cost to mine</h3><div id="costBody"></div></div></div>
+<div id="opexModal" class="modal"><div class="sheet"><button class="x" type="button" onclick="document.getElementById('opexModal').classList.remove('on')">Close</button><h3>Other opex</h3><p>$42 a miner a month is a planning allowance. It covers a share of labour, spares, filters, monitoring and insurance.</p><p>It is not the power, which is the tariff. It is not the water, which is its own line. It is not the machine, the battery or the building. Those sit in the cheque.</p><p>At the opening fleet it is a few thousand dollars a month. It scales with the number of miners, and it is in the cost to mine.</p></div></div><div id="tipModal" class="modal"><div class="sheet"><button class="x" type="button" onclick="document.getElementById('tipModal').classList.remove('on')">Close</button><h3 id="tipTitle"></h3><p id="tipBody"></p></div></div><div id="costModal" class="modal"><div class="sheet"><button class="x" type="button" onclick="document.getElementById('costModal').classList.remove('on')">Close</button><h3>Cost to mine</h3><div id="costBody"></div></div></div>
 <div class="wrap hero" id="case">
   <div class="kicker">Strategic Bitcoin mining · Qatar</div>
   <h1>Solar excess.<br><em>Bitcoin at a discount.</em></h1>
@@ -186,26 +186,26 @@ section[id], #case { scroll-margin-top: 108px; }
     <h2>Drivers</h2>
     <p class="note">The tariff is the price we would pay the farm for surplus power. A default uptime of 70% assumes the farm, or a night supply, can keep the machines hashing after dark. Seasonally uptime is smoothed out. The model factors in a 6-hour battery which would cover the gap between the solar window and 70% uptime, at an estimated $250 a kWh, a 2026 utility-scale planning rate. It is also assumed that 10% of each miner cohort fails before resale. Working units have been reported to sell at 12% of the ASIC RRP in years 6 to 10. Water is billed at a default of $6 a machine a month for the closed hydro loop.</p>
     <div class="assumptions">
-      <label class="caps">Tariff, ¢/kWh<input id="d-tariff" type="number" min="0" max="20" step="0.1" value="2.0"></label>
-      <label class="caps">Energy rise, %/yr*<input id="d-esc" type="number" min="0" max="15" step="0.1" value="0"></label>
-      <label class="caps">Battery hours<input id="d-batt-h" type="number" min="0" max="16" step="0.5" value="6"></label>
-      <label class="caps">Battery, $/kWh*<input id="d-batt" type="number" min="0" max="800" step="5" value="250"></label>
-      <label class="caps">Fail before resale, %<input id="d-fail" type="number" min="0" max="40" step="1" value="10"></label>
-      <label class="caps">Resale, % of ASIC*<input id="d-resale" type="number" min="0" max="40" step="1" value="12"></label>
-      <label class="caps">Water, $/unit/mo<input id="d-water" type="number" min="0" max="40" step="1" value="6"></label>
-      <label class="caps">Uptime, %<input id="d-uptime" type="number" min="10" max="98" step="1" value="70"></label>
-      <label class="caps">ASIC price, $*<input id="d-asic" type="number" min="1000" max="80000" step="100" value="29200"></label>
-      <label class="caps">Hashrate, PH*<input id="d-ph" type="number" min="0.2" max="3" step="0.01" value="1.16"></label>
-      <label class="caps">Power, kW*<input id="d-kw" type="number" min="1" max="25" step="0.01" value="11.02"></label>
-      <label class="caps">Warehouse bays / machine<input id="d-bays" type="number" min="1" max="10" step="1" value="5"></label>
-      <label class="caps">Sq ft / bay<input id="d-sqft" type="number" min="4" max="40" step="1" value="12"></label>
-      <label class="caps">Hall, $/sq ft<input id="d-psf" type="number" min="20" max="400" step="5" value="110"></label>
-      <label class="caps">Hydro and electrical, $<input id="d-bop" type="number" min="0" max="30000" step="100" value="7000"></label>
-      <label class="caps">Reserve / machine, $<input id="d-reserve" type="number" min="0" max="10000" step="100" value="1500"></label>
+      <label class="caps">Tariff, ¢/kWh <button class="info" type="button" data-tip="d-tariff">i</button><input id="d-tariff" type="number" min="0" max="20" step="0.1" value="2.0"></label>
+      <label class="caps">Energy rise, %/yr* <button class="info" type="button" data-tip="d-esc">i</button><input id="d-esc" type="number" min="0" max="15" step="0.1" value="0"></label>
+      <label class="caps">Battery hours <button class="info" type="button" data-tip="d-batt-h">i</button><input id="d-batt-h" type="number" min="0" max="16" step="0.5" value="6"></label>
+      <label class="caps">Battery, $/kWh* <button class="info" type="button" data-tip="d-batt">i</button><input id="d-batt" type="number" min="0" max="800" step="5" value="250"></label>
+      <label class="caps">Fail before resale, % <button class="info" type="button" data-tip="d-fail">i</button><input id="d-fail" type="number" min="0" max="40" step="1" value="10"></label>
+      <label class="caps">Resale, % of ASIC* <button class="info" type="button" data-tip="d-resale">i</button><input id="d-resale" type="number" min="0" max="40" step="1" value="12"></label>
+      <label class="caps">Water, $/unit/mo <button class="info" type="button" data-tip="d-water">i</button><input id="d-water" type="number" min="0" max="40" step="1" value="6"></label>
+      <label class="caps">Uptime, % <button class="info" type="button" data-tip="d-uptime">i</button><input id="d-uptime" type="number" min="10" max="98" step="1" value="70"></label>
+      <label class="caps">ASIC price, $* <button class="info" type="button" data-tip="d-asic">i</button><input id="d-asic" type="number" min="1000" max="80000" step="100" value="29200"></label>
+      <label class="caps">Hashrate, PH* <button class="info" type="button" data-tip="d-ph">i</button><input id="d-ph" type="number" min="0.2" max="3" step="0.01" value="1.16"></label>
+      <label class="caps">Power, kW* <button class="info" type="button" data-tip="d-kw">i</button><input id="d-kw" type="number" min="1" max="25" step="0.01" value="11.02"></label>
+      <label class="caps">Warehouse bays / machine <button class="info" type="button" data-tip="d-bays">i</button><input id="d-bays" type="number" min="1" max="10" step="1" value="5"></label>
+      <label class="caps">Sq ft / bay <button class="info" type="button" data-tip="d-sqft">i</button><input id="d-sqft" type="number" min="4" max="40" step="1" value="12"></label>
+      <label class="caps">Warehouse, $/sq ft <button class="info" type="button" data-tip="d-psf">i</button><input id="d-psf" type="number" min="20" max="400" step="5" value="110"></label>
+      <label class="caps">Hydro and electrical, $ <button class="info" type="button" data-tip="d-bop">i</button><input id="d-bop" type="number" min="0" max="30000" step="100" value="7000"></label>
+      <label class="caps">Reserve / machine, $ <button class="info" type="button" data-tip="d-reserve">i</button><input id="d-reserve" type="number" min="0" max="10000" step="100" value="1500"></label>
       <label class="caps">Other opex, $/miner/month <button class="info" id="opexInfo" type="button">i</button><input id="d-opex" type="number" min="0" max="400" step="1" value="42"></label>
-      <label class="caps">Harvest clip, %<input id="d-clip" type="number" min="0" max="100" step="1" value="25"></label>
-      <label class="caps">CDP LTV, %<input id="d-ltv" type="number" min="5" max="66" step="1" value="20"></label>
-      <label class="caps">Borrow rate, %<input id="d-apr" type="number" min="0" max="15" step="0.1" value="3"></label>
+      <label class="caps">Harvest clip, % <button class="info" type="button" data-tip="d-clip">i</button><input id="d-clip" type="number" min="0" max="100" step="1" value="25"></label>
+      <label class="caps">CDP LTV, % <button class="info" type="button" data-tip="d-ltv">i</button><input id="d-ltv" type="number" min="5" max="66" step="1" value="20"></label>
+      <label class="caps">Borrow rate, % <button class="info" type="button" data-tip="d-apr">i</button><input id="d-apr" type="number" min="0" max="15" step="0.1" value="3"></label>
     </div>
     <p class="note" id="driverNote"></p>
   </div>
@@ -786,6 +786,14 @@ document.getElementById("startBtns").onclick = e => {
   START = estPrice();
   document.querySelectorAll("#startBtns .opt").forEach(b => b.classList.toggle("on", Number(b.dataset.start) === START));
   render();
+const TIPS = {"d-tariff": ["Tariff", "The price paid to the farm for surplus power, in cents per kilowatt-hour. It is a negotiation, not a published Qatar rate. A higher tariff raises the power bill and the cost to mine."], "d-esc": ["Energy rise", "A contractual increase in the tariff each year. It is off, because Qatar retail power has been flat since 2020. If you set it, the offtake compounds from the start date and the cost to mine rises with it."], "d-batt-h": ["Battery hours", "Hours of storage bought so the miners can run after the sun drops. Six hours is the gap between the solar window and 70% uptime. More hours cost more of the cheque, so fewer miners are bought."], "d-batt": ["Battery cost", "The installed cost of that storage, per kilowatt-hour. $250 sits between the IEA equipment print and the NREL utility mid case. It is capital, so it changes how many miners the cheque buys, not the monthly power bill."], "d-fail": ["Fail before resale", "The share of each batch that does not last five years. Failed machines do not earn and are not sold. A higher rate cuts the bitcoin mined and the resale cash."], "d-resale": ["Resale", "What a working five-year-old machine sells for, as a share of its purchase price. The cash lands in years 6 to 10 and is counted in cash recovered. It does not change the cost to mine."], "d-water": ["Water", "Makeup water for the closed hydro loop, per machine per month. It is added to the monthly cost and so it raises the cost to mine."], "d-uptime": ["Uptime", "The share of the hours the machines are hashing. Power and bitcoin both fall if it falls, so the cost of one coin barely moves. The bitcoin mined does."], "d-asic": ["ASIC price", "The purchase price of one S23 Hyd 3U. Dealer lists are about $29,900 to $32,400. A higher price buys fewer machines and raises the resale cash, because resale is a share of this price."], "d-ph": ["Hashrate", "The bitcoin hashrate of one machine, in petahash per second. The maker states 1.16. More hashrate means more bitcoin per machine and a lower cost to mine."], "d-kw": ["Power", "The draw of one machine, in kilowatts. The maker states 11.02. A higher draw raises the power bill, the battery size, and the cost to mine."], "d-bays": ["Bays per machine", "How many machine spaces the warehouse is built with for each machine bought in year 1. Five means the building holds five years of machines. It changes the size of the warehouse, not the cost of a coin."], "d-sqft": ["Square feet per bay", "The floor area planned for one machine space. It sets the warehouse size in square feet and the building cost."], "d-psf": ["Warehouse build", "The build cost per square foot. It comes out of the cheque, so a higher rate buys fewer miners."], "d-bop": ["Hydro and electrical", "The pipework, cooling loop and electrical fit per machine. Capital, not a monthly bill. A higher figure buys fewer miners."], "d-reserve": ["Reserve", "Cash kept back per machine for the first months of power and spares. It is part of the cheque, and it is the cash the model starts with."], "d-opex": ["Other opex", "A planning allowance per miner per month for labour, spares, filters, monitoring and insurance. It is not power, water, the machine or the building. It raises the cost to mine and scales with the fleet."], "d-clip": ["Harvest clip", "The share of free bitcoin sold at a cycle peak. A higher clip raises cash recovered and slows the next purchase of machines."], "d-ltv": ["Loan to value", "How much can be borrowed against free bitcoin at a bear-market low. 20% means a loan of one fifth of the coin's value. A higher rate raises debt and the cash used to buy machines."], "d-apr": ["Borrow rate", "The annual interest on that loan. It compounds monthly and reduces net equity. It does not change the cost to mine."]};
+document.addEventListener("click", e => {
+  const tip = e.target.getAttribute && e.target.getAttribute("data-tip");
+  if (!tip || !TIPS[tip]) return;
+  document.getElementById("tipTitle").textContent = TIPS[tip][0];
+  document.getElementById("tipBody").textContent = TIPS[tip][1];
+  document.getElementById("tipModal").classList.add("on");
+});
 document.getElementById("openMonth").oninput = () => {
   START = estPrice();
   document.getElementById("openLabel").textContent = "Mining commencement · " + monthDate(0).toLocaleString("en-GB", { month:"short", year:"numeric", timeZone:"UTC" });
