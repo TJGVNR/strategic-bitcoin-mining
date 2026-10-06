@@ -140,7 +140,8 @@ section[id], #case { scroll-margin-top: 108px; }
 .sheet .kicker { color:var(--orange); font-family:"Bebas Neue", sans-serif; letter-spacing:1.4px; font-size:13px; }
 .roi { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin:10px 0 8px; }
 .roi div { border:1px solid var(--line); padding:7px 12px; }
-.roi span { font-family:"Bebas Neue", sans-serif; letter-spacing:.8px; font-size:12px; color:var(--orange); }
+.roi span { font-family:"Bebas Neue", sans-serif; letter-spacing:.8px; font-size:14px; color:#EB440E; }
+.roi b { color:#131313; font-size:22px; }
 .roi b { display:block; font-family:"Bebas Neue", sans-serif; font-weight:400; font-size:20px; line-height:1.1; }
 </style>
 </head>
@@ -603,19 +604,20 @@ function render() {
   let pay = null, cash = 0;
   p.rows.forEach(r => { cash += r.harvest + (r.resale || 0); const eq = r.mark + r.usd - r.debt; if (pay === null && eq >= stack.total) pay = r.m; });
   const endEq = end.mark + end.usd - end.debt;
-  const ann = Math.pow(Math.max(endEq, 1) / stack.total, 0.1) - 1;
+  const held = HORIZON / 12;
+  const ann = Math.pow(Math.max(endEq, 1) / stack.total, 1 / held) - 1;
   const margin = cost ? row.price / cost - 1 : 0;
   const cells = [
-    ["Margin over cost", (margin*100).toFixed(0) + "%"],
-    ["Payback", pay === null ? "Not in 10 years" : MONTHS[pay]],
-    ["Annualised", (ann*100).toFixed(1) + "%"],
-    ["Multiple", (endEq / stack.total).toFixed(2) + "x"],
-    ["Cash recovered", money(cash)],
-    ["Net equity now", money(eqNow)],
-    ["Year-10 equity", money(endEq)],
-    ["Debt now", money(row.debt)]
+    ["Margin over cost", (margin*100).toFixed(0) + "%", "The path price in the last month of the walk, divided by the cost to mine one bitcoin that month, minus one. It is the operating margin on a new coin. The machine is not in the cost."],
+    ["Payback", pay === null ? "Not in 10 years" : MONTHS[pay], "The first month when the bitcoin still held, marked at the path, plus cash taken, minus the vault loan, covers the cheque. Machines are not in the equity."],
+    ["Annualised return", (ann*100).toFixed(1) + "%", "The compound rate that turns the cheque into the equity at the end of the walk. On the default that walk is ten years."],
+    ["Equity multiple", (endEq / stack.total).toFixed(2) + "x", "Equity at the end of the walk divided by the cheque. Equity is bitcoin marked, plus cash, minus the vault loan."],
+    ["Cash recovered", money(cash), "Dollars taken by selling into strength, plus the resale of five-year machines. Bitcoin still held is not in this number."],
+    ["Equity at walk end", money(endEq), "Bitcoin still held, marked at the path on the last month of the walk, plus cash taken, minus the vault loan."],
+    ["Debt at walk end", money(end.debt), "The vault loan still open at the end of the walk. It is drawn at 20% of the bitcoin held, and only at a low."],
+    ["Cash in hand", money(end.usd), "Dollars already taken and not spent on the next machines. It sits inside the equity figure."]
   ];
-  document.getElementById("roi").innerHTML = cells.map(([l,v]) => `<div><span>${l}</span><b>${v}</b></div>`).join("");
+  document.getElementById("roi").innerHTML = cells.map(([l,v,tip]) => `<div><span>${l} <button class="info" type="button" data-tip-title="${l}" data-tip-body="${tip}">i</button></span><b>${v}</b></div>`).join("");
   document.getElementById("stackTable").innerHTML = `<tr><th>Item</th><th>This cheque</th></tr>
     <tr><td>Year-1 miners</td><td>${stack.miners.toLocaleString()} · ${(stack.miners*a.ph).toFixed(0)} PH/s</td></tr>
     <tr><td>Warehouse</td><td>${stack.shell.toLocaleString()} bays · ${stack.sqft.toLocaleString()} sq ft</td></tr>
@@ -860,7 +862,16 @@ document.getElementById("horizon").oninput = e => {
 };
 document.getElementById("openMonth").oninput();
 M = HORIZON - 1;
-document.addEventListener("click", e => { if (e.target.id === "opexInfo") document.getElementById("opexModal").classList.add("on"); if (e.target.id === "costInfo") document.getElementById("costModal").classList.add("on"); });
+document.addEventListener("click", e => {
+  if (e.target.id === "opexInfo") document.getElementById("opexModal").classList.add("on");
+  if (e.target.id === "costInfo") document.getElementById("costModal").classList.add("on");
+  const tip = e.target.getAttribute && e.target.getAttribute("data-tip-body");
+  if (tip) {
+    document.getElementById("tipTitle").textContent = e.target.getAttribute("data-tip-title");
+    document.getElementById("tipBody").textContent = tip;
+    document.getElementById("tipModal").classList.add("on");
+  }
+});
 
 document.querySelectorAll(".navlinks a").forEach(a => {
   a.addEventListener("click", e => {
