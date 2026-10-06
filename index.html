@@ -555,7 +555,7 @@ function render() {
     ["Profit per coin", money(profit), "hot"],
     ["BTC mined", btc(row.btc), ""],
     ["At today's price", money(row.btc * spot), ""],
-    ["At the end date", money(row.mark), "hot"]
+    ["Portfolio value, 10 years on", money(p.rows[Math.min(119, p.rows.length-1)].mark), "hot"]
   ].map(([l,v,c]) => `<div class="kpi"><span class="caps">${l}</span><b class="${c}">${v}</b></div>`).join("");
   document.getElementById("costBody").innerHTML = `<p>Cost to mine one bitcoin at today's network, 950 exahash, before the next halving. Spot is the $85,300 print of 5 October 2026. Capital is not in this number.</p>
     <p>Power = ${a.kw} kW × ${hours.toFixed(0)} hours × ${(tariffNow*100).toFixed(2)}¢ = ${money(powerUnit)}</p>
