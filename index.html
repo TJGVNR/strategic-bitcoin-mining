@@ -532,6 +532,7 @@ function render() {
   const a = params();
   document.getElementById("capLabel").textContent = `Initial investment · ${money(CAP)}`;
   document.getElementById("openPrice").textContent = CASE[0].toUpperCase()+CASE.slice(1)+" commencement price " + money(estPrice());
+  document.getElementById("horizonLabel").textContent = "Walk forward until " + fmt(monthDate(HORIZON));
   const hours = 24 * 30.44 * a.uptime;
   const tariffNow = a.tariff * Math.pow(1 + a.esc, M / 12);
   const powerUnit = a.kw * hours * tariffNow;
