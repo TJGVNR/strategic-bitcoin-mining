@@ -222,6 +222,17 @@ liveNetworkCost();
     <h3>Capital</h3>
     <div class="assumptions">
       <label class="caps">ASIC price, $* <button class="info" type="button" data-tip="d-asic">i</button><input id="d-asic" type="number" min="1000" max="80000" step="100" value="29200"></label>
+      <label class="caps">Freight and duty, % <input id="d-freight" type="number" min="0" max="25" step="0.5" value="8"></label>
+      <label class="caps">Install, % <input id="d-install" type="number" min="0" max="20" step="0.5" value="6"></label>
+      <label class="caps">VAT, % <input id="d-vat" type="number" min="0" max="20" step="0.5" value="0"></label>
+      <label class="caps">Civil, $/miner <input id="d-civil" type="number" min="0" max="20000" step="100" value="4000"></label>
+      <label class="caps">Fire suppression, $/miner <input id="d-fire" type="number" min="0" max="10000" step="100" value="1500"></label>
+      <label class="caps">Security build, $/miner <input id="d-secbuild" type="number" min="0" max="10000" step="100" value="800"></label>
+      <label class="caps">Hydro plant, $/miner <input id="d-hydro" type="number" min="0" max="15000" step="100" value="2000"></label>
+      <label class="caps">Cold spares, % <input id="d-sparespool" type="number" min="0" max="15" step="0.5" value="5"></label>
+      <label class="caps">Fibre build, $ <input id="d-fibre" type="number" min="0" max="100000" step="1000" value="20000"></label>
+      <label class="caps">Decommission, $/miner <input id="d-decom" type="number" min="0" max="5000" step="50" value="500"></label>
+      <label class="caps">Contingency, % <input id="d-cont" type="number" min="0" max="25" step="0.5" value="10"></label>
       <label class="caps">Hashrate, PH* <button class="info" type="button" data-tip="d-ph">i</button><input id="d-ph" type="number" min="0.2" max="3" step="0.01" value="1.16"></label>
       <label class="caps">Power, kW* <button class="info" type="button" data-tip="d-kw">i</button><input id="d-kw" type="number" min="1" max="25" step="0.01" value="11.02"></label>
       <label class="caps">Warehouse bays / machine <button class="info" type="button" data-tip="d-bays">i</button><input id="d-bays" type="number" min="1" max="10" step="1" value="5"></label>
@@ -235,6 +246,12 @@ liveNetworkCost();
       <label class="caps">Security, $/month <button class="info" type="button" data-tip="d-security">i</button><input id="d-security" type="number" min="0" max="80000" step="500" value="8000"></label>
       <label class="caps">Link, $/month <button class="info" type="button" data-tip="d-link">i</button><input id="d-link" type="number" min="0" max="20000" step="100" value="2000"></label>
       <label class="caps">Insurance, % of machine/yr <button class="info" type="button" data-tip="d-ins">i</button><input id="d-ins" type="number" min="0" max="8" step="0.1" value="1.5"></label>
+      <label class="caps">Chemicals, $/miner/month <input id="d-chem" type="number" min="0" max="50" step="1" value="8"></label>
+      <label class="caps">Backup power, $/miner/month <input id="d-backup" type="number" min="0" max="40" step="1" value="4"></label>
+      <label class="caps">Land rent, $/month <input id="d-land" type="number" min="0" max="100000" step="500" value="0"></label>
+      <label class="caps">Audit, $/month <input id="d-audit" type="number" min="0" max="30000" step="500" value="3000"></label>
+      <label class="caps">GVNR fee, % of capital/yr <input id="d-fee" type="number" min="0" max="5" step="0.1" value="1.5"></label>
+      <label class="caps">Tax, % <input id="d-tax" type="number" min="0" max="30" step="0.5" value="0"></label>
       <label class="caps">Harvest clip, % <button class="info" type="button" data-tip="d-clip">i</button><input id="d-clip" type="number" min="0" max="100" step="1" value="25"></label>
       <label class="caps">CDP LTV, % <button class="info" type="button" data-tip="d-ltv">i</button><input id="d-ltv" type="number" min="5" max="66" step="1" value="20"></label>
       <label class="caps">Borrow rate, % <button class="info" type="button" data-tip="d-apr">i</button><input id="d-apr" type="number" min="0" max="15" step="0.1" value="3"></label>
@@ -480,7 +497,7 @@ function params() {
     batt: num("d-batt"),
     fail: num("d-fail") / 100,
     resale: num("d-resale") / 100,
-    water: num("d-water"), spares: num("d-spares"), payroll: num("d-payroll"), security: num("d-security"), link: num("d-link"), ins: num("d-ins") / 100,
+    water: num("d-water"), spares: num("d-spares"), payroll: num("d-payroll"), security: num("d-security"), link: num("d-link"), ins: num("d-ins") / 100, chem: num("d-chem"), backup: num("d-backup"), land: num("d-land"), audit: num("d-audit"), fee: num("d-fee") / 100, tax: num("d-tax") / 100, freight: num("d-freight") / 100, install: num("d-install") / 100, vat: num("d-vat") / 100, civil: num("d-civil"), fire: num("d-fire"), secbuild: num("d-secbuild"), hydro: num("d-hydro"), sparespool: num("d-sparespool") / 100, fibre: num("d-fibre"), decom: num("d-decom"), cont: num("d-cont") / 100,
     clip: num("d-clip") / 100,
     ltv: num("d-ltv") / 100,
     apr: num("d-apr") / 100
@@ -489,11 +506,12 @@ function params() {
 function fit(capital) {
   const a = params();
   const batt = a.kw * a.battH * a.batt;
-  const unit = a.asic + a.bays * a.sqft * a.psf + a.bop + a.reserve + batt;
+  const extras = a.asic * (a.freight + a.install + a.vat + a.sparespool) + a.civil + a.fire + a.secbuild + a.hydro + a.decom;
+  const unit = (a.asic + a.bays * a.sqft * a.psf + a.bop + a.reserve + batt + extras) * (1 + a.cont);
   const n = Math.max(0, Math.floor(capital / unit));
   const shell = n * a.bays, sqft = shell * a.sqft;
   const stack = { miners:n, shell, sqft, asic:n*a.asic, shell_cost:sqft*a.psf, bop:n*a.bop, reserve:n*a.reserve, batt:n*batt, unit };
-  stack.total = stack.asic + stack.shell_cost + stack.bop + stack.reserve + stack.batt;
+  stack.total = stack.asic + stack.shell_cost + stack.bop + stack.reserve + stack.batt + n * extras * (1 + a.cont) + a.fibre;
   stack.unallocated = capital - stack.total;
   return stack;
 }
@@ -539,7 +557,7 @@ function simulate(kind, capital) {
     const btc_m = live ? (miners * (1 - a.fail) * a.ph * a.uptime) / (eh * 1000) * (30.44 * 144) * reward : 0;
     coin += btc_m;
     const power = live ? miners * a.kw * 24 * 30.44 * a.uptime * a.tariff * Math.pow(1 + a.esc, m / 12) : 0;
-    const opex = live ? miners * (a.opex + a.water) : 0;
+    const opex = live ? miners * (a.opex + a.water + a.spares + a.chem + a.backup) + a.payroll + a.security + a.link + a.land + a.audit : 0;
     const need = power + opex;
     if (usd >= need) usd -= need;
     else { const sell = Math.min(Math.max(0, coin - pledged), (need - usd) / price); coin -= sell; usd = 0; }
@@ -597,10 +615,11 @@ function render() {
   const powerUnit = a.kw * hours * tariffNow;
   const otherUnit = a.opex + a.water;
   const todayCoin = (a.ph * a.uptime * (1 - a.fail)) / (950 * 1000) * (30.44 * 144) * (3.125 + FEE);
-  const site = stack.miners ? (a.payroll + a.security + a.link) / stack.miners : 0;
+  const site = stack.miners ? (a.payroll + a.security + a.link + a.land + a.audit) / stack.miners : 0;
   const ins = a.asic * a.ins / 12;
-  const machine = a.asic / 60;
-  const monthCost = a.kw * 24 * 30.44 * a.uptime * a.tariff + a.opex + a.water + a.spares + site + ins + machine;
+  const fee = stack.total * a.fee / 12 / Math.max(1, stack.miners);
+  const machine = (a.asic * (1 + a.freight + a.install + a.vat + a.sparespool) + a.civil + a.fire + a.secbuild + a.hydro + a.decom) * (1 + a.cont) / 60;
+  const monthCost = a.kw * 24 * 30.44 * a.uptime * a.tariff + a.opex + a.water + a.spares + a.chem + a.backup + site + ins + fee + machine;
   const todayCost = todayCoin ? monthCost / todayCoin : 0;
   const spot = 85300;
   const profit = spot - todayCost;
