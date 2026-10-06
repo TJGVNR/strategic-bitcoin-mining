@@ -537,7 +537,8 @@ function render() {
   const spot = 85300;
   const profit = spot - todayCost;
   const discount = spot ? (spot - todayCost) / spot : 0;
-  let cost = todayCost;
+  const coinUnit = (a.ph * a.uptime * (1 - a.fail)) / (row.hash * 1000) * (30.44 * 144) * (subsidy(M) + FEE);
+  let cost = coinUnit ? (powerUnit + otherUnit) / coinUnit : todayCost;
   document.getElementById("kpis").innerHTML = [
     ["Full capacity", stack.shell.toLocaleString() + " miners", ""],
     ["Warehouse", stack.sqft.toLocaleString() + " sq ft", ""],
