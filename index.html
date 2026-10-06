@@ -41,7 +41,7 @@ p { margin:0 0 22px; }
 .note { margin:18px 0 36px; }
 #drivers .note { margin-bottom:48px; }
 .kpis { margin:32px 0 12px; }
-.controls { display:grid; grid-template-columns:1.3fr .9fr 1.2fr 1.3fr; gap:18px; align-items:end; padding-top:28px; }
+.controls { display:grid; grid-template-columns:1fr 1fr .8fr 1fr 1fr; gap:18px; align-items:end; padding-top:36px; }
 .controls input[type=range] { width:100%; }
 label.caps, .caps { font-family:"Bebas Neue", sans-serif; letter-spacing:1px; font-size:13px; color:var(--orange); display:block; margin-bottom:6px; }
 .btns { display:flex; gap:8px; }
@@ -64,7 +64,7 @@ td { padding:8px 8px 8px 0; border-bottom:1px solid var(--line); vertical-align:
 #driverNote { display:block; margin-top:28px; }
 .chart-box { border:1px solid var(--line); padding:16px 8px 8px; margin-top:22px; }
 .chart-grid { display:grid; grid-template-columns:1fr; gap:18px; }
-.tip { position:absolute; z-index:6; background:#131313; color:#fff; font-size:12px; padding:8px 10px; max-width:220px; pointer-events:none; display:none; }
+.tip { position:absolute; z-index:6; background:#fff; color:#131313; border:1px solid var(--line); font-family:Poppins, sans-serif; font-size:13px; line-height:1.45; padding:12px 14px; max-width:240px; pointer-events:none; display:none; }
 .chart-box { position:relative; }
 .chart-grid canvas { width:100%; height:280px; display:block; }
 canvas { width:100%; height:340px; display:block; }
@@ -127,10 +127,10 @@ canvas { height:auto; }
 html { scroll-padding-top: 108px; }
 section[id], #case { scroll-margin-top: 108px; }
 #payTable { margin-top: 36px; }
-.info { border:1px solid var(--orange); color:var(--orange); background:#fff; border-radius:99px; width:16px; height:16px; font-size:11px; line-height:14px; cursor:pointer; }
+.info { border:1px solid var(--orange); color:var(--orange); background:#fff; border-radius:99px; width:8px; height:8px; font-size:6px; line-height:6px; cursor:pointer; padding:0; }
 .modal { display:none; position:fixed; inset:0; background:rgba(19,19,19,.35); z-index:20; }
 .modal.on { display:flex; align-items:center; justify-content:center; padding:24px; }
-.sheet { background:#fff; max-width:560px; padding:22px; border:1px solid var(--line); }
+.sheet { background:#fff; max-width:560px; padding:36px 32px; border:1px solid var(--line); font-family:Poppins, sans-serif; color:#131313; }
 .sheet h3 { font-family:\"Bebas Neue\", sans-serif; font-size:28px; margin:0 0 12px; }
 .roi { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin:10px 0 8px; }
 .roi div { border:1px solid var(--line); padding:7px 12px; }
@@ -162,8 +162,20 @@ section[id], #case { scroll-margin-top: 108px; }
       <input id="capSlider" type="range" min="5" max="50" value="10" step="1" />
     </div>
     <div>
-      <label class="caps" id="openLabel">Mining commencement · Mar 2027</label>
+      <label class="caps" id="openLabel">Mining commencement · 1 Mar 2027</label>
       <input id="openMonth" type="range" min="0" max="23" value="2" />
+    </div>
+    <div>
+      <label class="caps">Opening price</label>
+      <div class="btns" id="startBtns">
+        <button class="opt" data-start="85300" type="button">Current $85.3k</button>
+        <button class="opt on" data-start="96000" type="button">Estimate $96k</button>
+      </div>
+    </div>
+    <div>
+      <label class="caps" id="horizonLabel">Walk forward · 10 years</label>
+      <input id="horizon" type="range" min="12" max="120" value="120" step="12" />
+      <span class="pill" id="endPrice">Projected price</span>
     </div>
     <div>
       <label class="caps">Price path</label>
@@ -220,8 +232,8 @@ section[id], #case { scroll-margin-top: 108px; }
         <p>The opportunity is to own the farm and the warehouse. GVNR will run the mining operation and the bitcoin portfolio management. The commercial terms can be discussed.</p>
         <table>
           <tr><th>GVNR</th><th></th></tr>
-          <tr><td>Mining</td><td>Procurement, hydro operations, the warehouse they own</td></tr>
-          <tr><td>Portfolio</td><td>1.5% and 15%. Sell into strength. Core stack unsold.</td></tr>
+          <tr><td>Mining</td><td>Procurement, hydro operations, warehouse and mining upkeep</td></tr>
+          <tr><td>Portfolio</td><td>GVNR Fund management and performance fees at 1.5% annually and 15% on high-water mark, quarterly.</td></tr>
           <tr><td>Structuring</td><td>Consultancy on the mining build. Fee to be agreed.</td></tr>
         </table>
       </div>
@@ -244,8 +256,8 @@ section[id], #case { scroll-margin-top: 108px; }
 <section>
   <div class="wrap">
     <div class="num">03</div>
-    <h2>Cheque sizes the warehouse</h2>
-    <p class="note">Move the cheque and the warehouse follows. Five to fifty million buys the first fleet and a building large enough for four more fleets of the same size. Twelve square feet a machine and $110 a square foot are planning allowances, not a builder’s quote.</p>
+    <h2>Investment scales the opportunity</h2>
+    <p class="note">The investment sets the first fleet and a warehouse sized for four more fleets of the same size. Twelve square feet a machine and $110 a square foot are planning allowances.</p>
     <div class="grid-2">
       <div>
         <table id="stackTable"></table>
@@ -261,7 +273,7 @@ section[id], #case { scroll-margin-top: 108px; }
           <tr><td>Hydro and electrical</td><td>$7,000 / machine</td></tr>
           <tr><td>Reserve</td><td>$1,500 / machine</td></tr>
         </table>
-        <p class="note">The empty bays are room for the next four years. They are not a promise the warehouse fills on day one.</p>
+        <p class="note">The empty bays are the room for the next four fleets.</p>
       </div>
     </div>
   </div>
@@ -271,7 +283,7 @@ section[id], #case { scroll-margin-top: 108px; }
   <div class="wrap">
     <div class="num">04</div>
     <h2>Ten-year activity</h2>
-    <p>Each of the first five years installs another fifth of the warehouse. By year five it is full. In year six the machines from year one are five years old and are replaced. The year after that, the year-two machines are replaced, and so on. The building stays full. The fleet turns over.</p>
+    <p>Each of the first five years installs another fifth of the warehouse. By year five it is full. In year six the machines from year one are five years old and are replaced. The year after that, the year-two machines are replaced, and so on. The building stays full. The fleet maintains optimal performance.</p>
     <div class="chart-box">
       <canvas id="occ" width="1080" height="280"></canvas>
       <div class="legend">
@@ -287,27 +299,28 @@ section[id], #case { scroll-margin-top: 108px; }
   <div class="wrap">
     <div class="num">05</div>
     <h2>Three paths</h2>
-    <p>The walk opens on 1 March 2027 and runs to February 2037. Choose the opening price: the 5 October 2026 print of $85,300, or the $96,000 estimate for that March date. The shape of each walk stays the same. Only the level changes. Bear has the weakest drift and a deep fall. Neutral sits between and finishes higher than bear. Bull has the strongest drift. The path button drives the tables.</p>
+    <p>The walk opens on the commencement date and runs for the projection selected beside it. The default opening is 1 March 2027, ten years forward. Bear has the weakest drift and a deep fall. Neutral finishes higher. Bull has the strongest drift. The charts and the tables follow the date, the horizon and the path.</p>
     <div id="tip" class="tip"></div><div class="chart-grid">
       <div class="chart-box"><div class="caps">Bear</div><canvas id="chartBear" width="520" height="220"></canvas></div>
       <div class="chart-box"><div class="caps">Neutral</div><canvas id="chartNeutral" width="520" height="220"></canvas></div>
       <div class="chart-box"><div class="caps">Bull</div><canvas id="chartBull" width="520" height="220"></canvas></div>
     </div>
     <div class="legend"><span><i class="sw" style="background:#EB440E"></i>Sell</span><span><i class="sw" style="background:#131313"></i>Loan, 20% LTV</span><span><i class="sw" style="background:#1f7a32"></i>Machines bought</span></div>
-    <p class="note">Each line is its own ten-year walk from the same starting price. Every action is marked. Orange is a sale, black is the loan, green is machines bought. If a month has more than one, the dots stack off the price so each remains visible.</p>
+    <p class="note">Each line uses the commencement price and runs to the projection date. Orange is a sale. Black is the loan. Green is machines bought. If a month has more than one, the dots stack off the price.</p>
     <p class="note" id="scrub"></p>
-    <div class="kpis" id="s2fKpis"></div>
-    <p class="after-cards">Stock-to-flow is stock divided by a year’s new supply. A higher number means less new coin against what already exists. The raw model is the published price that ratio implies, not a forecast. Path versus model is this walk’s price as a share of that print. 25% means the coin is trading at a quarter of the model. Hashrate is the network’s work rate, in exahash a second. A policy window is a month the rule allows a sale or a loan.</p>
+    
+    
   </div>
 </section>
 <section>
   <div class="wrap">
     <div class="num">06</div>
     <h2>Hashrate and adoption</h2>
+    <div class="kpis" id="s2fKpis"></div>
     <div class="grid-2">
       <div>
         <p>New bitcoin is issued on a fixed schedule. Hashrate is how hard the network is competing for that issuance. The network finished the third quarter of 2026 near 941 exahash a second. This case starts at 950. In the bear walk the network fades toward 810. In the neutral walk it grinds to about 1,240. In the bull walk it reaches about 1,570.</p>
-        <p>If the rest of the network is hashing less, this hall takes a larger share of the new coin. That is why the bear walk can mine more bitcoin than the bull walk from the same opening fleet. The extra coin is worth less, because the price path is the weak one.</p>
+        <p>A fixed warehouse takes a smaller share of the new coin as the network grows. That is the limit of this build. The case can be scaled beyond the warehouse later if the business warrants it. The model on this page stays inside the warehouse.</p>
         <p class="note" id="shareNote"></p>
       </div>
       <div>
@@ -322,9 +335,7 @@ section[id], #case { scroll-margin-top: 108px; }
     <h2>Production</h2>
     <p class="note">These figures are gross. No tax is taken off. The first row is a full year from the March 2027 opening. Day one itself has no coin yet.</p>
     <div class="caps" style="margin-top:8px">By year</div>
-    <table id="yearTable"></table>
-    <div class="caps" style="margin-top:36px">Selected month</div>
-    <table id="monthTable"></table>
+    <table id="yearTable" style="margin-top:36px"></table>
   </div>
 </section>
 <section id="payback">
@@ -332,8 +343,8 @@ section[id], #case { scroll-margin-top: 108px; }
     <div class="num">08</div>
     <h2>Payback</h2>
     <div class="grid-2">
-      <p>The cash clock asks a narrow question: have the dollars actually sold, the harvest, added up to the cheque? At a 25% clip they do not, inside ten years. That is the hold rule doing its job. Most of the bitcoin is kept.</p>
-      <p>The economic clock marks the bitcoin still held, adds the cash, and subtracts the vault loan. The machines are left out, so a hall full of rigs is not treated as repaid capital. A 12% residual sits beside that number: a salvage allowance of 12 cents on the dollar for the machines still in the warehouse. It is not inside the payback date. The annualised rate is the ten-year compound return on the mark, the cash and the loan. It is a mark, not a distribution.</p>
+      <p>Cash recovered is the dollars sold at the peaks, plus the resale of the old machines. On these paths that cash does not cover the investment inside the projection. Most of the bitcoin is still held.</p>
+      <p>Payback is the month the bitcoin still held, plus cash, minus the loan, covers the investment. The machines are not counted as recovered capital. The residual column adds 12 cents on the dollar for the machines still in the warehouse. Annualised is the compound rate on that net position over the projection.</p>
     </div>
     <table id="payTable"></table>
     <p class="note" id="payNote"></p>
@@ -346,11 +357,11 @@ section[id], #case { scroll-margin-top: 108px; }
     <div class="grid-2">
       <div>
         <div class="caps">Founder class</div>
-        <p>Portfolio management is 1.5% and 15% of gains. That is the proposed fee for running the bitcoin the warehouse earns. The lock, the notice and the gate are the fund’s standard terms, and they are not agreed for this deal yet. A separate structuring consultancy covers the mining build. That fee is open.</p>
+        <p>GVNR Fund management is 1.5% a year and 15% of gains above the high-water mark, taken quarterly. A structuring consultancy covers the mining build. That fee is set with the partner.</p>
       </div>
       <div>
         <div class="caps">The sleeve</div>
-        <p>GVNR runs the portfolio the warehouse earns. Spot only: bitcoin, ether, and dollars earning a yield. No futures, no shorts. At least 20% stays in cash. Ether is capped at 32%. The partner owns the warehouse. GVNR operates it and manages the coin. This page is not a subscription, and the split is not agreed.</p>
+        <p>GVNR runs the portfolio the warehouse earns. Spot only: bitcoin, ether, and dollars earning a yield. No futures, no shorts. At least 20% stays in cash. Ether is capped at 32%. The partner owns the warehouse. GVNR operates it and manages the coin.</p>
       </div>
     </div>
   </div>
@@ -423,8 +434,9 @@ let CASE = "neutral";
 let CAP = 10000000;
 let M = 0;
 let START = 96000;
+let HORIZON = 120;
 const OPEN = 0;
-const cache = {};
+let cache = {};
 const money = n => "$" + Math.round(n).toLocaleString("en-US");
 const btc = n => Number(n).toFixed(2) + " BTC";
 const num = id => { const n = Number(document.getElementById(id).value); return Number.isFinite(n) ? n : 0; };
@@ -508,7 +520,7 @@ function simulate(kind, capital) {
     }
     if (live && stack.shell - miners > 0 && deployable >= a.asic) {
       const lots = Math.min(stack.shell - miners, Math.floor(deployable / a.asic));
-      if (lots > 0) { deployable -= lots * a.asic; usd -= lots * a.asic; miners += lots; bought = lots; action.push("ADD " + lots); }
+      if (lots > 0) { deployable -= lots * a.asic; usd -= lots * a.asic; miners += lots; bought = lots; action.push("ADD " + lots + " machines"); }
     }
     const coll = pledged * price;
     rows.push({ m, price, btc_m, btc: coin, usd, debt, pledged, miners, ltv: coll ? debt / coll : 0, action: action.join(" · "), power, opex, harvest, draw, bought, resale, mark: coin * price, sf: path.sf[m], model: path.model[m], hash: eh, multiple: price / path.model[m] });
@@ -575,7 +587,7 @@ function render() {
     <tr><td>Hydro and electrical</td><td>${money(stack.bop)}</td></tr>
     <tr><td>Reserve</td><td>${money(stack.reserve)}</td></tr>
     <tr><td>Deployed</td><td>${money(stack.total)}</td></tr>`;
-  document.getElementById("stackNote").textContent = `Unallocated on this cheque: ${money(stack.unallocated)}. End fleet on this path: ${end.miners.toLocaleString()} of ${stack.shell.toLocaleString()} bays. End inventory ${btc(end.btc)}, mark ${money(end.mark)}, debt ${money(end.debt)}.`;
+  document.getElementById("stackNote").textContent = `Unallocated capital from this selected investment: ${money(stack.unallocated)}. End mining fleet on this path: ${end.miners.toLocaleString()} bays. End inventory ${btc(end.btc)}, mark spot price ${money(end.mark)} on ${monthDate(end.m).toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"})}, debt ${money(end.debt)}.`;
   const years = [0,1,2,3,4,5,6,7,8,9].map(y => {
     const sl = p.rows.slice(y*12, y*12+12);
     const mined = sl.reduce((a,r)=>a+r.btc_m,0);
@@ -586,9 +598,8 @@ function render() {
     const acts = sl.filter(r=>r.action).map(r=>MONTHS[r.m].split(" ")[0] + " " + r.action.toLowerCase());
     return `<tr><td>Year ${y+1}</td><td>${mined.toFixed(2)}</td><td>${last.btc.toFixed(2)}</td><td>${money(last.mark)}</td><td>${money(harvest)}</td><td>${money(draw)}</td><td>${added}</td><td>${last.miners}</td><td>${acts.join("; ") || "—"}</td></tr>`;
   }).join("");
-  document.getElementById("yearTable").innerHTML = `<tr><th>Year</th><th>BTC mined</th><th>Inventory</th><th>Mark</th><th>Harvest USD</th><th>CDP draw</th><th>Miners added</th><th>Fleet</th><th>Windows</th></tr>${years}`;
-  document.getElementById("monthTable").innerHTML = `<tr><th>Month</th><th>Price</th><th>Mined</th><th>Inventory</th><th>Mark</th><th>Fleet</th><th>Debt</th><th>LTV</th><th>Action</th></tr>
-    <tr><td>${MONTHS[M]}</td><td>${money(row.price)}</td><td>${row.btc_m.toFixed(3)}</td><td>${row.btc.toFixed(2)}</td><td>${money(row.mark)}</td><td>${row.miners}</td><td>${money(row.debt)}</td><td>${(row.ltv*100).toFixed(1)}%</td><td>${row.action || "—"}</td></tr>`;
+  document.getElementById("yearTable").innerHTML = `<tr><th>Year</th><th>BTC mined</th><th>Inventory</th><th>Mark</th><th>Harvest USD</th><th>CDP draw</th><th>Miners added</th><th>Total miners online</th><th>Windows</th></tr>${years}`;
+  
   document.getElementById("scrub").textContent = `${MONTHS[M]} · ${money(row.price)} · S/F ${row.sf} · raw model ${money(row.model)} · this path ${(row.multiple*100).toFixed(1)}% of model · network ${row.hash} EH/s · fleet ${row.miners} · ${row.action || "no policy window"}`;
   const share = (row.miners * a.ph * a.uptime) / (row.hash * 1000) * 100;
   document.getElementById("s2fKpis").innerHTML = [
@@ -754,7 +765,7 @@ function draw() {
   const colour = { bear:"#131313", neutral:"#EB440E", bull:"#1f7a32" };
   ["bear","neutral","bull"].forEach(name => {
     const sc = simulate(name, CAP);
-    drawOne("chart" + name[0].toUpperCase() + name.slice(1), sc.px, colour[name], sc.rows);
+    drawOne("chart" + name[0].toUpperCase() + name.slice(1), sc.px.slice(0, HORIZON), colour[name], sc.rows.slice(0, HORIZON));
   });
   const tip = document.getElementById("tip");
   if (!tip) return;
@@ -795,6 +806,8 @@ document.getElementById("openMonth").oninput = () => {
   document.getElementById("openLabel").textContent = "Mining commencement · " + monthDate(0).toLocaleString("en-GB", { month:"short", year:"numeric", timeZone:"UTC" });
   for (let i = 0; i < 120; i++) MONTHS[i] = monthDate(i).toLocaleString("en-GB", { month:"short", year:"numeric", timeZone:"UTC" });
   render();
+document.querySelectorAll("#startBtns button").forEach(b => b.addEventListener("click", () => { START = Number(b.dataset.start); cache = {}; document.querySelectorAll("#startBtns button").forEach(x => x.classList.toggle("on", x===b)); render(); }));
+document.getElementById("horizon").addEventListener("input", e => { HORIZON = Number(e.target.value); M = Math.min(M, HORIZON-1); render(); });
 };
 document.getElementById("openMonth").oninput();
 document.addEventListener("click", e => { if (e.target.id === "opexInfo") document.getElementById("opexModal").classList.add("on"); if (e.target.id === "costInfo") document.getElementById("costModal").classList.add("on"); });
