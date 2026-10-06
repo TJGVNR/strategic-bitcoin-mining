@@ -131,6 +131,10 @@ section[id], #case { scroll-margin-top: 108px; }
 .modal.on { display:flex; align-items:center; justify-content:center; padding:24px; }
 .sheet { background:#fff; max-width:560px; padding:22px; border:1px solid var(--line); }
 .sheet h3 { font-family:\"Bebas Neue\", sans-serif; font-size:28px; margin:0 0 12px; }
+.roi { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin:10px 0 8px; }
+.roi div { border:1px solid var(--line); padding:7px 12px; }
+.roi span { font-family:"Bebas Neue", sans-serif; letter-spacing:.8px; font-size:12px; color:var(--orange); }
+.roi b { display:block; font-family:"Bebas Neue", sans-serif; font-weight:400; font-size:20px; line-height:1.1; }
 </style>
 </head>
 <body>
@@ -173,6 +177,7 @@ section[id], #case { scroll-margin-top: 108px; }
     </div>
   </div>
   <div class="kpis" id="kpis"></div>
+  <div class="roi" id="roi"></div>
 </div>
 <section id="drivers">
   <div class="wrap">
@@ -524,6 +529,23 @@ function render() {
     <p>Cost = (${money(powerUnit)} + ${money(otherUnit)}) ÷ ${coinUnit.toFixed(5)} = ${money(cost)}</p>
     <p>Miners change the bill, not the cost of a coin. ${stack.miners.toLocaleString()} miners cost ${money(monthOpex)} this month. A higher network hashrate, a higher tariff, or a halving raises the cost. Uptime cuts power and coin together, so it barely moves this figure. Failures cut the coin and do raise it.</p>`;
   document.getElementById("sliderLabel").textContent = `Walk forward projection · month ${M+1} · ${MONTHS[M]} · ${money(row.price)}`;
+  const eqNow = row.mark + row.usd - row.debt;
+  let pay = null, cash = 0;
+  p.rows.forEach(r => { cash += r.harvest + (r.resale || 0); const eq = r.mark + r.usd - r.debt; if (pay === null && eq >= stack.total) pay = r.m; });
+  const endEq = end.mark + end.usd - end.debt;
+  const ann = Math.pow(Math.max(endEq, 1) / stack.total, 0.1) - 1;
+  const margin = cost ? row.price / cost - 1 : 0;
+  const cells = [
+    ["Margin over cost", (margin*100).toFixed(0) + "%"],
+    ["Payback", pay === null ? "Not in 10 years" : MONTHS[pay]],
+    ["Annualised", (ann*100).toFixed(1) + "%"],
+    ["Multiple", (endEq / stack.total).toFixed(2) + "x"],
+    ["Cash recovered", money(cash)],
+    ["Net equity now", money(eqNow)],
+    ["Year-10 equity", money(endEq)],
+    ["Debt now", money(row.debt)]
+  ];
+  document.getElementById("roi").innerHTML = cells.map(([l,v]) => `<div><span>${l}</span><b>${v}</b></div>`).join("");
   document.getElementById("stackTable").innerHTML = `<tr><th>Item</th><th>This cheque</th></tr>
     <tr><td>Year-1 miners</td><td>${stack.miners.toLocaleString()} · ${(stack.miners*a.ph).toFixed(0)} PH/s</td></tr>
     <tr><td>Warehouse</td><td>${stack.shell.toLocaleString()} bays · ${stack.sqft.toLocaleString()} sq ft</td></tr>
