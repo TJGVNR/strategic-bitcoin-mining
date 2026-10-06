@@ -591,7 +591,6 @@ function render() {
     ["Avg Network Cost Basis", `<span id="netCost">$77,896</span>`, ""],
     ["Discount to spot", (discount*100).toFixed(0) + "%", "hot"],
     ["Profit per coin", money(profit), "hot"],
-    ["Total projected BTC mined", btc(row.btc), ""],
     ["Total cost", money(stack.total + p.rows.slice(0, M+1).reduce((s,r)=>s+(r.power||0)+(r.opex||0),0)), ""],
     ["Portfolio value, 10 years on", money(p.rows[Math.min(119, p.rows.length-1)].mark), "hot"],
     ["Value vs cost", ((p.rows[Math.min(119, p.rows.length-1)].mark) / (stack.total + p.rows.slice(0, M+1).reduce((s,r)=>s+(r.power||0)+(r.opex||0),0) || 1)).toFixed(2) + "x", "hot"],
