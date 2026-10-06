@@ -148,6 +148,7 @@ function setCase(name){
   var pill = document.getElementById("openPrice");
   if (pill) pill.textContent = "Start price " + "$" + Math.round(START).toLocaleString("en-US");
   render();
+liveNetworkCost();
 }
 </script>
 
@@ -580,7 +581,7 @@ function render() {
     ["Mined to date", btc(row.btc), "hot"],
     ["USD denominated", money(row.mark), "hot"],
     ["Cost to mine today", money(todayCost), ""],
-    ["Network average cost", "$77,896", ""],
+    ["Network average cost", `<span id="netCost">$77,896</span>`, ""],
     ["Discount to spot", (discount*100).toFixed(0) + "%", "hot"],
     ["Profit per coin", money(profit), "hot"],
     ["Total projected BTC mined", btc(row.btc), ""],
@@ -880,6 +881,23 @@ document.getElementById("drivers").oninput = () => { render(); };
 render();
 
 document.getElementById("capSlider").addEventListener("input", e => { CAP = Number(e.target.value) * 1000000; render(); });
+
+async function liveNetworkCost(){
+  const el = document.getElementById("netCost");
+  if (!el) return;
+  try {
+    const r = await fetch("https://mempool.space/api/v1/mining/hashrate/3d");
+    const d = await r.json();
+    const eh = d.currentHashrate / 1e18;
+    const jth = 34.2, kwh = 0.045;
+    const cost = (eh * 1e6 * jth / 1000 * 24 * kwh) / 450;
+    el.textContent = "$" + Math.round(cost).toLocaleString("en-US");
+    el.title = "Live. " + eh.toFixed(0) + " EH/s, Cambridge $45/MWh, 34.2 J/TH. Falls back to MacroMicro $77,896.";
+  } catch (e) {
+    el.textContent = "$77,896";
+    el.title = "MacroMicro 2 Oct 2026. Live feed unavailable.";
+  }
+}
 </script>
 </body>
 </html>
