@@ -586,12 +586,12 @@ function render() {
     ["Full capacity", stack.shell.toLocaleString() + " miners", ""],
     ["Warehouse", stack.sqft.toLocaleString() + " sq ft", ""],
     ["Total BTC mined", btc(row.btc), "hot"],
+    ["Our total cost", money(stack.total + p.rows.slice(0, M+1).reduce((s,r)=>s+(r.power||0)+(r.opex||0),0)), ""],
     ["Portfolio projected value", money(row.mark), "hot"],
     ["Cost to mine today", `<span id="ourCost">${money(todayCost)}</span>`, ""],
     ["Avg Network Cost Basis", `<span id="netCost">$77,896</span>`, ""],
     ["Discount to spot", (discount*100).toFixed(0) + "%", "hot"],
     ["Profit per coin", money(profit), "hot"],
-    ["Total cost", money(stack.total + p.rows.slice(0, M+1).reduce((s,r)=>s+(r.power||0)+(r.opex||0),0)), ""],
   ].map(([l,v,c]) => `<div class="kpi"><span class="caps">${l}${l==="Cost to mine today"?' <button class="info" id="costInfo" type="button">i</button>':""}</span><b class="${c}">${v}</b></div>`).join("");
   document.getElementById("costBody").innerHTML = `<p>Cost to mine today is the operating cost of one bitcoin at the current network. It does not move with the walk. The machine is not in the number.</p>
     <p>One S23 Hyd does ${a.ph} PH/s. The network is 950 EH/s, so the machine's share is ${(a.ph/950000*100).toFixed(6)}% of each block.</p>
