@@ -172,6 +172,7 @@ section[id], #case { scroll-margin-top: 108px; }
     <div>
       <label class="caps" id="openLabel">Mining commencement · 1 Mar 2027</label>
       <input id="openMonth" type="range" min="0" max="12" value="2" />
+      <span class="pill" id="openPrice">Opening price</span>
     </div>
     <div>
       <label class="caps" id="horizonLabel">Walk forward until 1 Mar 2037</label>
@@ -530,6 +531,7 @@ function render() {
   const end = p.rows[p.rows.length-1];
   const a = params();
   document.getElementById("capLabel").textContent = `Initial investment · ${money(CAP)}`;
+  document.getElementById("openPrice").textContent = "Opening price " + money(estPrice());
   const hours = 24 * 30.44 * a.uptime;
   const tariffNow = a.tariff * Math.pow(1 + a.esc, M / 12);
   const powerUnit = a.kw * hours * tariffNow;
@@ -801,6 +803,7 @@ function fmt(d){ return d.toLocaleDateString("en-GB", { day:"numeric", month:"sh
 document.getElementById("openMonth").oninput = () => {
   START = estPrice();
   document.getElementById("openLabel").textContent = "Mining commencement · " + fmt(monthDate(0));
+  document.getElementById("openPrice").textContent = "Opening price " + money(estPrice());
   document.getElementById("horizonLabel").textContent = "Walk forward until " + fmt(monthDate(HORIZON));
   for (let i = 0; i < 120; i++) MONTHS[i] = monthDate(i).toLocaleString("en-GB", { month:"short", year:"numeric", timeZone:"UTC" });
   render();
