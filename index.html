@@ -190,10 +190,6 @@ function setCase(name){
       <label class="caps" id="horizonLabel">Walk forward until 1 Mar 2037</label>
       <input id="horizon" type="range" min="12" max="120" value="120" step="12" />
     </div>
-    <div>
-      <label class="caps" id="sliderLabel">Selected month</label>
-      <input id="slider" type="range" min="0" max="119" value="119" />
-    </div>
   </div>
   <div class="kpis" id="kpis"></div>
   <div class="roi" id="roi"></div>
@@ -598,8 +594,7 @@ function render() {
     <p>Power: ${a.kw} kW × 24 × 30.44 × ${(a.uptime*100).toFixed(0)}% × ${(a.tariff*100).toFixed(1)}¢ = ${money(a.kw*24*30.44*a.uptime*a.tariff)}.</p>
     <p>Operating ${money(a.opex)} and water ${money(a.water)} bring the month to ${money(a.kw*24*30.44*a.uptime*a.tariff + a.opex + a.water)}.</p>
     <p>Cost to mine today = that month ÷ ${todayCoin.toFixed(5)} BTC = ${money(todayCost)}.</p>`
-  document.getElementById("sliderLabel").textContent = `Walk forward · ${CASE} · ${monthDate(M).toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric",timeZone:"UTC"})} · ${money(row.price)}`;
-  const eqNow = row.mark + row.usd - row.debt;
+    const eqNow = row.mark + row.usd - row.debt;
   let pay = null, cash = 0;
   p.rows.forEach(r => { cash += r.harvest + (r.resale || 0); const eq = r.mark + r.usd - r.debt; if (pay === null && eq >= stack.total) pay = r.m; });
   const endEq = end.mark + end.usd - end.debt;
@@ -855,14 +850,11 @@ document.getElementById("openMonth").oninput = () => {
 document.getElementById("horizon").oninput = e => {
   HORIZON = Number(e.target.value);
   M = HORIZON - 1;
-  document.getElementById("slider").max = M;
-  document.getElementById("slider").value = M;
-  cache = {};
+    cache = {};
   render();
 };
 document.getElementById("openMonth").oninput();
 M = HORIZON - 1;
-document.getElementById("slider").value = M;
 document.addEventListener("click", e => { if (e.target.id === "opexInfo") document.getElementById("opexModal").classList.add("on"); if (e.target.id === "costInfo") document.getElementById("costModal").classList.add("on"); });
 
 document.querySelectorAll(".navlinks a").forEach(a => {
@@ -885,11 +877,9 @@ addEventListener("pageshow", () => window.scrollTo(0, 0));
 document.fonts.ready.then(() => render());
 document.getElementById("capSlider").oninput = e => { CAP = Number(e.target.value) * 1000000; render(); };
 document.getElementById("drivers").oninput = () => { render(); };
-document.getElementById("slider").oninput = e => { M = Number(e.target.value); render(); };
 render();
 
 document.getElementById("capSlider").addEventListener("input", e => { CAP = Number(e.target.value) * 1000000; render(); });
-document.getElementById("slider").addEventListener("input", e => { M = Number(e.target.value); render(); });
 </script>
 </body>
 </html>
