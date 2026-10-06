@@ -840,6 +840,8 @@ document.getElementById("caseBtns").onclick = e => {
   if (!e.target.dataset.case) return;
   CASE = e.target.dataset.case;
   document.querySelectorAll("#caseBtns .opt").forEach(b => b.classList.toggle("on", b.dataset.case === CASE));
+  if (useEstimate()) START = estPrice();
+  document.getElementById("estBtn").textContent = "Estimate " + money(estPrice());
   render();
 };
 document.fonts.ready.then(() => render());
@@ -855,6 +857,8 @@ document.getElementById("caseBtns").addEventListener("click", e => {
   if (!b || !b.dataset.case) return;
   CASE = b.dataset.case;
   document.querySelectorAll("#caseBtns .opt").forEach(x => x.classList.toggle("on", x === b));
+  if (useEstimate()) START = estPrice();
+  document.getElementById("estBtn").textContent = "Estimate " + money(estPrice());
   render();
 });
 </script>
