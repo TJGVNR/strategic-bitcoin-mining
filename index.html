@@ -184,7 +184,7 @@ section[id], #case { scroll-margin-top: 108px; }
   <div class="wrap">
     <div class="num">01</div>
     <h2>Drivers</h2>
-    <p class="note">The tariff is the price we would pay the farm for surplus power. It is a negotiation, not a published Qatar rate. Uptime of 70% assumes the farm, or a night supply, can keep the machines hashing after dark. Daytime surplus alone would be lower. Qatar retail power has been flat since 2020, so the rise is off. A contract escalator compounds the offtake from March 2027. A 6-hour battery covers the gap between the solar window and 70% uptime, at $250 a kWh, a 2026 utility-scale planning rate. Ten percent of each cohort fails before resale. Working units sell at 12% of the ASIC price in years 6 to 10. Water is $6 a machine a month for the closed hydro loop.</p>
+    <p class="note">The tariff is the price we would pay the farm for surplus power. A default uptime of 70% assumes the farm, or a night supply, can keep the machines hashing after dark. Seasonally uptime is smoothed out. The model factors in a 6-hour battery which would cover the gap between the solar window and 70% uptime, at an estimated $250 a kWh, a 2026 utility-scale planning rate. It is also assumed that 10% of each miner cohort fails before resale. Working units have been reported to sell at 12% of the ASIC RRP in years 6 to 10. Water is billed at a default of $6 a machine a month for the closed hydro loop.</p>
     <div class="assumptions">
       <label class="caps">Tariff, ¢/kWh<input id="d-tariff" type="number" min="0" max="20" step="0.1" value="2.0"></label>
       <label class="caps">Energy rise, %/yr<input id="d-esc" type="number" min="0" max="15" step="0.1" value="0"></label>
@@ -409,7 +409,8 @@ const OPEN = 0;
 const cache = {};
 const money = n => "$" + Math.round(n).toLocaleString("en-US");
 const btc = n => Number(n).toFixed(2) + " BTC";
-const num = id => Number(document.getElementById(id).value);
+const num = id => { const n = Number(document.getElementById(id).value); return Number.isFinite(n) ? n : 0; };
+let lastCost = 0;
 function params() {
   return {
     tariff: num("d-tariff") / 100,
@@ -511,7 +512,9 @@ function render() {
   const powerUnit = a.kw * hours * tariffNow;
   const otherUnit = a.opex + a.water;
   const coinUnit = (a.ph * a.uptime * (1 - a.fail)) / (row.hash * 1000) * (30.44 * 144) * (subsidy(M) + FEE);
-  const cost = coinUnit ? (powerUnit + otherUnit) / coinUnit : 0;
+  let cost = coinUnit ? (powerUnit + otherUnit) / coinUnit : 0;
+  if (!Number.isFinite(cost) || cost <= 0) cost = lastCost;
+  else lastCost = cost;
   const monthOpex = stack.miners * (powerUnit + otherUnit);
   document.getElementById("kpis").innerHTML = [
     ["Miners", stack.miners.toLocaleString(), ""],
