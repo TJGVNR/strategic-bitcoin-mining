@@ -40,7 +40,8 @@ p { margin:0 0 22px; }
 .chart-box { margin:28px 0 18px; }
 .note { margin:18px 0 28px; }
 .kpis { margin:32px 0 12px; }
-.controls { display:grid; grid-template-columns:1.3fr 1fr 1.2fr 1.4fr; gap:22px; align-items:end; padding-top:28px; }
+.controls { display:grid; grid-template-columns:1.3fr .9fr 1.2fr 1.3fr; gap:18px; align-items:end; padding-top:28px; }
+.controls input[type=range] { width:100%; }
 label.caps, .caps { font-family:"Bebas Neue", sans-serif; letter-spacing:1px; font-size:13px; color:var(--orange); display:block; margin-bottom:6px; }
 .btns { display:flex; gap:8px; }
 button.opt { font-family:"Bebas Neue", sans-serif; letter-spacing:1px; font-size:15px; background:#fff; color:var(--ink); border:1px solid var(--line); padding:8px 14px; cursor:pointer; }
@@ -151,15 +152,8 @@ section[id], #case { scroll-margin-top: 108px; }
   <p class="lede">The mining warehouse will begin operation with the first 20% of the machines online. The miners will be wired directly to the solar farm and utilise excess power the farm cannot sell. The bitcoin accumulated will be managed by the GVNR Fund. At cycle peaks GVNR will look to distribute into USD, harvesting cash to fund the next phase of the operation. At bear-market lows the collateral will be borrowed against, at 20% LTV, using the GVNR CDP Diamond Hands. This raises debt, and the proceeds scale the operation annually until 100% capacity is reached within five years. After that the oldest machines are replaced annually, maintaining operating efficiency.</p>
   <div class="controls">
     <div>
-      <label class="caps">Bitcoin price</label>
-      <div class="btns" id="startBtns">
-        <button class="opt" data-start="85300">Current $85.3k</button>
-        <button class="opt on" data-start="est">Estimate</button>
-      </div>
-    </div>
-    <div>
-      <label class="caps">Mining commencement</label>
-      <input id="openDate" type="date" value="2027-03-01" />
+      <label class="caps" id="openLabel">Mining commencement · Mar 2027</label>
+      <input id="openMonth" type="range" min="0" max="23" value="2" />
     </div>
     <div>
       <label class="caps">Price path</label>
@@ -446,7 +440,7 @@ function fit(capital) {
   stack.unallocated = capital - stack.total;
   return stack;
 }
-function openDate(){ return document.getElementById("openDate").value || "2027-03-01"; }
+function openDate(){ const d = new Date(Date.UTC(2027,0,1)); d.setUTCMonth(Number(document.getElementById("openMonth").value || 2)); return d.toISOString().slice(0,10); }
 function monthDate(m){ const d = new Date(openDate()+"T00:00:00Z"); d.setUTCMonth(d.getUTCMonth()+m); return d; }
 function subsidy(m){ const t = monthDate(m).getTime(); return t < Date.UTC(2028,3,1) ? 3.125 : t < Date.UTC(2032,3,1) ? 1.5625 : 0.78125; }
 function estPrice(){ const years = (monthDate(0).getTime() - Date.UTC(2026,9,5)) / (365.25*86400000); return Math.round(85300 * Math.pow(1.30, years)); }
@@ -517,7 +511,7 @@ function render() {
   else lastCost = cost;
   const monthOpex = stack.miners * (powerUnit + otherUnit);
   document.getElementById("kpis").innerHTML = [
-    ["Miners", stack.miners.toLocaleString(), ""],
+    ["Full capacity", stack.shell.toLocaleString() + " miners", ""],
     ["Warehouse", stack.sqft.toLocaleString() + " sq ft", ""],
     ["Mined to date", btc(row.btc), "hot"],
     ["USD denominated", money(row.mark), "hot"]
@@ -749,17 +743,16 @@ document.querySelectorAll(".chart-grid canvas").forEach(c => {
 
 document.getElementById("startBtns").onclick = e => {
   if (!e.target.dataset.start) return;
-  START = e.target.dataset.start === "est" ? estPrice() : Number(e.target.dataset.start);
+  START = estPrice();
   document.querySelectorAll("#startBtns .opt").forEach(b => b.classList.toggle("on", Number(b.dataset.start) === START));
   render();
-document.getElementById("openDate").onchange = () => {
-  const est = estPrice();
-  document.querySelector("#startBtns [data-start='est']").textContent = "Estimate $" + Math.round(est/1000) + "k";
-  if (document.querySelector("#startBtns .on").dataset.start === "est") START = est;
+document.getElementById("openMonth").oninput = () => {
+  START = estPrice();
+  document.getElementById("openLabel").textContent = "Mining commencement · " + monthDate(0).toLocaleString("en-GB", { month:"short", year:"numeric", timeZone:"UTC" });
   for (let i = 0; i < 120; i++) MONTHS[i] = monthDate(i).toLocaleString("en-GB", { month:"short", year:"numeric", timeZone:"UTC" });
   render();
 };
-document.getElementById("openDate").onchange();
+document.getElementById("openMonth").oninput();
 document.addEventListener("click", e => { if (e.target.id === "costInfo") document.getElementById("costModal").classList.add("on"); });
 
 document.querySelectorAll(".navlinks a").forEach(a => {
