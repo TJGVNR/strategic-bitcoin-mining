@@ -122,8 +122,8 @@ canvas { height:auto; }
   .chart-grid canvas, #occ { height:220px; }
   .stamp { display:none; }
 }
-html { scroll-padding-top: 180px; }
-section, #case, #drivers, #path, #payback, #glossary { scroll-margin-top: 180px; }
+html { scroll-padding-top: 108px; }
+section[id], #case { scroll-margin-top: 108px; }
 #payTable { margin-top: 36px; }
 .info { border:1px solid var(--orange); color:var(--orange); background:#fff; border-radius:99px; width:16px; height:16px; font-size:11px; line-height:14px; cursor:pointer; }
 .modal { display:none; position:fixed; inset:0; background:rgba(19,19,19,.35); z-index:20; }
@@ -765,7 +765,7 @@ document.querySelectorAll(".navlinks a").forEach(a => {
     const el = document.querySelector(id);
     if (!el) return;
     e.preventDefault();
-    const bar = document.querySelector("header").offsetHeight + 24;
+    const bar = document.querySelector("header").offsetHeight + 8;
     const y = el.getBoundingClientRect().top + window.scrollY - bar;
     window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
     document.querySelectorAll(".navlinks a").forEach(x => x.classList.toggle("on", x === a));
