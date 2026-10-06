@@ -580,8 +580,9 @@ function render() {
     ["Warehouse", stack.sqft.toLocaleString() + " sq ft", ""],
     ["Mined to date", btc(row.btc), "hot"],
     ["USD denominated", money(row.mark), "hot"],
-    ["Cost to mine today", money(todayCost), ""],
+    ["Cost to mine today", `<span id="ourCost">${money(todayCost)}</span>`, ""],
     ["Network average cost", `<span id="netCost">$77,896</span>`, ""],
+    ["Advantage vs network", `<span id="netAdv">${Math.round((1-todayCost/77896)*100)}% below</span>`, "hot"],
     ["Discount to spot", (discount*100).toFixed(0) + "%", "hot"],
     ["Profit per coin", money(profit), "hot"],
     ["Total projected BTC mined", btc(row.btc), ""],
@@ -892,7 +893,10 @@ async function liveNetworkCost(){
     const jth = 34.2, kwh = 0.045;
     const cost = (eh * 1e6 * jth / 1000 * 24 * kwh) / 450;
     el.textContent = "$" + Math.round(cost).toLocaleString("en-US");
-    el.title = "Live. " + eh.toFixed(0) + " EH/s, Cambridge $45/MWh, 34.2 J/TH. Falls back to MacroMicro $77,896.";
+    const ours = Number((document.getElementById("ourCost").textContent||"").replace(/[^0-9.]/g,""));
+    const adv = document.getElementById("netAdv");
+    if (adv && ours) adv.textContent = Math.round((1 - ours / cost) * 100) + "% below";
+    el.title = "Network average. " + eh.toFixed(0) + " EH/s. Cambridge $45/MWh. 34.2 J/TH.";
   } catch (e) {
     el.textContent = "$77,896";
     el.title = "MacroMicro 2 Oct 2026. Live feed unavailable.";
