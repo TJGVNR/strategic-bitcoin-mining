@@ -618,8 +618,7 @@ function render() {
   const site = stack.miners ? (a.payroll + a.security + a.link + a.land + a.audit) / stack.miners : 0;
   const ins = a.asic * a.ins / 12;
   const fee = stack.total * a.fee / 12 / Math.max(1, stack.miners);
-  const machine = (a.asic * (1 + a.freight + a.install + a.vat + a.sparespool) + a.civil + a.fire + a.secbuild + a.hydro + a.decom) * (1 + a.cont) / 60;
-  const monthCost = a.kw * 24 * 30.44 * a.uptime * a.tariff + a.opex + a.water + a.spares + a.chem + a.backup + site + ins + fee + machine;
+  const monthCost = a.kw * 24 * 30.44 * a.uptime * a.tariff + a.opex + a.water + a.spares + a.chem + a.backup + site + ins + fee;
   const todayCost = todayCoin ? monthCost / todayCoin : 0;
   const spot = 85300;
   const profit = spot - todayCost;
@@ -627,7 +626,7 @@ function render() {
   const coinUnit = (a.ph * a.uptime * (1 - a.fail)) / (row.hash * 1000) * (30.44 * 144) * (subsidy(M) + FEE);
   let cost = coinUnit ? (powerUnit + otherUnit) / coinUnit : todayCost;
   const opexBox = document.getElementById("opexBuild");
-  if (opexBox) opexBox.innerHTML = `Full cost of one bitcoin today is ${money(todayCost)}. Power ${money(a.kw*24*30.44*a.uptime*a.tariff)}, allowance ${money(a.opex)}, spares ${money(a.spares)}, water ${money(a.water)}, site share ${money(site)}, insurance ${money(ins)}, machine over five years ${money(machine)}, on ${todayCoin.toFixed(5)} BTC.`;
+  if (opexBox) opexBox.innerHTML = `Running cost of one bitcoin today is ${money(todayCost)}. The machines and the hall are already bought, so they are not in this coin. Power ${money(a.kw*24*30.44*a.uptime*a.tariff)}, allowance ${money(a.opex)}, spares ${money(a.spares)}, chemicals ${money(a.chem)}, backup ${money(a.backup)}, water ${money(a.water)}, site share ${money(site)}, insurance ${money(ins)}, fee ${money(fee)}, on ${todayCoin.toFixed(5)} BTC.`;
   document.getElementById("kpis").innerHTML = [
     ["Full capacity", stack.shell.toLocaleString() + " miners", ""],
     ["Warehouse", stack.sqft.toLocaleString() + " sq ft", ""],
