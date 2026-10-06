@@ -550,7 +550,7 @@ function render() {
     <p>Coin from one miner = ${a.ph} PH × ${(a.uptime*100).toFixed(0)}% uptime × ${(100-a.fail*100).toFixed(0)}% running ÷ ${row.hash} EH/s × ${((subsidy(M)+FEE)).toFixed(4)} BTC a block = ${coinUnit.toFixed(5)} BTC</p>
     <p>Cost = (${money(powerUnit)} + ${money(otherUnit)}) ÷ ${coinUnit.toFixed(5)} = ${money(cost)}</p>
     <p>Miners change the bill, not the cost of a coin. ${stack.miners.toLocaleString()} miners cost ${money(monthOpex)} this month. A higher network hashrate, a higher tariff, or a halving raises the cost. Uptime cuts power and coin together, so it barely moves this figure. Failures cut the coin and do raise it.</p>`;
-  document.getElementById("sliderLabel").textContent = `Walk forward projection · month ${M+1} · ${MONTHS[M]} · ${money(row.price)}`;
+  document.getElementById("sliderLabel").textContent = `Walk forward · ${CASE} · ${monthDate(M).toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric",timeZone:"UTC"})} · ${money(row.price)}`;
   const eqNow = row.mark + row.usd - row.debt;
   let pay = null, cash = 0;
   p.rows.forEach(r => { cash += r.harvest + (r.resale || 0); const eq = r.mark + r.usd - r.debt; if (pay === null && eq >= stack.total) pay = r.m; });
