@@ -163,17 +163,17 @@ section[id], #case { scroll-margin-top: 108px; }
     </div>
     <div>
       <label class="caps" id="openLabel">Mining commencement · 1 Mar 2027</label>
-      <input id="openMonth" type="range" min="0" max="23" value="2" />
+      <input id="openMonth" type="range" min="0" max="12" value="2" />
     </div>
     <div>
       <label class="caps">Opening price</label>
       <div class="btns" id="startBtns">
         <button class="opt" data-start="85300" type="button">Current $85.3k</button>
-        <button class="opt on" data-start="96000" type="button">Estimate $96k</button>
+        <button class="opt on" data-start="estimate" type="button" id="estBtn">Estimate</button>
       </div>
     </div>
     <div>
-      <label class="caps" id="horizonLabel">Walk forward · 10 years</label>
+      <label class="caps" id="horizonLabel">Walk forward until 1 Mar 2037</label>
       <input id="horizon" type="range" min="12" max="120" value="120" step="12" />
       <span class="pill" id="endPrice">Projected price</span>
     </div>
@@ -804,13 +804,17 @@ document.addEventListener("click", e => {
   document.getElementById("tipBody").textContent = TIPS[tip][1];
   document.getElementById("tipModal").classList.add("on");
 });
+function useEstimate(){ return document.getElementById("estBtn").classList.contains("on"); }
+function fmt(d){ return d.toLocaleDateString("en-GB", { day:"numeric", month:"short", year:"numeric", timeZone:"UTC" }); }
 document.getElementById("openMonth").oninput = () => {
-  START = estPrice();
-  document.getElementById("openLabel").textContent = "Mining commencement · " + monthDate(0).toLocaleString("en-GB", { month:"short", year:"numeric", timeZone:"UTC" });
+  if (useEstimate()) START = estPrice();
+  document.getElementById("estBtn").textContent = "Estimate " + money(estPrice());
+  document.getElementById("openLabel").textContent = "Mining commencement · " + fmt(monthDate(0));
+  document.getElementById("horizonLabel").textContent = "Walk forward until " + fmt(monthDate(HORIZON));
   for (let i = 0; i < 120; i++) MONTHS[i] = monthDate(i).toLocaleString("en-GB", { month:"short", year:"numeric", timeZone:"UTC" });
   render();
-document.querySelectorAll("#startBtns button").forEach(b => b.addEventListener("click", () => { START = Number(b.dataset.start); cache = {}; document.querySelectorAll("#startBtns button").forEach(x => x.classList.toggle("on", x===b)); render(); }));
-document.getElementById("horizon").addEventListener("input", e => { HORIZON = Number(e.target.value); M = Math.min(M, HORIZON-1); render(); });
+document.querySelectorAll("#startBtns button").forEach(b => b.addEventListener("click", () => { document.querySelectorAll("#startBtns button").forEach(x => x.classList.toggle("on", x===b)); START = b.dataset.start === "estimate" ? estPrice() : 85300; cache = {}; render(); }));
+document.getElementById("horizon").addEventListener("input", e => { HORIZON = Number(e.target.value); M = Math.min(M, HORIZON-1); document.getElementById("horizonLabel").textContent = "Walk forward until " + fmt(monthDate(HORIZON)); render(); });
 };
 document.getElementById("openMonth").oninput();
 document.addEventListener("click", e => { if (e.target.id === "opexInfo") document.getElementById("opexModal").classList.add("on"); if (e.target.id === "costInfo") document.getElementById("costModal").classList.add("on"); });
