@@ -562,6 +562,16 @@ function simulate(kind, capital) {
   return out;
 }
 function pack(){ return simulate(CASE, CAP); }
+const KPI_TIPS = {
+  "Full capacity": "The number of machines the warehouse is built to hold. Year one buys a fifth of that. The rest is filled over the following four years.",
+  "Warehouse": "The hall size for that fleet. Each machine is allowed twelve square feet, and the hall is built at five times the year-one fleet.",
+  "Total BTC mined": "Bitcoin earned from commencement to the end of the walk, after uptime and the machines that fail before resale. Sales do not reduce this. It is what was mined, not what is still held.",
+  "Our total cost": "The cheque plus the power, operating cost and water from commencement to the end of the walk. The cheque is the machines, the hall, the battery, the balance of plant and the reserve.",
+  "Portfolio projected value": "The bitcoin still held, marked at the path price on the last month of the walk. Cash already taken is not in it. A loan is not in it.",
+  "Avg Network Cost Basis": "The cost of one bitcoin for the whole network. Cambridge electricity use, divided by the new bitcoin issued that day. The published print is $77,896 on 2 October 2026. The card updates from the live hashrate when the feed answers.",
+  "Discount to spot": "How far our cost to mine today sits below the $85,300 print of 6 October 2026.",
+  "Profit per coin": "Today's spot minus our cost to mine today. It is the operating profit on one new coin at the current network. The machine is not in it."
+};
 function render() {
   const p = pack();
   const row = p.rows[M];
@@ -592,7 +602,7 @@ function render() {
     ["Avg Network Cost Basis", `<span id="netCost">$77,896</span>`, ""],
     ["Discount to spot", (discount*100).toFixed(0) + "%", "hot"],
     ["Profit per coin", money(profit), "hot"],
-  ].map(([l,v,c]) => `<div class="kpi"><span class="caps">${l}${l==="Cost to mine today"?' <button class="info" id="costInfo" type="button">i</button>':""}</span><b class="${c}">${v}</b></div>`).join("");
+  ].map(([l,v,c]) => `<div class="kpi"><span class="caps">${l} <button class="info" type="button" ${l==="Cost to mine today"?'id="costInfo"':`data-tip-title="${l}" data-tip-body="${KPI_TIPS[l]||""}"`}>i</button></span><b class="${c}">${v}</b></div>`).join("");
   document.getElementById("costBody").innerHTML = `<p>Cost to mine today is the operating cost of one bitcoin at the current network. It does not move with the walk. The machine is not in the number.</p>
     <p>One S23 Hyd does ${a.ph} PH/s. The network is 950 EH/s, so the machine's share is ${(a.ph/950000*100).toFixed(6)}% of each block.</p>
     <p>Blocks in a month: 30.44 days × 144 = ${(30.44*144).toFixed(0)}. Subsidy is 3.125 BTC, fees ${FEE} BTC. Coin before downtime: ${((a.ph/950)* (30.44*144) * (3.125+FEE) / 1000).toFixed(5)} BTC.</p>
