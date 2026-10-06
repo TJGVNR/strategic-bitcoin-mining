@@ -162,6 +162,11 @@ section[id], #case { scroll-margin-top: 108px; }
       <input id="capSlider" type="range" min="5" max="50" value="10" step="1" />
     </div>
     <div>
+      <label class="caps" id="openLabel">Commencement date · 1 Mar 2027</label>
+      <input id="openMonth" type="range" min="0" max="12" value="2" />
+      <span class="pill" id="openPrice">Opening price</span>
+    </div>
+    <div>
       <label class="caps">Price path</label>
       <div class="btns" id="caseBtns">
         <button class="opt" data-case="bear">Bear</button>
@@ -170,16 +175,7 @@ section[id], #case { scroll-margin-top: 108px; }
       </div>
     </div>
     <div>
-      <label class="caps" id="openLabel">Mining commencement · 1 Mar 2027</label>
-      <input id="openMonth" type="range" min="0" max="12" value="2" />
-      <span class="pill" id="openPrice">Opening price</span>
-    </div>
-    <div>
-      <label class="caps" id="horizonLabel">Walk forward until 1 Mar 2037</label>
-      <input id="horizon" type="range" min="12" max="120" value="120" step="12" />
-    </div>
-    <div>
-      <label class="caps" id="sliderLabel">Cycle walk</label>
+      <label class="caps" id="sliderLabel">Walk forward · 10 years on</label>
       <input id="slider" type="range" min="0" max="119" value="119" />
     </div>
   </div>
@@ -804,10 +800,8 @@ document.getElementById("openMonth").oninput = () => {
   START = estPrice();
   document.getElementById("openLabel").textContent = "Mining commencement · " + fmt(monthDate(0));
   document.getElementById("openPrice").textContent = "Opening price " + money(estPrice());
-  document.getElementById("horizonLabel").textContent = "Walk forward until " + fmt(monthDate(HORIZON));
-  for (let i = 0; i < 120; i++) MONTHS[i] = monthDate(i).toLocaleString("en-GB", { month:"short", year:"numeric", timeZone:"UTC" });
+    for (let i = 0; i < 120; i++) MONTHS[i] = monthDate(i).toLocaleString("en-GB", { month:"short", year:"numeric", timeZone:"UTC" });
   render();
-document.getElementById("horizon").addEventListener("input", e => { HORIZON = Number(e.target.value); M = Math.min(M, HORIZON-1); document.getElementById("horizonLabel").textContent = "Walk forward until " + fmt(monthDate(HORIZON)); render(); });
 };
 document.getElementById("openMonth").oninput();
 M = HORIZON - 1;
