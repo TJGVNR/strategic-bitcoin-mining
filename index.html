@@ -13,16 +13,16 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet" />
 <style>
-:root { --ink:#131313; --muted:rgba(19,19,19,.62); --faint:rgba(19,19,19,.42); --line:rgba(19,19,19,.12); --orange:#EB440E; }
+:root { --ink:#ecece5; --muted:rgba(236,236,229,.72); --faint:rgba(236,236,229,.42); --line:rgba(236,236,229,.18); --orange:#EB440E; --bg:#131313; --card:#1c1c1c; }
 * { box-sizing: border-box; }
-html, body { margin:0; background:#fff; color:var(--ink); }
+html, body { margin:0; background:#131313; color:#ecece5; }
 body { font-family: Poppins, system-ui, sans-serif; font-weight:300; font-size:15px; line-height:1.55; }
 a { color: var(--orange); text-decoration:none; }
-.nav { display:flex; align-items:center; justify-content:space-between; padding:18px 32px; border-bottom:1px solid var(--line); position:sticky; top:0; background:#fff; z-index:5; }
+.nav { display:flex; align-items:center; justify-content:space-between; padding:18px 32px; border-bottom:1px solid var(--line); position:sticky; top:0; background:#131313; z-index:5; }
 .brand { display:flex; align-items:baseline; gap:10px; }
 .brand { align-items:center; }
 .mark { height:92px; display:block; }
-.dot { font-family:"Bebas Neue", sans-serif; letter-spacing:1px; font-size:28px; line-height:1; color:#131313; }
+.dot { font-family:"Bebas Neue", sans-serif; letter-spacing:1px; font-size:28px; line-height:1; color:#ecece5; }
 .navlinks { display:flex; gap:22px; }
 .navlinks a { font-family:"Bebas Neue", sans-serif; letter-spacing:1px; font-size:15px; color:var(--muted); }
 .navlinks a.on, .navlinks a:hover { color:var(--orange); }
@@ -41,21 +41,21 @@ p { margin:0 0 22px; }
 .note { margin:18px 0 36px; }
 #drivers .note { margin-bottom:48px; }
 .kpis { margin:40px 0 20px; display:grid; grid-template-columns:1fr 1fr; gap:14px; }
-.kpi { min-height:108px; background:#fff; border:1px solid rgba(19,19,19,.14); padding:18px 16px 16px; }
+.kpi { min-height:108px; background:#1c1c1c; border:1px solid rgba(236,236,229,.18); padding:18px 16px 16px; }
 .kpi span.caps { font-family:"Bebas Neue", sans-serif; letter-spacing:1.2px; font-size:15px; color:#EB440E; display:block; margin:0 0 10px; }
-.kpi b, .kpi b span { font-family:"Bebas Neue", sans-serif; font-weight:400; font-size:34px; line-height:1; letter-spacing:.3px; color:#131313; }
-.kpi b.hot { color:#131313; }
+.kpi b, .kpi b span { font-family:"Bebas Neue", sans-serif; font-weight:400; font-size:34px; line-height:1; letter-spacing:.3px; color:#ecece5; }
+.kpi b.hot { color:#ecece5; }
 .kpi .info { color:#EB440E; border-color:#EB440E; }
 .controls { display:grid; grid-template-columns:1fr 1fr .8fr 1fr 1fr; gap:18px; align-items:end; padding-top:36px; }
 .controls input[type=range] { width:100%; }
 label.caps, .caps { font-family:"Bebas Neue", sans-serif; letter-spacing:1px; font-size:13px; color:var(--orange); display:block; margin-bottom:6px; }
 .btns { display:flex; gap:8px; }
-button.opt { font-family:"Bebas Neue", sans-serif; letter-spacing:1px; font-size:15px; background:#fff; color:var(--ink); border:1px solid var(--line); padding:8px 14px; cursor:pointer; }
+button.opt { font-family:"Bebas Neue", sans-serif; letter-spacing:1px; font-size:15px; background:#1c1c1c; color:var(--ink); border:1px solid var(--line); padding:8px 14px; cursor:pointer; }
 button.opt.on { background:var(--orange); color:#fff; border-color:var(--orange); }
 input[type=range] { width:100%; accent-color:var(--orange); }
 .kpis { display:grid; grid-template-columns:repeat(5,1fr); gap:12px; margin:28px 0 8px; }
 .kpi b { display:block; margin-top:0; }
-.kpi b.hot { color:#131313; }
+.kpi b.hot { color:#ecece5; }
 .pill { display:inline-block; margin-top:10px; border:1px solid var(--line); padding:6px 10px; font-family:"Bebas Neue", sans-serif; letter-spacing:.6px; font-size:14px; color:var(--ink); }
 
 .grid-2 { display:grid; grid-template-columns:1.2fr .8fr; gap:36px; margin-top:8px; }
@@ -67,14 +67,14 @@ td { padding:8px 8px 8px 0; border-bottom:1px solid var(--line); vertical-align:
 #driverNote { display:block; margin-top:28px; }
 .chart-box { border:1px solid var(--line); padding:16px 8px 8px; margin-top:22px; }
 .chart-grid { display:grid; grid-template-columns:1fr; gap:18px; }
-.tip { position:absolute; z-index:6; background:#fff; color:#131313; border:1px solid var(--line); font-family:Poppins, sans-serif; font-size:13px; line-height:1.45; padding:12px 14px; max-width:240px; pointer-events:none; display:none; }
+.tip { position:absolute; z-index:6; background:#1c1c1c; color:#ecece5; border:1px solid var(--line); font-family:Poppins, sans-serif; font-size:13px; line-height:1.45; padding:12px 14px; max-width:240px; pointer-events:none; display:none; }
 .chart-box { position:relative; }
 .chart-grid canvas { width:100%; height:280px; display:block; }
 canvas { width:100%; height:340px; display:block; }
 .legend { display:flex; gap:16px; flex-wrap:wrap; color:var(--muted); padding:8px 4px 4px; font-family:"Bebas Neue", sans-serif; letter-spacing:.8px; font-size:13px; }
 .sw { width:10px; height:10px; display:inline-block; margin-right:6px; vertical-align:middle; }
 .assumptions { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:20px; }
-.assumptions input { width:100%; background:#fff; border:1px solid var(--line); color:var(--ink); padding:8px; font-family:Poppins, sans-serif; font-size:14px; }
+.assumptions input { width:100%; background:#1c1c1c; border:1px solid var(--line); color:var(--ink); padding:8px; font-family:Poppins, sans-serif; font-size:14px; }
 footer { padding:22px 0 36px; color:var(--faint); font-size:12px; }
 @media (max-width:860px) {
   .wrap { padding:0 20px; }
@@ -143,19 +143,23 @@ canvas { height:auto; }
 html { scroll-padding-top: 108px; }
 section[id], #case { scroll-margin-top: 108px; }
 #payTable { margin-top: 36px; }
-.info { border:1px solid var(--orange); color:var(--orange); background:#fff; border-radius:99px; width:8px; height:8px; font-size:6px; line-height:6px; cursor:pointer; padding:0; }
+.info { border:1px solid var(--orange); color:var(--orange); background:#1c1c1c; border-radius:99px; width:8px; height:8px; font-size:6px; line-height:6px; cursor:pointer; padding:0; }
 .modal { display:none; position:fixed; inset:0; background:rgba(19,19,19,.45); z-index:40; }
 .modal.on { display:flex; align-items:center; justify-content:center; padding:28px 22px; }
-.sheet { background:#fff; width:min(560px, 100%); padding:36px 32px 28px; border:1px solid var(--line); font-family:Poppins, sans-serif; color:#131313; }
+.sheet { background:#1c1c1c; width:min(560px, 100%); padding:36px 32px 28px; border:1px solid var(--line); font-family:Poppins, sans-serif; color:#ecece5; }
 .sheet h3 { font-family:"Bebas Neue", sans-serif; font-size:34px; letter-spacing:.4px; font-weight:400; margin:8px 0 18px; }
 .sheet p { font-size:15px; line-height:1.65; margin:0 0 14px; color:#333; }
-.sheet .x { font-family:"Bebas Neue", sans-serif; letter-spacing:1px; font-size:14px; background:#fff; color:var(--orange); border:1px solid var(--orange); padding:8px 14px; cursor:pointer; margin-top:8px; }
+.sheet .x { font-family:"Bebas Neue", sans-serif; letter-spacing:1px; font-size:14px; background:#1c1c1c; color:var(--orange); border:1px solid var(--orange); padding:8px 14px; cursor:pointer; margin-top:8px; }
 .sheet .kicker { color:var(--orange); font-family:"Bebas Neue", sans-serif; letter-spacing:1.4px; font-size:13px; }
 .roi { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin:10px 0 8px; }
 .roi div { border:1px solid var(--line); padding:7px 12px; }
 .roi span { font-family:"Bebas Neue", sans-serif; letter-spacing:.8px; font-size:14px; color:#EB440E; }
-.roi b { color:#131313; font-size:22px; }
+.roi b { color:#ecece5; font-size:22px; }
 .roi b { display:block; font-family:"Bebas Neue", sans-serif; font-weight:400; font-size:20px; line-height:1.1; }
+input, select { background:#1c1c1c; color:#ecece5; border:1px solid rgba(236,236,229,.18); }
+.sheet { background:#1c1c1c; color:#ecece5; }
+.sheet p { color:rgba(236,236,229,.72); }
+th, td { color:#ecece5; }
 </style>
 </head>
 <body>
@@ -211,6 +215,10 @@ liveNetworkCost();
     <div>
       <label class="caps" id="horizonLabel">Walk forward until 1 Jan 2037</label>
       <input id="horizon" type="range" min="12" max="120" value="120" step="12" />
+    </div>
+    <div>
+      <label class="caps" id="costWalkLabel">Cost to mine · today</label>
+      <input id="costWalk" type="range" min="0" max="119" value="0" />
     </div>
   </div>
   <div class="kpis" id="kpis"></div>
@@ -501,7 +509,7 @@ const POL = { bear:{h:[12,48,72,108],c:[18,27,78,87]}, neutral:{h:[6,18,30,42,54
 const ASIC = 29200, PH = 1.16, KW = 11.02, UPTIME = 0.70, OPEX = 42, FEE = 0.015;
 let CASE = "neutral";
 let CAP = 10000000;
-let M = 119;
+let M = 119, COST_M = 0;
 let START = 96000;
 let HORIZON = 120;
 const OPEN = 0;
@@ -650,13 +658,20 @@ function render() {
   const tariffNow = a.tariff * Math.pow(1 + a.esc, M / 12);
   const powerUnit = a.kw * hours * tariffNow;
   const otherUnit = a.opex + a.water;
-  const todayCoin = (a.ph * a.uptime * (1 - a.fail)) / (950 * 1000) * (30.44 * 144) * (3.125 + FEE);
-  const online = Math.max(1, row.miners || stack.miners);
-  const site = (a.payroll + a.security + a.link + a.land + a.audit) / online;
-  const ins = a.asic * a.ins / 12;
-  const fee = 0;
-  const monthCost = a.kw * 24 * 30.44 * a.uptime * a.tariff + a.opex + a.water + a.spares + a.chem + a.backup + site + ins + fee;
-  const todayCost = todayCoin ? monthCost / todayCoin : 0;
+  function coinCost(m){
+    const at = p.rows[Math.min(m, p.rows.length-1)] || row;
+    const eh = m === 0 ? 950 : at.hash;
+    const online = Math.max(1, m === 0 ? stack.miners : at.miners);
+    const tariff = a.tariff * Math.pow(1 + a.esc, m / 12);
+    const coin = (a.ph * a.uptime * (1 - a.fail)) / (eh * 1000) * (30.44 * 144) * (subsidy(m) + FEE);
+    const site = (a.payroll + a.security + a.link + a.land + a.audit) / online;
+    const ins = a.asic * a.ins / 12;
+    const month = a.kw * 24 * 30.44 * a.uptime * tariff + a.opex + a.water + a.spares + a.chem + a.backup + site + ins;
+    return coin ? month / coin : 0;
+  }
+  const todayCost = coinCost(0);
+  const walkedCost = coinCost(COST_M);
+  document.getElementById("costWalkLabel").textContent = `Cost to mine · ${monthDate(COST_M).toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric",timeZone:"UTC"})} · ${money(walkedCost)}`;
   const spot = 85300;
   const profit = spot - todayCost;
   const discount = spot ? (spot - todayCost) / spot : 0;
@@ -688,6 +703,7 @@ function render() {
     ["Our total cost", money(stack.total + p.rows.slice(0, M+1).reduce((s,r)=>s+(r.power||0)+(r.opex||0),0)), ""],
     ["Portfolio projected value", money(row.mark), "hot"],
     ["Cost to mine today", `<span id="ourCost">${money(todayCost)}</span>`, ""],
+    ["Cost to mine, selected", money(walkedCost), ""],
     ["Avg Network Cost Basis", `<span id="netCost">$77,896</span>`, ""],
     ["Discount to spot", (discount*100).toFixed(0) + "%", "hot"],
     ["Profit per coin today", money(profit), "hot"],
@@ -969,6 +985,7 @@ document.getElementById("openMonth").oninput = () => {
     for (let i = 0; i < 120; i++) MONTHS[i] = monthDate(i).toLocaleString("en-GB", { month:"short", year:"numeric", timeZone:"UTC" });
   render();
 };
+document.getElementById("costWalk").oninput = e => { COST_M = Number(e.target.value); render(); };
 document.getElementById("horizon").oninput = e => {
   HORIZON = Number(e.target.value);
   M = HORIZON - 1;
