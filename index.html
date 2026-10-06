@@ -128,10 +128,13 @@ html { scroll-padding-top: 108px; }
 section[id], #case { scroll-margin-top: 108px; }
 #payTable { margin-top: 36px; }
 .info { border:1px solid var(--orange); color:var(--orange); background:#fff; border-radius:99px; width:8px; height:8px; font-size:6px; line-height:6px; cursor:pointer; padding:0; }
-.modal { display:none; position:fixed; inset:0; background:rgba(19,19,19,.35); z-index:20; }
-.modal.on { display:flex; align-items:center; justify-content:center; padding:24px; }
-.sheet { background:#fff; max-width:560px; padding:36px 32px; border:1px solid var(--line); font-family:Poppins, sans-serif; color:#131313; }
-.sheet h3 { font-family:\"Bebas Neue\", sans-serif; font-size:28px; margin:0 0 12px; }
+.modal { display:none; position:fixed; inset:0; background:rgba(19,19,19,.45); z-index:40; }
+.modal.on { display:flex; align-items:center; justify-content:center; padding:28px 22px; }
+.sheet { background:#fff; width:min(560px, 100%); padding:36px 32px 28px; border:1px solid var(--line); font-family:Poppins, sans-serif; color:#131313; }
+.sheet h3 { font-family:"Bebas Neue", sans-serif; font-size:34px; letter-spacing:.4px; font-weight:400; margin:8px 0 18px; }
+.sheet p { font-size:15px; line-height:1.65; margin:0 0 14px; color:#333; }
+.sheet .x { font-family:"Bebas Neue", sans-serif; letter-spacing:1px; font-size:14px; background:#fff; color:var(--orange); border:1px solid var(--orange); padding:8px 14px; cursor:pointer; margin-top:8px; }
+.sheet .kicker { color:var(--orange); font-family:"Bebas Neue", sans-serif; letter-spacing:1.4px; font-size:13px; }
 .roi { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin:10px 0 8px; }
 .roi div { border:1px solid var(--line); padding:7px 12px; }
 .roi span { font-family:"Bebas Neue", sans-serif; letter-spacing:.8px; font-size:12px; color:var(--orange); }
@@ -164,8 +167,7 @@ liveNetworkCost();
   </nav>
   <div class="stamp">Confidential · Doha · 5 Oct 2026 · d2fe8c1</div>
 </header>
-<div id="opexModal" class="modal"><div class="sheet"><button class="x" type="button" onclick="document.getElementById('opexModal').classList.remove('on')">Close</button><h3>Other opex</h3><p>$42 a miner a month is a planning allowance. It covers a share of labour, spares, filters, monitoring and insurance.</p><p>It is not the power, which is the tariff. It is not the water, which is its own line. It is not the machine, the battery or the building. Those sit in the cheque.</p><p>At the opening fleet it is a few thousand dollars a month. It scales with the number of miners, and it is in the cost to mine.</p></div></div><div id="tipModal" class="modal"><div class="sheet"><button class="x" type="button" onclick="document.getElementById('tipModal').classList.remove('on')">Close</button><h3 id="tipTitle"></h3><p id="tipBody"></p></div></div><div id="costModal" class="modal"><div class="sheet"><button class="x" type="button" onclick="document.getElementById('costModal').classList.remove('on')">Close</button><h3>Cost to mine</h3><div id="costBody"></div></div></div>
-<div class="wrap hero" id="case">
+<div id="opexModal" class="modal" onclick="if(event.target.id==='opexModal')this.classList.remove('on')"><div class="sheet"><div class="kicker">Drivers</div><h3>Other opex</h3><p>$42 a miner a month is a planning allowance. It covers a share of labour, spares, filters, monitoring and insurance.</p><p>It is not the power, which is the tariff. It is not the water, which is its own line. It is not the machine, the battery or the building. Those sit in the cheque.</p><p>At the opening fleet it is a few thousand dollars a month. It scales with the number of miners, and it is in the cost to mine.</p><button class="x" type="button" onclick="document.getElementById('opexModal').classList.remove('on')">Close</button></div></div><div id="tipModal" class="modal" onclick="if(event.target.id==='tipModal')this.classList.remove('on')"><div class="sheet"><div class="kicker">Drivers</div><h3 id="tipTitle"></h3><p id="tipBody"></p><button class="x" type="button" onclick="document.getElementById('tipModal').classList.remove('on')">Close</button></div></div><div id="costModal" class="modal" onclick="if(event.target.id==='costModal')this.classList.remove('on')"><div class="sheet"><div class="kicker">Cost</div><h3>Cost to mine today</h3><div id="costBody"></div>id="costModal" id="case">
   <div class="kicker">Strategic Bitcoin mining · Qatar</div>
   <h1>Solar excess.<br><em>Bitcoin at a discount.</em></h1>
   <p class="lede">The mining warehouse will begin operation with the first 20% of the machines online. The miners will be wired directly to the solar farm and utilise excess power the farm cannot sell. The bitcoin accumulated will be managed by the GVNR Fund. At cycle peaks GVNR will look to distribute into USD, harvesting cash to fund the next phase of the operation. At bear-market lows the collateral will be borrowed against, at 20% LTV, using the GVNR CDP Diamond Hands. This raises debt, and the proceeds scale the operation annually until 100% capacity is reached within five years. After that the oldest machines are replaced annually, maintaining operating efficiency.</p>
