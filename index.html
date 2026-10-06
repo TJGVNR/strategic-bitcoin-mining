@@ -355,8 +355,8 @@ liveNetworkCost();
 <section id="path">
   <div class="wrap">
     <div class="num">05</div>
-    <h2>Three paths</h2>
-    <p>The bear path is the five-year UCD+ stress test, rebased to the opening price. It falls about 65% and finishes the fifth year near 3.5 times the open. The bull path is the stock-to-flow range: $250,000 into the 2028 halving, $500,000 as the cycle average, $770,000 on the raw model. Neutral is the geometric middle of those two.</p>
+    <h2>Three scenarios</h2>
+    <p>These are scenarios, not a forecast. The bear path is the five-year UCD+ stress test, rebased to the opening price. It falls about 65% and finishes the fifth year near 3.5 times the open. The bull path is the stock-to-flow range: $250,000 into the 2028 halving, $500,000 as the cycle average, $770,000 on the raw model. Neutral is the geometric middle of those two.</p>
     <div id="tip" class="tip"></div><div class="chart-grid">
       <div class="chart-box"><div class="caps">Bear</div><canvas id="chartBear" width="520" height="220"></canvas></div>
       <div class="chart-box"><div class="caps">Neutral</div><canvas id="chartNeutral" width="520" height="220"></canvas></div>
@@ -426,7 +426,7 @@ liveNetworkCost();
 <section>
   <div class="wrap">
     <div class="num">10</div>
-    <p class="note">The working sheet sits behind the page. <a href="https://docs.google.com/spreadsheets/d/1eWnYo9pNp2Pvbp8cdBhoMCiJv7wFvT7f92Jk1DLcb5M/edit">Qatar mining workings</a>. Cost to mine today, the network comparison, and what is not in the model.</p>
+    <p class="note">The working sheet sits behind the page. <button class="x" type="button" id="dlSheet">Download this screen</button> <a href="https://docs.google.com/spreadsheets/d/1eWnYo9pNp2Pvbp8cdBhoMCiJv7wFvT7f92Jk1DLcb5M/edit">Qatar mining workings</a>. Cost to mine today, the network comparison, and what is not in the model.</p>
     <h2>Sources</h2>
     <table>
       <tr><th>Item</th><th>Figure</th><th>Source</th></tr>
@@ -511,7 +511,7 @@ let lastCost = 0;
 function params() {
   return {
     tariff: num("d-tariff") / 100,
-    uptime: num("d-uptime") / 100,
+    uptime: num("d-uptime") / 100, curtail: num("d-curtail") / 100, mintake: num("d-mintake") / 100,
     asic: num("d-asic"), asicRise: num("d-asic-rise") / 100,
     ph: num("d-ph"),
     kw: num("d-kw"),
@@ -583,7 +583,8 @@ function simulate(kind, capital) {
     const eh = path.hash[m];
     const reward = subsidy(m) + FEE;
     const season = [1.08,1.08,1.04,1.0,0.96,0.86,0.82,0.82,0.9,1.0,1.06,1.08];
-    const up = a.uptime * season[monthDate(m).getUTCMonth()] / 0.975;
+    const base = Math.max(a.mintake, a.uptime * (1 - a.curtail));
+    const up = base * season[monthDate(m).getUTCMonth()] / 0.975;
     const live = m > OPEN;
     const btc_m = live ? (miners * (1 - a.fail) * a.ph * up) / (eh * 1000) * (30.44 * 144) * reward : 0;
     const scrapCash = live ? miners * (a.fail / 60) * a.asic * a.scrap : 0;
@@ -1028,6 +1029,15 @@ async function liveNetworkCost(){
     el.title = "MacroMicro 2 Oct 2026. Live feed unavailable.";
   }
 }
+
+document.getElementById("dlSheet").onclick = () => {
+  const rows = [["Input","Value"]].concat([...document.querySelectorAll("#drivers input")].map(el => [el.id, el.value]));
+  const blob = new Blob([rows.map(r => r.join(",")).join("\n")], {type:"text/csv"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "qatar-mining-workings.csv";
+  a.click();
+};
 </script>
 </body>
 </html>
