@@ -174,17 +174,17 @@ function setCase(name){
       <input id="capSlider" type="range" min="5" max="50" value="10" step="1" />
     </div>
     <div>
-      <label class="caps" id="openLabel">Commencement date · 1 Mar 2027</label>
-      <input id="openMonth" type="range" min="0" max="12" value="2" />
-      <span class="pill" id="openPrice">Start price</span>
-    </div>
-    <div>
       <label class="caps">Price path</label>
       <div class="btns" id="caseBtns">
         <button class="opt" type="button" data-case="bear" onclick="setCase('bear')">Bear</button>
         <button class="opt on" type="button" data-case="neutral" onclick="setCase('neutral')">Neutral</button>
         <button class="opt" type="button" data-case="bull" onclick="setCase('bull')">Bull</button>
       </div>
+    </div>
+    <div>
+      <label class="caps" id="openLabel">Commencement date · 1 Mar 2027</label>
+      <input id="openMonth" type="range" min="0" max="12" value="2" />
+      <span class="pill" id="openPrice">Start price</span>
     </div>
     <div>
       <label class="caps" id="horizonLabel">Walk forward until 1 Mar 2037</label>
