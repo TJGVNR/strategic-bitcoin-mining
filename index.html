@@ -207,8 +207,13 @@ liveNetworkCost();
     <div class="num">01</div>
     <h2>Costs and expenses</h2>
     <p class="note">The tariff is the price we would pay the farm for surplus power. A default uptime of 70% assumes the farm, or a night supply, can keep the machines hashing after dark. Seasonally uptime is smoothed out. The model factors in a 6-hour battery which would cover the gap between the solar window and 70% uptime, at an estimated $250 a kWh, a 2026 utility-scale planning rate. It is also assumed that 10% of each miner cohort fails before resale. Working units have been reported to sell at 12% of the ASIC RRP in years 6 to 10. Water is billed at a default of $6 a machine a month for the closed hydro loop.</p>
-    <div id="opexBuild" class="note"></div>
+    <h3>Capital, from the cheque</h3>
+    <p class="note">The initial investment covers the setup. It is not in the cost of a coin.</p>
+    <table id="capexTable"></table>
     <h3>Operating cost</h3>
+    <p class="note">The running cost of the working site. This is the cost to mine a coin.</p>
+    <table id="opexTable"></table>
+    <div id="opexBuild" class="note"></div>
     <div class="assumptions">
       <label class="caps">Tariff, ¢/kWh <button class="info" type="button" data-tip="d-tariff">i</button><input id="d-tariff" type="number" min="0" max="20" step="0.1" value="2.0"></label>
       <label class="caps">Energy rise, %/yr* <button class="info" type="button" data-tip="d-esc">i</button><input id="d-esc" type="number" min="0" max="15" step="0.1" value="0"></label>
@@ -626,7 +631,24 @@ function render() {
   const coinUnit = (a.ph * a.uptime * (1 - a.fail)) / (row.hash * 1000) * (30.44 * 144) * (subsidy(M) + FEE);
   let cost = coinUnit ? (powerUnit + otherUnit) / coinUnit : todayCost;
   const opexBox = document.getElementById("opexBuild");
-  if (opexBox) opexBox.innerHTML = `Running cost of one bitcoin today is ${money(todayCost)}. The machines and the hall are already bought, so they are not in this coin. Power ${money(a.kw*24*30.44*a.uptime*a.tariff)}, allowance ${money(a.opex)}, spares ${money(a.spares)}, chemicals ${money(a.chem)}, backup ${money(a.backup)}, water ${money(a.water)}, site share ${money(site)}, insurance ${money(ins)}, fee ${money(fee)}, on ${todayCoin.toFixed(5)} BTC.`;
+  const n = stack.miners;
+  const cap = [
+    ["Machines", n*a.asic], ["Freight and duty", n*a.asic*a.freight], ["Install", n*a.asic*a.install], ["VAT", n*a.asic*a.vat],
+    ["Hall", stack.shell_cost], ["Battery", stack.batt], ["Civil", n*a.civil], ["Fire suppression", n*a.fire],
+    ["Security build", n*a.secbuild], ["Hydro plant", n*a.hydro], ["Cold spares", n*a.asic*a.sparespool],
+    ["Fibre", a.fibre], ["Decommission reserve", n*a.decom], ["Balance of plant", stack.bop], ["Reserve", stack.reserve]
+  ];
+  const before = cap.reduce((s,r)=>s+r[1],0);
+  cap.push(["Contingency", before*a.cont]);
+  document.getElementById("capexTable").innerHTML = `<tr><th>Setup</th><th>This cheque</th></tr>` + cap.map(([l,v])=>`<tr><td>${l}</td><td>${money(v)}</td></tr>`).join("") + `<tr><td>Cheque</td><td>${money(stack.total)}</td></tr>`;
+  const fleetCoin = todayCoin * n;
+  const op = [
+    ["Power", n*a.kw*24*30.44*a.uptime*a.tariff], ["Allowance", n*a.opex], ["Spares", n*a.spares], ["Chemicals", n*a.chem],
+    ["Water", n*a.water], ["Backup power", n*a.backup], ["Payroll", a.payroll], ["Security", a.security], ["Link", a.link],
+    ["Land", a.land], ["Audit", a.audit], ["Insurance", n*ins], ["GVNR fee", n*fee]
+  ];
+  document.getElementById("opexTable").innerHTML = `<tr><th>Running cost</th><th>A month</th></tr>` + op.map(([l,v])=>`<tr><td>${l}</td><td>${money(v)}</td></tr>`).join("") + `<tr><td>Cost to mine one coin</td><td>${money(todayCost)}</td></tr>`;
+  if (opexBox) opexBox.innerHTML = `The running cost of one bitcoin is ${money(todayCost)}. The cheque is the setup and is not in that coin.`;
   document.getElementById("kpis").innerHTML = [
     ["Full capacity", stack.shell.toLocaleString() + " miners", ""],
     ["Warehouse", stack.sqft.toLocaleString() + " sq ft", ""],
