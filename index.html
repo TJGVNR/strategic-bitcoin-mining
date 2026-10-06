@@ -145,6 +145,7 @@ section[id], #case { scroll-margin-top: 108px; }
     <a href="#drivers">Drivers</a>
     <a href="#path">Path</a>
     <a href="#payback">Payback</a>
+    <a href="#references">References</a>
     <a href="#glossary">Glossary</a>
   </nav>
   <div class="stamp">Confidential · Doha · 5 Oct 2026</div>
@@ -186,16 +187,16 @@ section[id], #case { scroll-margin-top: 108px; }
     <p class="note">The tariff is the price we would pay the farm for surplus power. A default uptime of 70% assumes the farm, or a night supply, can keep the machines hashing after dark. Seasonally uptime is smoothed out. The model factors in a 6-hour battery which would cover the gap between the solar window and 70% uptime, at an estimated $250 a kWh, a 2026 utility-scale planning rate. It is also assumed that 10% of each miner cohort fails before resale. Working units have been reported to sell at 12% of the ASIC RRP in years 6 to 10. Water is billed at a default of $6 a machine a month for the closed hydro loop.</p>
     <div class="assumptions">
       <label class="caps">Tariff, ¢/kWh<input id="d-tariff" type="number" min="0" max="20" step="0.1" value="2.0"></label>
-      <label class="caps">Energy rise, %/yr<input id="d-esc" type="number" min="0" max="15" step="0.1" value="0"></label>
+      <label class="caps">Energy rise, %/yr*<input id="d-esc" type="number" min="0" max="15" step="0.1" value="0"></label>
       <label class="caps">Battery hours<input id="d-batt-h" type="number" min="0" max="16" step="0.5" value="6"></label>
-      <label class="caps">Battery, $/kWh<input id="d-batt" type="number" min="0" max="800" step="5" value="250"></label>
+      <label class="caps">Battery, $/kWh*<input id="d-batt" type="number" min="0" max="800" step="5" value="250"></label>
       <label class="caps">Fail before resale, %<input id="d-fail" type="number" min="0" max="40" step="1" value="10"></label>
-      <label class="caps">Resale, % of ASIC<input id="d-resale" type="number" min="0" max="40" step="1" value="12"></label>
+      <label class="caps">Resale, % of ASIC*<input id="d-resale" type="number" min="0" max="40" step="1" value="12"></label>
       <label class="caps">Water, $/unit/mo<input id="d-water" type="number" min="0" max="40" step="1" value="6"></label>
       <label class="caps">Uptime, %<input id="d-uptime" type="number" min="10" max="98" step="1" value="70"></label>
-      <label class="caps">ASIC price, $<input id="d-asic" type="number" min="1000" max="80000" step="100" value="29200"></label>
-      <label class="caps">Hashrate, PH<input id="d-ph" type="number" min="0.2" max="3" step="0.01" value="1.16"></label>
-      <label class="caps">Power, kW<input id="d-kw" type="number" min="1" max="25" step="0.01" value="11.02"></label>
+      <label class="caps">ASIC price, $*<input id="d-asic" type="number" min="1000" max="80000" step="100" value="29200"></label>
+      <label class="caps">Hashrate, PH*<input id="d-ph" type="number" min="0.2" max="3" step="0.01" value="1.16"></label>
+      <label class="caps">Power, kW*<input id="d-kw" type="number" min="1" max="25" step="0.01" value="11.02"></label>
       <label class="caps">Warehouse bays / machine<input id="d-bays" type="number" min="1" max="10" step="1" value="5"></label>
       <label class="caps">Sq ft / bay<input id="d-sqft" type="number" min="4" max="40" step="1" value="12"></label>
       <label class="caps">Hall, $/sq ft<input id="d-psf" type="number" min="20" max="400" step="5" value="110"></label>
@@ -366,6 +367,23 @@ section[id], #case { scroll-margin-top: 108px; }
       <tr><td>Machine</td><td>S23 Hyd 3U · $29,200</td><td>Manufacturer rating 1.16 PH/s, 11.02 kW. Planning price $29,200.</td></tr>
       <tr><td>Portfolio</td><td>1.5% and 15%</td><td>GVNR manages the bitcoin. A structuring consultancy sits on the mining build. Fee to be agreed.</td></tr>
       <tr><td>Scope</td><td>Gross</td><td>Before tax. No rate assumed.</td></tr>
+    </table>
+  </div>
+</section>
+
+<section id="references">
+  <div class="wrap">
+    <div class="num">12</div>
+    <h2>Research and references</h2>
+    <p class="note">An asterisk on a driver means the figure is taken from a published source, or set next to one. Unmarked figures are planning assumptions.</p>
+    <table>
+      <tr><th>Figure</th><th>Source</th></tr>
+      <tr><td>ASIC price, hashrate, power*</td><td>S23 Hyd 3U is listed at 1.16 PH/s and 11,020 W. BlueForge, $29,940, August 2026. MillionMiner, $32,379. The case uses $29,200. <a href="https://www.blueforgeadvisors.io/product/bitmain-antminer-s23-hyd-3u-1-16-ph-s-bitcoin-asic-miner/">BlueForge</a> · <a href="https://www.millionminer.com/product/asic-miner/bitmain-antminer-s23-hyd-3u-1-16ph">MillionMiner</a></td></tr>
+      <tr><td>Battery, $/kWh*</td><td>$250 is a planning rate between the IEA equipment print near $150/kWh and the NREL 2026 mid case of $308/kWh for a 4-hour utility battery. <a href="https://www.polinovelbess.com/info/solar-battery-storage-cost-in-2026-price-per-103645899.html">NREL via Polinovel, 2026</a></td></tr>
+      <tr><td>Energy rise*</td><td>Set at 0%. Enerdata describes Qatar power prices as stable since 2020. <a href="https://www.enerdata.net/estore/country-profiles/qatar.html">Enerdata, Qatar</a></td></tr>
+      <tr><td>Resale*</td><td>12% of ASIC price. An 18-month machine can still fetch 40–60%. A five-year-old S19-class unit trades at a few hundred dollars. <a href="https://raxmining.com/used-asic-miners-secondary-market-buying-selling-guide-2026/">Rax Mining, 2026</a></td></tr>
+      <tr><td>Network hashrate</td><td>The walk opens near 938 EH/s. A published print on 6 October 2026 was 950 EH/s. <a href="https://cloudminecrypto.com/data">CloudMineCrypto open data</a></td></tr>
+      <tr><td>Spot price</td><td>$85,300 on 5 October 2026 is the base for the 30% a year commencement estimate. It is a market print, not a forecast.</td></tr>
     </table>
   </div>
 </section>
