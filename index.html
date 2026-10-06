@@ -827,6 +827,16 @@ document.getElementById("capSlider").oninput = e => { CAP = Number(e.target.valu
 document.getElementById("drivers").oninput = () => { render(); };
 document.getElementById("slider").oninput = e => { M = Number(e.target.value); render(); };
 render();
+
+document.getElementById("capSlider").addEventListener("input", e => { CAP = Number(e.target.value) * 1000000; render(); });
+document.getElementById("slider").addEventListener("input", e => { M = Number(e.target.value); render(); });
+document.getElementById("caseBtns").addEventListener("click", e => {
+  const b = e.target.closest("button");
+  if (!b || !b.dataset.case) return;
+  CASE = b.dataset.case;
+  document.querySelectorAll("#caseBtns .opt").forEach(x => x.classList.toggle("on", x === b));
+  render();
+});
 </script>
 </body>
 </html>
