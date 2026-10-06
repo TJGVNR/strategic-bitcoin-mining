@@ -241,6 +241,7 @@ liveNetworkCost();
     <h3>Capital</h3>
     <div class="assumptions">
       <label class="caps">ASIC price, $* <button class="info" type="button" data-tip="d-asic">i</button><input id="d-asic" type="number" min="1000" max="80000" step="100" value="29200"></label>
+      <label class="caps">Miner price rise, %/yr <input id="d-asic-rise" type="number" min="0" max="20" step="0.5" value="5"></label>
       <label class="caps">Freight and duty, % <input id="d-freight" type="number" min="0" max="25" step="0.5" value="8"></label>
       <label class="caps">Install, % <input id="d-install" type="number" min="0" max="20" step="0.5" value="6"></label>
       <label class="caps">VAT, % <input id="d-vat" type="number" min="0" max="20" step="0.5" value="0"></label>
@@ -424,7 +425,7 @@ liveNetworkCost();
 <section>
   <div class="wrap">
     <div class="num">10</div>
-    <p class="note">The working sheet sits behind the page. <a href="https://docs.google.com/spreadsheets/d/1m7m4mmZ-mj2fYsYI7k5vOGfNpuYNCgelYnOs_Ul3SIU/edit">Qatar mining workings</a>. Cost to mine today, the network comparison, and what is not in the model.</p>
+    <p class="note">The working sheet sits behind the page. <a href="https://docs.google.com/spreadsheets/d/1eWnYo9pNp2Pvbp8cdBhoMCiJv7wFvT7f92Jk1DLcb5M/edit">Qatar mining workings</a>. Cost to mine today, the network comparison, and what is not in the model.</p>
     <h2>Sources</h2>
     <table>
       <tr><th>Item</th><th>Figure</th><th>Source</th></tr>
@@ -510,7 +511,7 @@ function params() {
   return {
     tariff: num("d-tariff") / 100,
     uptime: num("d-uptime") / 100,
-    asic: num("d-asic"),
+    asic: num("d-asic"), asicRise: num("d-asic-rise") / 100,
     ph: num("d-ph"),
     kw: num("d-kw"),
     bays: num("d-bays"),
@@ -608,7 +609,8 @@ function simulate(kind, capital) {
     }
     if (live && stack.shell - miners > 0 && deployable >= a.asic) {
       const lots = Math.min(stack.shell - miners, Math.floor(deployable / a.asic));
-      if (lots > 0) { deployable -= lots * a.asic; usd -= lots * a.asic; miners += lots; bought = lots; action.push("ADD " + lots + " machines"); }
+      const asicNow = a.asic * Math.pow(1 + a.asicRise, m / 12);
+    if (lots > 0) { deployable -= lots * asicNow; usd -= lots * asicNow; miners += lots; bought = lots; action.push("ADD " + lots + " machines"); }
     }
     const coll = pledged * price;
     rows.push({ m, price, btc_m, btc: coin, usd, debt, pledged, miners, ltv: coll ? debt / coll : 0, action: action.join(" · "), power, opex, harvest, draw, bought, resale, mark: coin * price, sf: path.sf[m], model: path.model[m], hash: eh, multiple: price / path.model[m] });
