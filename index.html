@@ -175,7 +175,11 @@ section[id], #case { scroll-margin-top: 108px; }
       </div>
     </div>
     <div>
-      <label class="caps" id="sliderLabel">Walk forward · 10 years on</label>
+      <label class="caps" id="horizonLabel">Walk forward until 1 Mar 2037</label>
+      <input id="horizon" type="range" min="12" max="120" value="120" step="12" />
+    </div>
+    <div>
+      <label class="caps" id="sliderLabel">Selected month</label>
       <input id="slider" type="range" min="0" max="119" value="119" />
     </div>
   </div>
@@ -807,8 +811,17 @@ function fmt(d){ return d.toLocaleDateString("en-GB", { day:"numeric", month:"sh
 document.getElementById("openMonth").oninput = () => {
   START = estPrice();
   document.getElementById("openLabel").textContent = "Mining commencement · " + fmt(monthDate(0));
+  document.getElementById("horizonLabel").textContent = "Walk forward until " + fmt(monthDate(HORIZON)) + " · " + money(estPrice());
   document.getElementById("openPrice").textContent = CASE[0].toUpperCase()+CASE.slice(1)+" commencement price " + money(estPrice());
     for (let i = 0; i < 120; i++) MONTHS[i] = monthDate(i).toLocaleString("en-GB", { month:"short", year:"numeric", timeZone:"UTC" });
+  render();
+};
+document.getElementById("horizon").oninput = e => {
+  HORIZON = Number(e.target.value);
+  M = HORIZON - 1;
+  document.getElementById("slider").max = M;
+  document.getElementById("slider").value = M;
+  cache = {};
   render();
 };
 document.getElementById("openMonth").oninput();
