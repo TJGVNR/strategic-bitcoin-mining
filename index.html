@@ -125,6 +125,11 @@ canvas { height:auto; }
 html { scroll-padding-top: 180px; }
 section, #case, #drivers, #path, #payback, #glossary { scroll-margin-top: 180px; }
 #payTable { margin-top: 36px; }
+.info { border:1px solid var(--orange); color:var(--orange); background:#fff; border-radius:99px; width:16px; height:16px; font-size:11px; line-height:14px; cursor:pointer; }
+.modal { display:none; position:fixed; inset:0; background:rgba(19,19,19,.35); z-index:20; }
+.modal.on { display:flex; align-items:center; justify-content:center; padding:24px; }
+.sheet { background:#fff; max-width:560px; padding:22px; border:1px solid var(--line); }
+.sheet h3 { font-family:\"Bebas Neue\", sans-serif; font-size:28px; margin:0 0 12px; }
 </style>
 </head>
 <body>
@@ -139,17 +144,22 @@ section, #case, #drivers, #path, #payback, #glossary { scroll-margin-top: 180px;
   </nav>
   <div class="stamp">Confidential · Doha · 5 Oct 2026</div>
 </header>
+<div id="costModal" class="modal"><div class="sheet"><button class="x" type="button" onclick="document.getElementById('costModal').classList.remove('on')">Close</button><h3>Cost to mine</h3><div id="costBody"></div></div></div>
 <div class="wrap hero" id="case">
   <div class="kicker">Strategic Bitcoin mining · Qatar</div>
   <h1>Solar excess.<br><em>Bitcoin at a discount.</em></h1>
-  <p class="lede">The hall is built to open on 1 March 2027, with the first fifth of the machines online. It is wired straight to the solar farm and takes power the farm cannot sell. That power runs the miners at the offtake price, which is the point of the case. Bitcoin earned is held. At cycle peaks GVNR sells a clip into dollars. At bear-market lows the stack is borrowed against, at 20% of its value, and the proceeds buy the next row of machines. The hall fills over five years. After that the oldest machines are replaced, not added to.</p>
+  <p class="lede">The mining warehouse will begin operation with the first 20% of the machines online. The miners will be wired directly to the solar farm and utilise excess power the farm cannot sell. The bitcoin accumulated will be managed by the GVNR Fund. At cycle peaks GVNR will look to distribute into USD, harvesting cash to fund the next phase of the operation. At bear-market lows the collateral will be borrowed against, at 20% LTV, using the GVNR CDP Diamond Hands. This raises debt, and the proceeds scale the operation annually until 100% capacity is reached within five years. After that the oldest machines are replaced annually, maintaining operating efficiency.</p>
   <div class="controls">
     <div>
-      <label class="caps">Opening price</label>
+      <label class="caps">Bitcoin price</label>
       <div class="btns" id="startBtns">
         <button class="opt" data-start="85300">Current $85.3k</button>
-        <button class="opt on" data-start="96000">Estimate $96k</button>
+        <button class="opt on" data-start="est">Estimate</button>
       </div>
+    </div>
+    <div>
+      <label class="caps">Mining commencement</label>
+      <input id="openDate" type="date" value="2027-03-01" />
     </div>
     <div>
       <label class="caps">Price path</label>
@@ -160,7 +170,7 @@ section, #case, #drivers, #path, #payback, #glossary { scroll-margin-top: 180px;
       </div>
     </div>
     <div>
-      <label class="caps" id="capLabel">Opening cheque · $10 million</label>
+      <label class="caps" id="capLabel">Initial investment · $10 million</label>
       <input id="capSlider" type="range" min="5" max="50" value="10" step="1" />
     </div>
     <div>
@@ -187,7 +197,7 @@ section, #case, #drivers, #path, #payback, #glossary { scroll-margin-top: 180px;
       <label class="caps">ASIC price, $<input id="d-asic" type="number" min="1000" max="80000" step="100" value="29200"></label>
       <label class="caps">Hashrate, PH<input id="d-ph" type="number" min="0.2" max="3" step="0.01" value="1.16"></label>
       <label class="caps">Power, kW<input id="d-kw" type="number" min="1" max="25" step="0.01" value="11.02"></label>
-      <label class="caps">Hall bays / machine<input id="d-bays" type="number" min="1" max="10" step="1" value="5"></label>
+      <label class="caps">Warehouse bays / machine<input id="d-bays" type="number" min="1" max="10" step="1" value="5"></label>
       <label class="caps">Sq ft / bay<input id="d-sqft" type="number" min="4" max="40" step="1" value="12"></label>
       <label class="caps">Hall, $/sq ft<input id="d-psf" type="number" min="20" max="400" step="5" value="110"></label>
       <label class="caps">Hydro and electrical, $<input id="d-bop" type="number" min="0" max="30000" step="100" value="7000"></label>
@@ -206,10 +216,10 @@ section, #case, #drivers, #path, #payback, #glossary { scroll-margin-top: 180px;
     <h2>The split</h2>
     <div class="grid-2">
       <div>
-        <p>The partner owns the farm and the hall. GVNR runs the mining and the bitcoin portfolio. The commercial terms are still to be agreed.</p>
+        <p>The partner owns the farm and the warehouse. GVNR runs the mining and the bitcoin portfolio. The commercial terms are still to be agreed.</p>
         <table>
           <tr><th>GVNR</th><th></th></tr>
-          <tr><td>Mining</td><td>Procurement, hydro operations, the hall they own</td></tr>
+          <tr><td>Mining</td><td>Procurement, hydro operations, the warehouse they own</td></tr>
           <tr><td>Portfolio</td><td>1.5% and 15%. Sell into strength. Core stack unsold.</td></tr>
           <tr><td>Structuring</td><td>Consultancy on the mining build. Fee to be agreed.</td></tr>
         </table>
@@ -217,8 +227,8 @@ section, #case, #drivers, #path, #payback, #glossary { scroll-margin-top: 180px;
       <div>
         <table>
           <tr><th>Partner</th><th></th></tr>
-          <tr><td>Owns</td><td>The farm, the land, the hall</td></tr>
-          <tr><td>Product</td><td>Surplus power, taken by the hall</td></tr>
+          <tr><td>Owns</td><td>The farm, the land, the warehouse</td></tr>
+          <tr><td>Product</td><td>Surplus power, taken by the warehouse</td></tr>
           <tr><td>Terms</td><td>Offtake and the split. Not settled on this page.</td></tr>
         </table>
         <table>
@@ -233,8 +243,8 @@ section, #case, #drivers, #path, #payback, #glossary { scroll-margin-top: 180px;
 <section>
   <div class="wrap">
     <div class="num">03</div>
-    <h2>Cheque sizes the hall</h2>
-    <p class="note">Move the cheque and the hall follows. Five to fifty million buys the first fleet and a building large enough for four more fleets of the same size. Twelve square feet a machine and $110 a square foot are planning allowances, not a builder’s quote.</p>
+    <h2>Cheque sizes the warehouse</h2>
+    <p class="note">Move the cheque and the warehouse follows. Five to fifty million buys the first fleet and a building large enough for four more fleets of the same size. Twelve square feet a machine and $110 a square foot are planning allowances, not a builder’s quote.</p>
     <div class="grid-2">
       <div>
         <table id="stackTable"></table>
@@ -244,13 +254,13 @@ section, #case, #drivers, #path, #payback, #glossary { scroll-margin-top: 180px;
         <table>
           <tr><th>Rule</th><th>Default</th></tr>
           <tr><td>Machine</td><td>S23 Hyd 3U</td></tr>
-          <tr><td>Hall</td><td>5 bays per year-1 machine</td></tr>
+          <tr><td>Warehouse</td><td>5 bays per year-1 machine</td></tr>
           <tr><td>Density</td><td>12 sq ft / bay</td></tr>
-          <tr><td>Hall cost</td><td>$110 / sq ft</td></tr>
+          <tr><td>Warehouse cost</td><td>$110 / sq ft</td></tr>
           <tr><td>Hydro and electrical</td><td>$7,000 / machine</td></tr>
           <tr><td>Reserve</td><td>$1,500 / machine</td></tr>
         </table>
-        <p class="note">The empty bays are room for the next four years. They are not a promise the hall fills on day one.</p>
+        <p class="note">The empty bays are room for the next four years. They are not a promise the warehouse fills on day one.</p>
       </div>
     </div>
   </div>
@@ -260,7 +270,7 @@ section, #case, #drivers, #path, #payback, #glossary { scroll-margin-top: 180px;
   <div class="wrap">
     <div class="num">04</div>
     <h2>Ten-year activity</h2>
-    <p>Each of the first five years installs another fifth of the hall. By year five it is full. In year six the machines from year one are five years old and are replaced. The year after that, the year-two machines are replaced, and so on. The building stays full. The fleet turns over.</p>
+    <p>Each of the first five years installs another fifth of the warehouse. By year five it is full. In year six the machines from year one are five years old and are replaced. The year after that, the year-two machines are replaced, and so on. The building stays full. The fleet turns over.</p>
     <div class="chart-box">
       <canvas id="occ" width="1080" height="280"></canvas>
       <div class="legend">
@@ -322,7 +332,7 @@ section, #case, #drivers, #path, #payback, #glossary { scroll-margin-top: 180px;
     <h2>Payback</h2>
     <div class="grid-2">
       <p>The cash clock asks a narrow question: have the dollars actually sold, the harvest, added up to the cheque? At a 25% clip they do not, inside ten years. That is the hold rule doing its job. Most of the bitcoin is kept.</p>
-      <p>The economic clock marks the bitcoin still held, adds the cash, and subtracts the vault loan. The machines are left out, so a hall full of rigs is not treated as repaid capital. A 12% residual sits beside that number: a salvage allowance of 12 cents on the dollar for the machines still in the hall. It is not inside the payback date. The annualised rate is the ten-year compound return on the mark, the cash and the loan. It is a mark, not a distribution.</p>
+      <p>The economic clock marks the bitcoin still held, adds the cash, and subtracts the vault loan. The machines are left out, so a hall full of rigs is not treated as repaid capital. A 12% residual sits beside that number: a salvage allowance of 12 cents on the dollar for the machines still in the warehouse. It is not inside the payback date. The annualised rate is the ten-year compound return on the mark, the cash and the loan. It is a mark, not a distribution.</p>
     </div>
     <table id="payTable"></table>
     <p class="note" id="payNote"></p>
@@ -335,11 +345,11 @@ section, #case, #drivers, #path, #payback, #glossary { scroll-margin-top: 180px;
     <div class="grid-2">
       <div>
         <div class="caps">Founder class</div>
-        <p>Portfolio management is 1.5% and 15% of gains. That is the proposed fee for running the bitcoin the hall earns. The lock, the notice and the gate are the fund’s standard terms, and they are not agreed for this deal yet. A separate structuring consultancy covers the mining build. That fee is open.</p>
+        <p>Portfolio management is 1.5% and 15% of gains. That is the proposed fee for running the bitcoin the warehouse earns. The lock, the notice and the gate are the fund’s standard terms, and they are not agreed for this deal yet. A separate structuring consultancy covers the mining build. That fee is open.</p>
       </div>
       <div>
         <div class="caps">The sleeve</div>
-        <p>GVNR runs the portfolio the hall earns. Spot only: bitcoin, ether, and dollars earning a yield. No futures, no shorts. At least 20% stays in cash. Ether is capped at 32%. The partner owns the hall. GVNR operates it and manages the coin. This page is not a subscription, and the split is not agreed.</p>
+        <p>GVNR runs the portfolio the warehouse earns. Spot only: bitcoin, ether, and dollars earning a yield. No futures, no shorts. At least 20% stays in cash. Ether is capped at 32%. The partner owns the warehouse. GVNR operates it and manages the coin. This page is not a subscription, and the split is not agreed.</p>
       </div>
     </div>
   </div>
@@ -366,7 +376,7 @@ section, #case, #drivers, #path, #payback, #glossary { scroll-margin-top: 180px;
     <h2>Glossary</h2>
     <table>
       <tr><th>Term</th><th>Meaning in this case</th></tr>
-      <tr><td>Hall</td><td>The building. Sized at the cheque for five cohorts of machines.</td></tr>
+      <tr><td>Warehouse</td><td>The building. Sized at the cheque for five cohorts of machines.</td></tr>
       <tr><td>Bay</td><td>One machine position, planned at 12 sq ft.</td></tr>
       <tr><td>Cheque</td><td>Opening capital, $5–50 million.</td></tr>
       <tr><td>ASIC</td><td>The mining computer. Reference unit is the Antminer S23 Hyd 3U.</td></tr>
@@ -435,7 +445,10 @@ function fit(capital) {
   stack.unallocated = capital - stack.total;
   return stack;
 }
-function subsidy(m){ return m < 13 ? 3.125 : m < 61 ? 1.5625 : 0.78125; }
+function openDate(){ return document.getElementById("openDate").value || "2027-03-01"; }
+function monthDate(m){ const d = new Date(openDate()+"T00:00:00Z"); d.setUTCMonth(d.getUTCMonth()+m); return d; }
+function subsidy(m){ const t = monthDate(m).getTime(); return t < Date.UTC(2028,3,1) ? 3.125 : t < Date.UTC(2032,3,1) ? 1.5625 : 0.78125; }
+function estPrice(){ const years = (monthDate(0).getTime() - Date.UTC(2026,9,5)) / (365.25*86400000); return Math.round(85300 * Math.pow(1.30, years)); }
 function simulate(kind, capital) {
   const a = params();
   const id = JSON.stringify([kind, capital, a, START]);
@@ -492,23 +505,35 @@ function render() {
   const stack = p.stack;
   const end = p.rows[p.rows.length-1];
   const a = params();
-  document.getElementById("capLabel").textContent = `Opening cheque · ${money(CAP)}`;
-  const cost = 44300 * (row.hash / 950) * (3.125 / subsidy(M)) * (a.tariff / 0.02) * Math.pow(1 + a.esc, M / 12);
+  document.getElementById("capLabel").textContent = `Initial investment · ${money(CAP)}`;
+  const hours = 24 * 30.44 * a.uptime;
+  const tariffNow = a.tariff * Math.pow(1 + a.esc, M / 12);
+  const powerUnit = a.kw * hours * tariffNow;
+  const otherUnit = a.opex + a.water;
+  const coinUnit = (a.ph * a.uptime * (1 - a.fail)) / (row.hash * 1000) * (30.44 * 144) * (subsidy(M) + FEE);
+  const cost = coinUnit ? (powerUnit + otherUnit) / coinUnit : 0;
+  const monthOpex = stack.miners * (powerUnit + otherUnit);
   document.getElementById("kpis").innerHTML = [
-    ["Opening fleet", stack.miners.toLocaleString() + " units", ""],
-    ["Hall", stack.sqft.toLocaleString() + " sq ft", ""],
+    ["Miners", stack.miners.toLocaleString(), ""],
+    ["Warehouse", stack.sqft.toLocaleString() + " sq ft", ""],
     ["Mined to date", btc(row.btc), "hot"],
     ["USD denominated", money(row.mark), "hot"]
   ].map(([l,v,c]) => `<div class="kpi"><span class="caps">${l}</span><b class="${c}">${v}</b></div>`).join("")
-  + `<div class="kpi"><span class="caps">Cost to mine</span><b>${money(cost)}</b><span class="pill">Estimated price ${money(row.price)}</span></div>`;
-  document.getElementById("sliderLabel").textContent = `Cycle walk · month ${M+1} · ${MONTHS[M]} · ${money(row.price)}`;
+  + `<div class="kpi"><span class="caps">Cost to mine <button class="info" id="costInfo" type="button">i</button></span><b>${money(cost)}</b><span class="pill">Estimated price ${money(row.price)}</span></div>`;
+  document.getElementById("costBody").innerHTML = `<p>Operating cost of one bitcoin this month. Capital is not in this number.</p>
+    <p>Power = ${a.kw} kW × ${hours.toFixed(0)} hours × ${(tariffNow*100).toFixed(2)}¢ = ${money(powerUnit)}</p>
+    <p>Other = operating ${money(a.opex)} + water ${money(a.water)} = ${money(otherUnit)}</p>
+    <p>Coin from one miner = ${a.ph} PH × ${(a.uptime*100).toFixed(0)}% uptime × ${(100-a.fail*100).toFixed(0)}% running ÷ ${row.hash} EH/s × ${((subsidy(M)+FEE)).toFixed(4)} BTC a block = ${coinUnit.toFixed(5)} BTC</p>
+    <p>Cost = (${money(powerUnit)} + ${money(otherUnit)}) ÷ ${coinUnit.toFixed(5)} = ${money(cost)}</p>
+    <p>Miners change the bill, not the cost of a coin. ${stack.miners.toLocaleString()} miners cost ${money(monthOpex)} this month. A higher network hashrate, a higher tariff, or a halving raises the cost. Uptime cuts power and coin together, so it barely moves this figure. Failures cut the coin and do raise it.</p>`;
+  document.getElementById("sliderLabel").textContent = `Walk forward projection · month ${M+1} · ${MONTHS[M]} · ${money(row.price)}`;
   document.getElementById("stackTable").innerHTML = `<tr><th>Item</th><th>This cheque</th></tr>
     <tr><td>Year-1 miners</td><td>${stack.miners.toLocaleString()} · ${(stack.miners*a.ph).toFixed(0)} PH/s</td></tr>
-    <tr><td>Hall</td><td>${stack.shell.toLocaleString()} bays · ${stack.sqft.toLocaleString()} sq ft</td></tr>
+    <tr><td>Warehouse</td><td>${stack.shell.toLocaleString()} bays · ${stack.sqft.toLocaleString()} sq ft</td></tr>
     <tr><td>Nameplate</td><td>${(stack.miners*a.kw/1000).toFixed(2)} MW</td></tr>
     <tr><td>ASIC</td><td>${money(stack.asic)}</td></tr>
     <tr><td>Battery</td><td>${money(stack.batt)} · ${a.battH} h at $${a.batt}/kWh</td></tr>
-    <tr><td>Hall</td><td>${money(stack.shell_cost)}</td></tr>
+    <tr><td>Warehouse</td><td>${money(stack.shell_cost)}</td></tr>
     <tr><td>Hydro and electrical</td><td>${money(stack.bop)}</td></tr>
     <tr><td>Reserve</td><td>${money(stack.reserve)}</td></tr>
     <tr><td>Deployed</td><td>${money(stack.total)}</td></tr>`;
@@ -608,7 +633,7 @@ function drawOcc() {
     g.fillText("Y" + (y + 1), x + bw / 2, h - 12);
   }
   g.textAlign = "left";
-  document.getElementById("occNote").textContent = `Hall ${cap.toLocaleString()} bays. Each cohort ${cohort.toLocaleString()} machines, 20% of the hall. Years 1–5 install that cohort. Years 6–10 replace the cohort installed five years earlier.`;
+  document.getElementById("occNote").textContent = `Warehouse ${cap.toLocaleString()} bays. Each cohort ${cohort.toLocaleString()} machines, 20% of the warehouse. Years 1–5 install that cohort. Years 6–10 replace the cohort installed five years earlier.`;
 }
 
 function moneyAxis(v) {
@@ -721,9 +746,18 @@ document.querySelectorAll(".chart-grid canvas").forEach(c => {
 
 document.getElementById("startBtns").onclick = e => {
   if (!e.target.dataset.start) return;
-  START = Number(e.target.dataset.start);
+  START = e.target.dataset.start === "est" ? estPrice() : Number(e.target.dataset.start);
   document.querySelectorAll("#startBtns .opt").forEach(b => b.classList.toggle("on", Number(b.dataset.start) === START));
   render();
+document.getElementById("openDate").onchange = () => {
+  const est = estPrice();
+  document.querySelector("#startBtns [data-start='est']").textContent = "Estimate $" + Math.round(est/1000) + "k";
+  if (document.querySelector("#startBtns .on").dataset.start === "est") START = est;
+  for (let i = 0; i < 120; i++) MONTHS[i] = monthDate(i).toLocaleString("en-GB", { month:"short", year:"numeric", timeZone:"UTC" });
+  render();
+};
+document.getElementById("openDate").onchange();
+document.addEventListener("click", e => { if (e.target.id === "costInfo") document.getElementById("costModal").classList.add("on"); });
 
 document.querySelectorAll(".navlinks a").forEach(a => {
   a.addEventListener("click", e => {
