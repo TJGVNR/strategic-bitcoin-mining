@@ -40,11 +40,12 @@ p { margin:0 0 22px; }
 .chart-box { margin:28px 0 18px; }
 .note { margin:18px 0 36px; }
 #drivers .note { margin-bottom:48px; }
-.kpis { margin:36px 0 16px; display:grid; grid-template-columns:repeat(2, 1fr); gap:12px; }
-.kpi { min-height:92px; }
-.kpi b, .kpi b span { font-family:"Bebas Neue", sans-serif; font-weight:400; font-size:32px; letter-spacing:.4px; color:#131313; }
-.kpi span.caps, .kpi span.caps button { color:var(--orange); font-size:14px; }
+.kpis { margin:40px 0 20px; display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.kpi { min-height:108px; background:#fff; border:1px solid rgba(19,19,19,.14); padding:18px 16px 16px; }
+.kpi span.caps { font-family:"Bebas Neue", sans-serif; letter-spacing:1.2px; font-size:15px; color:#EB440E; display:block; margin:0 0 10px; }
+.kpi b, .kpi b span { font-family:"Bebas Neue", sans-serif; font-weight:400; font-size:34px; line-height:1; letter-spacing:.3px; color:#131313; }
 .kpi b.hot { color:#131313; }
+.kpi .info { color:#EB440E; border-color:#EB440E; }
 .controls { display:grid; grid-template-columns:1fr 1fr .8fr 1fr 1fr; gap:18px; align-items:end; padding-top:36px; }
 .controls input[type=range] { width:100%; }
 label.caps, .caps { font-family:"Bebas Neue", sans-serif; letter-spacing:1px; font-size:13px; color:var(--orange); display:block; margin-bottom:6px; }
@@ -53,9 +54,7 @@ button.opt { font-family:"Bebas Neue", sans-serif; letter-spacing:1px; font-size
 button.opt.on { background:var(--orange); color:#fff; border-color:var(--orange); }
 input[type=range] { width:100%; accent-color:var(--orange); }
 .kpis { display:grid; grid-template-columns:repeat(5,1fr); gap:12px; margin:28px 0 8px; }
-.kpi { border:1px solid var(--line); padding:14px 14px 12px; }
-.kpi span { font-family:"Bebas Neue", sans-serif; letter-spacing:1px; font-size:13px; color:var(--orange); }
-.kpi b { display:block; margin-top:6px; font-family:"Bebas Neue", sans-serif; font-weight:400; font-size:32px; letter-spacing:.4px; }
+.kpi b { display:block; margin-top:0; }
 .kpi b.hot { color:#131313; }
 .pill { display:inline-block; margin-top:10px; border:1px solid var(--line); padding:6px 10px; font-family:"Bebas Neue", sans-serif; letter-spacing:.6px; font-size:14px; color:var(--ink); }
 
