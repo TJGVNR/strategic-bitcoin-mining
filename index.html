@@ -570,7 +570,7 @@ const KPI_TIPS = {
   "Portfolio projected value": "The bitcoin still held, marked at the path price on the last month of the walk. Cash already taken is not in it. A loan is not in it.",
   "Avg Network Cost Basis": "The cost of one bitcoin for the whole network. Cambridge electricity use, divided by the new bitcoin issued that day. The published print is $77,896 on 2 October 2026. The card updates from the live hashrate when the feed answers.",
   "Discount to spot": "How far our cost to mine today sits below the $85,300 print of 6 October 2026.",
-  "Profit per coin": "Today's spot minus our cost to mine today. It is the operating profit on one new coin at the current network. The machine is not in it."
+  "Profit per coin today": "Today's spot minus our cost to mine today. It is the operating profit on one new coin at the current network. The machine is not in it."
 };
 function render() {
   const p = pack();
@@ -601,7 +601,7 @@ function render() {
     ["Cost to mine today", `<span id="ourCost">${money(todayCost)}</span>`, ""],
     ["Avg Network Cost Basis", `<span id="netCost">$77,896</span>`, ""],
     ["Discount to spot", (discount*100).toFixed(0) + "%", "hot"],
-    ["Profit per coin", money(profit), "hot"],
+    ["Profit per coin today", money(profit), "hot"],
   ].map(([l,v,c]) => `<div class="kpi"><span class="caps">${l} <button class="info" type="button" ${l==="Cost to mine today"?'id="costInfo"':`data-tip-title="${l}" data-tip-body="${KPI_TIPS[l]||""}"`}>i</button></span><b class="${c}">${v}</b></div>`).join("");
   document.getElementById("costBody").innerHTML = `<p>Cost to mine today is the operating cost of one bitcoin at the current network. It does not move with the walk. The machine is not in the number.</p>
     <p>One S23 Hyd does ${a.ph} PH/s. The network is 950 EH/s, so the machine's share is ${(a.ph/950000*100).toFixed(6)}% of each block.</p>
