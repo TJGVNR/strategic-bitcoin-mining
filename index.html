@@ -169,9 +169,9 @@ section[id], #case { scroll-margin-top: 108px; }
     <div>
       <label class="caps">Price path</label>
       <div class="btns" id="caseBtns">
-        <button class="opt" data-case="bear">Bear</button>
-        <button class="opt on" data-case="neutral">Neutral</button>
-        <button class="opt" data-case="bull">Bull</button>
+        <button class="opt" type="button" data-case="bear">Bear</button>
+        <button class="opt on" type="button" data-case="neutral">Neutral</button>
+        <button class="opt" type="button" data-case="bull">Bull</button>
       </div>
     </div>
     <div>
@@ -527,7 +527,7 @@ function render() {
   const end = p.rows[p.rows.length-1];
   const a = params();
   document.getElementById("capLabel").textContent = `Initial investment · ${money(CAP)}`;
-  document.getElementById("openPrice").textContent = "Opening price " + money(estPrice());
+  document.getElementById("openPrice").textContent = CASE[0].toUpperCase()+CASE.slice(1)+" commencement price " + money(estPrice());
   const hours = 24 * 30.44 * a.uptime;
   const tariffNow = a.tariff * Math.pow(1 + a.esc, M / 12);
   const powerUnit = a.kw * hours * tariffNow;
@@ -807,7 +807,7 @@ function fmt(d){ return d.toLocaleDateString("en-GB", { day:"numeric", month:"sh
 document.getElementById("openMonth").oninput = () => {
   START = estPrice();
   document.getElementById("openLabel").textContent = "Mining commencement · " + fmt(monthDate(0));
-  document.getElementById("openPrice").textContent = "Opening price " + money(estPrice());
+  document.getElementById("openPrice").textContent = CASE[0].toUpperCase()+CASE.slice(1)+" commencement price " + money(estPrice());
     for (let i = 0; i < 120; i++) MONTHS[i] = monthDate(i).toLocaleString("en-GB", { month:"short", year:"numeric", timeZone:"UTC" });
   render();
 };
@@ -834,9 +834,11 @@ if (location.hash) history.replaceState(null, "", location.pathname + location.s
 window.scrollTo(0, 0);
 addEventListener("pageshow", () => window.scrollTo(0, 0));
 document.getElementById("caseBtns").onclick = e => {
-  if (!e.target.dataset.case) return;
-  CASE = e.target.dataset.case;
-  document.querySelectorAll("#caseBtns .opt").forEach(b => b.classList.toggle("on", b.dataset.case === CASE));
+  const b = e.target.closest("button");
+  if (!b || !b.dataset.case) return;
+  CASE = b.dataset.case;
+  document.querySelectorAll("#caseBtns .opt").forEach(x => x.classList.toggle("on", x.dataset.case === CASE));
+  cache = {};
   START = estPrice();
   render();
 };
@@ -848,14 +850,6 @@ render();
 
 document.getElementById("capSlider").addEventListener("input", e => { CAP = Number(e.target.value) * 1000000; render(); });
 document.getElementById("slider").addEventListener("input", e => { M = Number(e.target.value); render(); });
-document.getElementById("caseBtns").addEventListener("click", e => {
-  const b = e.target.closest("button");
-  if (!b || !b.dataset.case) return;
-  CASE = b.dataset.case;
-  document.querySelectorAll("#caseBtns .opt").forEach(x => x.classList.toggle("on", x === b));
-  START = estPrice();
-  render();
-});
 </script>
 </body>
 </html>
