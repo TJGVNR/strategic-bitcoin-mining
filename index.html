@@ -160,9 +160,20 @@ input, select { background:#1c1c1c; color:#ecece5; border:1px solid rgba(236,236
 .sheet { background:#1c1c1c; color:#ecece5; }
 .sheet p { color:rgba(236,236,229,.72); }
 th, td { color:#ecece5; }
+.ink-ground { position:fixed; inset:0; z-index:-2; background:#131313; }
+.ink-stamp { position:fixed; inset:0; z-index:-1; pointer-events:none; background-color:#ecece5; opacity:.14; -webkit-mask:url("/house/stamps-pattern.svg") 50% 0 / min(2300px,168vw) auto no-repeat; mask:url("/house/stamps-pattern.svg") 50% 0 / min(2300px,168vw) auto no-repeat; }
+.nav { background:transparent; }
+@font-face { font-family: "BebasNeuePro"; src: url("/house/fonts/Bebas_Neue_Pro_Expanded_Bold.otf") format("opentype"); font-display: swap; }
+@font-face { font-family: "Poppins"; src: url("/house/fonts/Poppins-Light.ttf") format("truetype"); font-weight: 300; font-display: swap; }
+@font-face { font-family: "Aime"; src: url("/house/fonts/Aime-Bold.otf") format("opentype"); font-display: swap; }
+h1, h2, .caps, .kpi b, .kpi span, button.opt { font-family: "BebasNeuePro", "Bebas Neue", sans-serif; }
+h1 { font-family: "Aime", "Times New Roman", serif; }
 </style>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 </head>
 <body>
+<div class="ink-ground"></div>
+<div class="ink-stamp"></div>
 <script>
 function setCase(name){
   CASE = name;
@@ -697,7 +708,7 @@ function render() {
   const op = [
     ["Power", n*a.kw*24*30.44*a.uptime*a.tariff], ["Allowance", n*a.opex], ["Spares", n*a.spares], ["Chemicals", n*a.chem],
     ["Water", n*a.water], ["Backup power", n*a.backup], ["Payroll", a.payroll], ["Security", a.security], ["Link", a.link],
-    ["Land", a.land], ["Audit", a.audit], ["Insurance", n*ins], ["GVNR fee", n*fee]
+    ["Land", a.land], ["Audit", a.audit], ["Insurance", n*a.asic*a.ins/12], ["GVNR fee", 0]
   ];
   document.getElementById("opexTable").innerHTML = `<tr><th>Running cost</th><th>A month</th></tr>` + op.map(([l,v])=>`<tr><td>${l}</td><td>${money(v)}</td></tr>`).join("") + `<tr><td>Cost to mine one coin</td><td>${money(todayCost)}</td></tr>`;
   if (opexBox) opexBox.innerHTML = `The running cost of one bitcoin is ${money(todayCost)}. Site costs are spread over the machines online. The 1.5% and the 15% are in Gross and net, not in this coin.`;
