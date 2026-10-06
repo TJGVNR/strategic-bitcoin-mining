@@ -815,14 +815,13 @@ document.querySelectorAll(".navlinks a").forEach(a => {
 if (location.hash) history.replaceState(null, "", location.pathname + location.search);
 window.scrollTo(0, 0);
 addEventListener("pageshow", () => window.scrollTo(0, 0));
-};
 document.getElementById("caseBtns").onclick = e => {
   if (!e.target.dataset.case) return;
   CASE = e.target.dataset.case;
   document.querySelectorAll("#caseBtns .opt").forEach(b => b.classList.toggle("on", b.dataset.case === CASE));
   render();
-document.fonts.ready.then(() => render());
 };
+document.fonts.ready.then(() => render());
 document.getElementById("capSlider").oninput = e => { CAP = Number(e.target.value) * 1000000; render(); };
 document.getElementById("drivers").oninput = () => { render(); };
 document.getElementById("slider").oninput = e => { M = Number(e.target.value); render(); };
