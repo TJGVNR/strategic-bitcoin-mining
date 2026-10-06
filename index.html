@@ -651,9 +651,9 @@ function render() {
   const powerUnit = a.kw * hours * tariffNow;
   const otherUnit = a.opex + a.water;
   const todayCoin = (a.ph * a.uptime * (1 - a.fail)) / (950 * 1000) * (30.44 * 144) * (3.125 + FEE);
-  const site = online ? (a.payroll + a.security + a.link + a.land + a.audit) / online : 0;
-  const ins = a.asic * a.ins / 12;
   const online = Math.max(1, row.miners || stack.miners);
+  const site = (a.payroll + a.security + a.link + a.land + a.audit) / online;
+  const ins = a.asic * a.ins / 12;
   const fee = 0;
   const monthCost = a.kw * 24 * 30.44 * a.uptime * a.tariff + a.opex + a.water + a.spares + a.chem + a.backup + site + ins + fee;
   const todayCost = todayCoin ? monthCost / todayCoin : 0;
