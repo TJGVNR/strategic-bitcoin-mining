@@ -583,7 +583,7 @@ function render() {
   document.getElementById("kpis").innerHTML = [
     ["Full capacity", stack.shell.toLocaleString() + " miners", ""],
     ["Warehouse", stack.sqft.toLocaleString() + " sq ft", ""],
-    ["Mined to date", btc(row.btc), "hot"],
+    ["Total BTC mined", btc(row.btc), "hot"],
     ["USD denominated", money(row.mark), "hot"],
     ["Cost to mine today", `<span id="ourCost">${money(todayCost)}</span>`, ""],
     ["Network average cost", `<span id="netCost">$77,896</span>`, ""],
