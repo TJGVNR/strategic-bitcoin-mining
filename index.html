@@ -76,7 +76,20 @@ canvas { width:100%; height:340px; display:block; }
 .assumptions { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:20px; }
 .assumptions input { width:100%; background:#fff; border:1px solid var(--line); color:var(--ink); padding:8px; font-family:Poppins, sans-serif; font-size:14px; }
 footer { padding:22px 0 36px; color:var(--faint); font-size:12px; }
-@media (max-width:860px) { h1{font-size:42px;} .controls,.kpis,.grid-2,.assumptions{grid-template-columns:1fr;} .navlinks{display:none;} }
+@media (max-width:860px) {
+  .wrap { padding:0 20px; }
+  .nav { padding:16px 20px; }
+  h1 { font-size:40px; }
+  section { padding:48px 0 40px; }
+  .controls, .grid-2, .assumptions { grid-template-columns:1fr; }
+  .kpis { grid-template-columns:1fr 1fr; gap:10px; }
+  .kpi { min-height:96px; padding:14px 12px; }
+  .kpi b, .kpi b span { font-size:26px; }
+  .navlinks { display:none; }
+  .btns { flex-wrap:wrap; }
+  table { display:block; overflow-x:auto; }
+  .roi { grid-template-columns:1fr 1fr; }
+}
 
 .hero { padding:48px 0 40px; }
 h1 { margin:14px 0 20px; }
