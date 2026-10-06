@@ -539,13 +539,18 @@ function render() {
   const discount = spot ? (spot - todayCost) / spot : 0;
   let cost = todayCost;
   document.getElementById("kpis").innerHTML = [
+    ["Full capacity", stack.shell.toLocaleString() + " miners", ""],
+    ["Warehouse", stack.sqft.toLocaleString() + " sq ft", ""],
+    ["Mined to date", btc(row.btc), "hot"],
+    ["USD denominated", money(row.mark), "hot"],
+    ["Cost to mine", money(cost), ""],
     ["Cost to mine today", money(todayCost), ""],
     ["Discount to spot", (discount*100).toFixed(0) + "%", "hot"],
     ["Profit per coin", money(profit), "hot"],
     ["BTC mined", btc(row.btc), ""],
     ["At today's price", money(row.btc * spot), ""],
     ["At the end date", money(row.mark), "hot"]
-  ].map(([l,v,c]) => `<div class="kpi"><span class="caps">${l}</span><b class="${c}">${v}</b></div>`).join("");
+  ].map(([l,v,c]) => `<div class="kpi"><span class="caps">${l}</span><b class="${c}">${v}</b><span class="pill">${l==="Cost to mine"?"Estimated price "+money(row.price):""}</span></div>`).join("");
   document.getElementById("costBody").innerHTML = `<p>Cost to mine one bitcoin at today's network, 950 exahash, before the next halving. Spot is the $85,300 print of 5 October 2026. Capital is not in this number.</p>
     <p>Power = ${a.kw} kW × ${hours.toFixed(0)} hours × ${(tariffNow*100).toFixed(2)}¢ = ${money(powerUnit)}</p>
     <p>Other = operating ${money(a.opex)} + water ${money(a.water)} = ${money(otherUnit)}</p>
