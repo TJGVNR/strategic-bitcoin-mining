@@ -557,13 +557,14 @@ function render() {
     ["BTC mined", btc(row.btc), ""],
     ["At today's price", money(row.btc * spot), ""],
     ["Portfolio value, 10 years on", money(p.rows[Math.min(119, p.rows.length-1)].mark), "hot"]
-  ].map(([l,v,c]) => `<div class="kpi"><span class="caps">${l}</span><b class="${c}">${v}</b></div>`).join("");
-  document.getElementById("costBody").innerHTML = `<p>Cost to mine one bitcoin at today's network, 950 exahash, before the next halving. Spot is the $85,300 print of 5 October 2026. Capital is not in this number.</p>
-    <p>Power = ${a.kw} kW × ${hours.toFixed(0)} hours × ${(tariffNow*100).toFixed(2)}¢ = ${money(powerUnit)}</p>
-    <p>Other = operating ${money(a.opex)} + water ${money(a.water)} = ${money(otherUnit)}</p>
-    <p>Coin from one miner = ${a.ph} PH × ${(a.uptime*100).toFixed(0)}% uptime × ${(100-a.fail*100).toFixed(0)}% running ÷ ${row.hash} EH/s × ${((subsidy(M)+FEE)).toFixed(4)} BTC a block = ${coinUnit.toFixed(5)} BTC</p>
-    <p>Cost = (${money(powerUnit)} + ${money(otherUnit)}) ÷ ${coinUnit.toFixed(5)} = ${money(cost)}</p>
-    <p>Miners change the bill, not the cost of a coin. ${stack.miners.toLocaleString()} miners cost ${money(monthOpex)} this month. A higher network hashrate, a higher tariff, or a halving raises the cost. Uptime cuts power and coin together, so it barely moves this figure. Failures cut the coin and do raise it.</p>`;
+  ].map(([l,v,c]) => `<div class="kpi"><span class="caps">${l}${l==="Cost to mine today"?' <button class="info" id="costInfo" type="button">i</button>':""}</span><b class="${c}">${v}</b></div>`).join("");
+  document.getElementById("costBody").innerHTML = `<p>Cost to mine today is the operating cost of one bitcoin at the current network. It does not move with the walk. The machine is not in the number.</p>
+    <p>One S23 Hyd does ${a.ph} PH/s. The network is 950 EH/s, so the machine's share is ${(a.ph/950000*100).toFixed(6)}% of each block.</p>
+    <p>Blocks in a month: 30.44 days × 144 = ${(30.44*144).toFixed(0)}. Subsidy is 3.125 BTC, fees ${FEE} BTC. Coin before downtime: ${((a.ph/950)* (30.44*144) * (3.125+FEE) / 1000).toFixed(5)} BTC.</p>
+    <p>Uptime ${(a.uptime*100).toFixed(0)}% and ${(a.fail*100).toFixed(0)}% failed before resale leave ${todayCoin.toFixed(5)} BTC a month.</p>
+    <p>Power: ${a.kw} kW × 24 × 30.44 × ${(a.uptime*100).toFixed(0)}% × ${(a.tariff*100).toFixed(1)}¢ = ${money(a.kw*24*30.44*a.uptime*a.tariff)}.</p>
+    <p>Operating ${money(a.opex)} and water ${money(a.water)} bring the month to ${money(a.kw*24*30.44*a.uptime*a.tariff + a.opex + a.water)}.</p>
+    <p>Cost to mine today = that month ÷ ${todayCoin.toFixed(5)} BTC = ${money(todayCost)}.</p>`
   document.getElementById("sliderLabel").textContent = `Walk forward · ${CASE} · ${monthDate(M).toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric",timeZone:"UTC"})} · ${money(row.price)}`;
   const eqNow = row.mark + row.usd - row.debt;
   let pay = null, cash = 0;
